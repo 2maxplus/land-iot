@@ -1,10 +1,10 @@
-package com.hyf.intelligence.kotlin.act
+package com.hyf.intelligence.kotlin.activity
 
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import com.hyf.intelligence.kotlin.R
 import com.hyf.intelligence.kotlin.adapter.home.ValveListAdapter
-import com.hyf.intelligence.kotlin.common.act.BaseActivity
+import com.hyf.intelligence.kotlin.common.activity.BaseActivity
 import com.hyf.intelligence.kotlin.domain.device.FaKongBean
 import com.hyf.intelligence.kotlin.domain.device.Valves
 import kotlinx.android.synthetic.main.fakong_datails_layout.*

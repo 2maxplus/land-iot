@@ -1,8 +1,8 @@
-package com.hyf.intelligence.kotlin.act
+package com.hyf.intelligence.kotlin.activity
 
 import android.os.Bundle
 import com.hyf.intelligence.kotlin.R
-import com.hyf.intelligence.kotlin.common.act.BaseActivity
+import com.hyf.intelligence.kotlin.common.activity.BaseActivity
 import kotlinx.android.synthetic.main.layout_common_title.*
 
 class AccountInfoActivity: BaseActivity() {

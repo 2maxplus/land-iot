@@ -37,26 +37,26 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="00woQaplyQRmnswhNGSUD4tbVTgUaGNm" />
 
-        <activity android:name="com.hyf.intelligence.kotlin.act.LoginActivity">
+        <activity android:name="com.hyf.intelligence.kotlin.activity.LoginActivity">
 
         </activity>
 
         <activity
-            android:name="com.hyf.intelligence.kotlin.act.MainActivity"
+            android:name="com.hyf.intelligence.kotlin.activity.MainActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.hyf.intelligence.kotlin.act.WebActivity"
+            android:name="com.hyf.intelligence.kotlin.activity.WebActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".act.FlashActivity" >
+        <activity android:name=".activity.FlashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".act.AccountInfoActivity" />
-        <activity android:name=".act.FakongDatailsActivity" />
-        <activity android:name=".act.ScanActivity" />
+        <activity android:name=".activity.AccountInfoActivity" />
+        <activity android:name=".activity.FakongDatailsActivity" />
+        <activity android:name=".activity.ScanActivity" />
 
         <provider
             android:name="com.hyf.intelligence.kotlin.db.DatabaseProvider"

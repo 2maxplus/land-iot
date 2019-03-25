@@ -1,39 +1,29 @@
-package com.hyf.intelligence.kotlin.common.act
+package com.hyf.intelligence.kotlin.common.activity
 
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
-import mvp.ljb.kt.contract.IPresenterContract
-import com.hyf.intelligence.kotlin.common.listener.FragmentOnBackListener
-import mvp.ljb.kt.view.MvpFragmentActivity
+import android.support.v7.app.AppCompatActivity
 
-abstract class BaseMvpFragmentActivity<out P : IPresenterContract> : MvpFragmentActivity<P>() {
+abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayoutId())
-        init(savedInstanceState)
+        initSaveInstanceState(savedInstanceState)
         initView()
         initData()
     }
 
     protected abstract fun getLayoutId(): Int
 
-    protected open fun init(savedInstanceState: Bundle?) {}
+    protected open fun initSaveInstanceState(savedInstanceState: Bundle?) {}
 
     protected open fun initView() {}
 
     protected open fun initData() {}
 
     override fun onBackPressed() {
-        val fragmentList = supportFragmentManager.fragments
-        if (fragmentList != null && fragmentList.size != 0) {
-            for (fragment in fragmentList) {
-                if (fragment is FragmentOnBackListener && fragment.isVisible && fragment.onBackPressed()) {
-                    return
-                }
-            }
-        }
         onBack()
     }
 
@@ -50,6 +40,4 @@ abstract class BaseMvpFragmentActivity<out P : IPresenterContract> : MvpFragment
         }
         return res
     }
-
-
 }

@@ -3,7 +3,7 @@ package com.hyf.intelligence.kotlin.fragment.home
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import com.hyf.intelligence.kotlin.R
-import com.hyf.intelligence.kotlin.act.WebActivity
+import com.hyf.intelligence.kotlin.activity.WebActivity
 import com.hyf.intelligence.kotlin.adapter.rv.FollowersDecoration
 import com.hyf.intelligence.kotlin.adapter.rv.FollowingAdapter
 import com.hyf.intelligence.kotlin.common.fragment.BaseMvpFragment

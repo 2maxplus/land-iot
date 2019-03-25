@@ -10,7 +10,6 @@ import com.hyf.intelligence.kotlin.R
 
 /**
  * 页面切换管理的Layout
- * Created by Ljb on 2016/1/8.
  */
 class PageStateLayout : FrameLayout {
 

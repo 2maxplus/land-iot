@@ -1,4 +1,4 @@
-package com.hyf.intelligence.kotlin.act
+package com.hyf.intelligence.kotlin.activity
 
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
@@ -6,7 +6,7 @@ import android.content.Intent
 import android.view.View
 import com.hyf.intelligence.kotlin.R
 import com.hyf.intelligence.kotlin.common.LoginUser
-import com.hyf.intelligence.kotlin.common.act.BaseMvpActivity
+import com.hyf.intelligence.kotlin.common.activity.BaseMvpActivity
 import com.hyf.intelligence.kotlin.contract.LoginContract
 import com.hyf.intelligence.kotlin.presenter.LoginPresenter
 import com.hyf.intelligence.kotlin.utils.showToast

@@ -6,7 +6,7 @@ import android.widget.RelativeLayout
 import com.hyf.intelligence.kotlin.R
 
 /**
- * Created by L on 2017/1/16.
+ *
  */
 class LoadMoreHolder(view: View, private val mAdapter: LoadMoreRecyclerAdapter<*>) : RecyclerView.ViewHolder(view) {
 

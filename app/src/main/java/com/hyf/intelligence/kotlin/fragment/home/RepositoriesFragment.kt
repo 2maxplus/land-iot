@@ -3,7 +3,7 @@ package com.hyf.intelligence.kotlin.fragment.home
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.hyf.intelligence.kotlin.R
-import com.hyf.intelligence.kotlin.act.WebActivity
+import com.hyf.intelligence.kotlin.activity.WebActivity
 import com.hyf.intelligence.kotlin.adapter.rv.RepositoriesAdapter
 import com.hyf.intelligence.kotlin.common.fragment.BaseMvpFragment
 import com.hyf.intelligence.kotlin.contract.RepositoriesContract
@@ -11,7 +11,7 @@ import com.hyf.intelligence.kotlin.domain.Repository
 import com.hyf.intelligence.kotlin.presenter.RepositoriesPresenter
 import com.hyf.intelligence.kotlin.widget.PageStateLayout.PageState
 import com.hyf.intelligence.kotlin.widget.loadmore.LoadMoreRecyclerAdapter
-import kotlinx.android.synthetic.main.fragment_repos.*
+import kotlinx.android.synthetic.main.layout_common_page_state.*
 import kotlinx.android.synthetic.main.layout_refresh_recycler_view.*
 
 /**

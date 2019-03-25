@@ -31,7 +31,7 @@ class FrequencyConverterFragment: BaseFragment() {
     }
 
     override fun initData() {
-        val waterPumpList =  arguments!!.getParcelableArrayList<WaterPump>("data")
+        val waterPumpList = arguments!!.getParcelableArrayList<WaterPump>("data") ?: return
         mAdapter.fragmentList.clear()
         mAdapter.fragmentList.addAll(waterPumpList)
         mAdapter.notifyDataSetChanged()

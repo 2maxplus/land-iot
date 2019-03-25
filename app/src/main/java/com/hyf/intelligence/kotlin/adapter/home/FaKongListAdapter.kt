@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.hyf.intelligence.kotlin.R
-import com.hyf.intelligence.kotlin.act.FakongDatailsActivity
+import com.hyf.intelligence.kotlin.activity.FakongDatailsActivity
 import com.hyf.intelligence.kotlin.domain.device.Datas
 import com.hyf.intelligence.kotlin.utils.newIntent
 import java.util.*

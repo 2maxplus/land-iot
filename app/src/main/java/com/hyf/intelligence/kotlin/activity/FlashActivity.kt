@@ -1,4 +1,4 @@
-package com.hyf.intelligence.kotlin.act
+package com.hyf.intelligence.kotlin.activity
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -6,7 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import com.hyf.intelligence.kotlin.R
-import com.hyf.intelligence.kotlin.common.act.BaseActivity
+import com.hyf.intelligence.kotlin.common.activity.BaseActivity
 import com.hyf.intelligence.kotlin.utils.newIntent
 import com.hyf.intelligence.kotlin.utils.showToast
 import kotlinx.android.synthetic.main.activity_flash.*

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.hyf.intelligence.kotlin.R
 
 /**
- * Created by L on 2017/7/24.
+ *
  */
 abstract class LoadMoreRecyclerAdapter<T>(val mContext: Context, var mData: MutableList<T>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

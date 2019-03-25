@@ -5,8 +5,8 @@ import android.content.Intent
 import android.view.View
 import android.widget.ExpandableListView
 import com.hyf.intelligence.kotlin.R
-import com.hyf.intelligence.kotlin.act.FakongDatailsActivity
-import com.hyf.intelligence.kotlin.act.ScanActivity
+import com.hyf.intelligence.kotlin.activity.FakongDatailsActivity
+import com.hyf.intelligence.kotlin.activity.ScanActivity
 import com.hyf.intelligence.kotlin.adapter.home.ValvesExpandableListViewAdapter
 import com.hyf.intelligence.kotlin.common.fragment.BaseFragment
 import com.hyf.intelligence.kotlin.domain.device.Datas

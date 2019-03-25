@@ -1,4 +1,4 @@
-package com.hyf.intelligence.kotlin.act
+package com.hyf.intelligence.kotlin.activity
 
 import android.app.Activity
 import android.content.Intent
@@ -9,7 +9,7 @@ import android.os.Vibrator
 import android.content.Context
 import cn.bingoogolapple.qrcode.core.BarcodeType
 import com.hyf.intelligence.kotlin.R
-import com.hyf.intelligence.kotlin.common.act.BaseActivity
+import com.hyf.intelligence.kotlin.common.activity.BaseActivity
 import kotlinx.android.synthetic.main.layout_common_title.*
 
 

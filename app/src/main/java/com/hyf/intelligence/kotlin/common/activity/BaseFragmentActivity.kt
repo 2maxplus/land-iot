@@ -1,4 +1,4 @@
-package com.hyf.intelligence.kotlin.common.act
+package com.hyf.intelligence.kotlin.common.activity
 
 import android.content.res.Configuration
 import android.content.res.Resources

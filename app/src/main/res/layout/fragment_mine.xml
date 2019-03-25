@@ -16,9 +16,6 @@
 
     <include layout="@layout/layout_common_title"/>
 
-    <View
-            style="@style/h_view_style"/>
-
 
     <TextView
             android:id="@+id/tv_account"

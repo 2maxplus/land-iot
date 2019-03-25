@@ -6,16 +6,26 @@ import android.widget.LinearLayout
 import com.hyf.intelligence.kotlin.R
 import com.hyf.intelligence.kotlin.adapter.home.FaKongListAdapter
 import com.hyf.intelligence.kotlin.adapter.home.ValveListAdapter
-import com.hyf.intelligence.kotlin.common.fragment.BaseFragment
+import com.hyf.intelligence.kotlin.common.fragment.BaseMvpFragment
+import com.hyf.intelligence.kotlin.contract.PumpItemContract
 import com.hyf.intelligence.kotlin.domain.device.Datas
 import com.hyf.intelligence.kotlin.domain.device.FaKongBean
 import com.hyf.intelligence.kotlin.domain.device.Valves
+import com.hyf.intelligence.kotlin.domain.pumb.WaterPump
+import com.hyf.intelligence.kotlin.presenter.PumpItemPresenter
 import com.hyf.intelligence.kotlin.widget.RecycleViewDivider
 import com.hyf.intelligence.kotlin.widget.dialog.MyDialog
 import kotlinx.android.synthetic.main.layout_recycler_view.*
 import kotlinx.android.synthetic.main.pump_item_layout.*
 
-class PumpItemFragment: BaseFragment() {
+class PumpItemFragment: BaseMvpFragment<PumpItemContract.IPresenter>(),PumpItemContract.IView {
+    override fun registerPresenter() = PumpItemPresenter::class.java
+
+    override fun showPage(data: WaterPump) {
+    }
+
+    override fun errorPage(t: Throwable) {
+    }
 
     private lateinit var faList : ArrayList<Datas>
     private lateinit var adapter: FaKongListAdapter

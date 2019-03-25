@@ -10,6 +10,7 @@ class BengChildFragmentAdapter(fm: FragmentManager, var fragmentList: MutableLis
 
     override fun getItem(position: Int): Fragment {
         val fragments = PumpItemFragment()
+
 //        val bundle = Bundle()
 //        bundle.putSerializable("data",date[position])
 //        fragments.arguments = bundle

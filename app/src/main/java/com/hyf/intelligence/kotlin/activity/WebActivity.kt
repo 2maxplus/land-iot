@@ -1,4 +1,4 @@
-package com.hyf.intelligence.kotlin.act
+package com.hyf.intelligence.kotlin.activity
 
 import android.content.Context
 import android.content.Intent
@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.webkit.WebView
 import com.hyf.intelligence.kotlin.R
-import com.hyf.intelligence.kotlin.common.act.BaseActivity
+import com.hyf.intelligence.kotlin.common.activity.BaseActivity
 import com.hyf.intelligence.kotlin.widget.webview.SimpleWebActionCallBack
 import com.hyf.intelligence.kotlin.widget.webview.WebViewProxy
 import kotlinx.android.synthetic.main.activity_web.*

@@ -7,8 +7,10 @@ import com.hyf.intelligence.kotlin.common.fragment.BaseMvpFragment
 import com.hyf.intelligence.kotlin.contract.PumpRoomContract
 import com.hyf.intelligence.kotlin.domain.pumb.PumpControlStations
 import com.hyf.intelligence.kotlin.presenter.PumpRoomPresenter
-import kotlinx.android.synthetic.main.pump_room_layout.*
+import com.hyf.intelligence.kotlin.widget.PageStateLayout
+import kotlinx.android.synthetic.main.layout_common_page_state.*
 import kotlinx.android.synthetic.main.layout_common_title.*
+import kotlinx.android.synthetic.main.layout_common_viewpager.*
 
 class PumbRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomContract.IView {
 
@@ -21,6 +23,15 @@ class PumbRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomC
 
     override fun initView() {
         iv_back.visibility = View.GONE
+
+        page_layout.apply {
+            setContentView(View.inflate(activity, R.layout.layout_common_viewpager, null))
+            setOnPageErrorClickListener { onReload() }
+        }
+        refresh_layout.apply {
+            setColorSchemeResources(R.color.colorBlue)
+            setOnRefreshListener { getPresenter().getPumpInfo() }
+        }
         viewPager.apply {
             adapter = mAdapter
             currentItem = 0
@@ -31,15 +42,27 @@ class PumbRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomC
         getPresenter().getPumpInfo()
     }
 
+    private fun onReload() {
+        page_layout.setPage(PageStateLayout.PageState.STATE_LOADING)
+        getPresenter().getPumpInfo()
+    }
+
     override fun showPage(data: PumpControlStations) {
         tv_title.text = data.name
-        mAdapter.fragmenList.clear()
-        mAdapter.fragmenList.addAll(data.pumpControlStations)
-        mAdapter.notifyDataSetChanged()
+
+        refresh_layout.isRefreshing = false
+        if (data == null) {
+            page_layout.setPage(PageStateLayout.PageState.STATE_EMPTY)
+        } else {
+            page_layout.setPage(PageStateLayout.PageState.STATE_SUCCEED)
+            mAdapter.fragmenList.clear()
+            mAdapter.fragmenList.addAll(data.pumpControlStations)
+            mAdapter.notifyDataSetChanged()
+        }
     }
 
     override fun errorPage(t: Throwable) {
-
+        page_layout.setPage(PageStateLayout.PageState.STATE_ERROR)
     }
 
 }
