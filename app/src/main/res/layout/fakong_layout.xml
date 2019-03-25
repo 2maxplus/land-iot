@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:focusable="true">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+        <ImageView
+                android:id="@+id/ivScan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:src="@drawable/scan_icon"
+                android:layout_gravity="center"/>
+
+
+        <EditText
+                android:id="@+id/editText"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:hint="请输入关键字"
+                android:drawableLeft="@drawable/search"
+                android:drawablePadding="8dp"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:inputType="text"
+                android:textSize="15dp"
+                android:gravity="center_vertical|start"
+                android:background="@drawable/gray_round_shape"/>
+
+        <TextView
+                android:id="@+id/search"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="搜索"
+                android:textColor="@color/text_blue"
+                android:textSize="14dp"
+                android:gravity="center"
+                android:padding="10dp"/>
+
+    </LinearLayout>
+
+
+    <ExpandableListView
+            android:id="@+id/expandableListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/little_gray"
+            android:childDivider="@color/little_gray"
+            android:dividerHeight="0.5dp"/>
+
+</LinearLayout>

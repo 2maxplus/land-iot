@@ -1,0 +1,52 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">大地智联</string>
+
+    <string name="hint_user">输入您的手机号码</string>
+    <string name="login">登录</string>
+    <string name="input_user">请输入您的手机号</string>
+    <string name="net_error">网络错误</string>
+    <string name="repos">Repos</string>
+    <string name="my">My</string>
+    <string name="following">Following</string>
+    <string name="logout">Logout</string>
+    <string name="events">Events</string>
+    <string name="starred">Starred</string>
+    <string name="followers">Followers</string>
+    <string name="load_error">Network Error</string>
+    <string name="reload">Reload</string>
+    <string name="loading">Loading…</string>
+    <string name="load_error_click">Load failed , click retry</string>
+    <string name="load_not_more">No more data</string>
+    <string name="exit_go_out">Double click to exit</string>
+    <string name="action">action:\t%s</string>
+    <!--<string name="cancel">Cancel</string>-->
+    <string name="enter">Enter</string>
+    <string name="logout_user">Exit the current user?</string>
+    <string name="format_star">start: %s</string>
+    <string name="format_fork">fork: %s</string>
+    <string name="format_issues">issues: %s</string>
+    <string name="format_update">update: %s</string>
+    <string name="format_create">create: %s</string>
+    <string name="net_time_out">Net time out</string>
+    <string name="copy_success">复制成功</string>
+
+    <string name="publish_text">Copyright©2012–2019 \n海南丰达中天农业综合服务有限公司</string>
+
+    <string name="tab1">首页</string>
+    <string name="tab2">泵站</string>
+    <string name="tab3">阀控</string>
+    <string name="tab4">计划</string>
+    <string name="tab5">我的</string>
+
+    <string name="head_photo">头像</string>
+    <string name="nick_name">昵称</string>
+    <string name="telephone">手机号</string>
+
+    <string name="my_account">我的账号</string>
+    <string name="my_message">我的消息</string>
+    <string name="help_feedback">帮助与反馈</string>
+    <string name="about_us">关于我们</string>
+
+    <string name="confirm">确认</string>
+    <string name="cancel">取消</string>
+</resources>
