@@ -12,11 +12,13 @@ import kotlinx.android.synthetic.main.layout_common_page_state.*
 import kotlinx.android.synthetic.main.layout_common_title.*
 import kotlinx.android.synthetic.main.layout_common_viewpager.*
 
+
+
 class PumbRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomContract.IView {
 
     override fun registerPresenter() = PumpRoomPresenter::class.java
 
-    override fun getLayoutId(): Int  = R.layout.pump_room_layout
+    override fun getLayoutId(): Int = R.layout.pump_room_layout
 
     private val mAdapter by lazy { BengFragmentAdapter(childFragmentManager, mutableListOf()) }
 
@@ -65,4 +67,7 @@ class PumbRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomC
         page_layout.setPage(PageStateLayout.PageState.STATE_ERROR)
     }
 
+    fun getonScroll(isEnable: Boolean) {
+        refresh_layout.isEnabled = isEnable
+    }
 }

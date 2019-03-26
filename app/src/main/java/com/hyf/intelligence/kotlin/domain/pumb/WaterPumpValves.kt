@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class WaterPump(
+data class WaterPumpValves(
         val created: String,
         val id: String,
         val deleted: String,

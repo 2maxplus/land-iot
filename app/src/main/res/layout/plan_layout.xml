@@ -6,14 +6,7 @@
               android:background="@color/white"
               xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="灌溉计划"
-            android:gravity="center"
-            android:textSize="20sp"/>
-    <View
-            style="@style/h_view_style"/>
+    <include layout="@layout/layout_common_title"/>
 
     <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"

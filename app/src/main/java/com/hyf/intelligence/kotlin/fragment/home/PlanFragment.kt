@@ -1,11 +1,12 @@
-package k.com.hyf.dadizl.fragment
+package com.hyf.intelligence.kotlin.fragment.home
 
-import android.content.res.ColorStateList
 import android.support.v4.content.ContextCompat
+import android.view.View
 import android.widget.LinearLayout
 import com.hyf.intelligence.kotlin.R
 import com.hyf.intelligence.kotlin.adapter.home.PlanFragmentAdapter
 import com.hyf.intelligence.kotlin.common.fragment.BaseFragment
+import kotlinx.android.synthetic.main.layout_common_title.*
 import kotlinx.android.synthetic.main.plan_layout.*
 
 class PlanFragment: BaseFragment() {
@@ -16,6 +17,8 @@ class PlanFragment: BaseFragment() {
     override fun getLayoutId(): Int = R.layout.plan_layout
 
     override fun initView() {
+        iv_back.visibility = View.GONE
+        tv_title.text = "灌溉计划"
         titleList = ArrayList()
         titleList.add("在执行"); titleList.add("已执行"); titleList.add("已暂停"); titleList.add("未执行")
 

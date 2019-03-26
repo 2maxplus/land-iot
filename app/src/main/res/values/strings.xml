@@ -12,12 +12,12 @@
     <string name="events">Events</string>
     <string name="starred">Starred</string>
     <string name="followers">Followers</string>
-    <string name="load_error">Network Error</string>
-    <string name="reload">Reload</string>
+    <string name="load_error">加载失败</string>
+    <string name="reload">重新加载</string>
     <string name="loading">Loading…</string>
     <string name="load_error_click">Load failed , click retry</string>
     <string name="load_not_more">No more data</string>
-    <string name="exit_go_out">Double click to exit</string>
+    <string name="exit_go_out">再按一次退出</string>
     <string name="action">action:\t%s</string>
     <!--<string name="cancel">Cancel</string>-->
     <string name="enter">Enter</string>

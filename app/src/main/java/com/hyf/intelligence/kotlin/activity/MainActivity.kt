@@ -11,7 +11,7 @@ import com.hyf.intelligence.kotlin.fragment.home.FaKongFragment
 import com.hyf.intelligence.kotlin.fragment.home.MyFragment
 import com.hyf.intelligence.kotlin.fragment.pumb.PumbRoomFragment
 import com.hyf.intelligence.kotlin.fragment.home.HomeFragment
-import k.com.hyf.dadizl.fragment.PlanFragment
+import com.hyf.intelligence.kotlin.fragment.home.PlanFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**

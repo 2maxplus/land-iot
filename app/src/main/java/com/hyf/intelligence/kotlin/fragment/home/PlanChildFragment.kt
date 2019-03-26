@@ -7,6 +7,7 @@ import com.hyf.intelligence.kotlin.R
 import com.hyf.intelligence.kotlin.adapter.home.PlanListAdapter
 import com.hyf.intelligence.kotlin.common.fragment.BaseFragment
 import com.hyf.intelligence.kotlin.domain.device.PlanBean
+import kotlinx.android.synthetic.main.layout_refresh_recycler_view.*
 import kotlinx.android.synthetic.main.layout_verticaltab_recycleview.*
 import q.rorbin.verticaltablayout.VerticalTabLayout
 import q.rorbin.verticaltablayout.adapter.TabAdapter
@@ -18,7 +19,6 @@ import q.rorbin.verticaltablayout.widget.TabView
 class PlanChildFragment(position : Int): BaseFragment() {
 
     private lateinit var list: ArrayList<PlanBean>
-    private lateinit var adapter: PlanListAdapter
 
     private lateinit var titleList: ArrayList<String>
     private val curPos = position
@@ -39,6 +39,7 @@ class PlanChildFragment(position : Int): BaseFragment() {
         }
 
         list = ArrayList()
+
         val  planBean = PlanBean("1-10\n07:21","泵0xffuy162 开   阀门3   开",type)
         list.add(planBean)
 
@@ -56,6 +57,11 @@ class PlanChildFragment(position : Int): BaseFragment() {
 
         val  planBean5 = PlanBean("8-10\n18:21","泵0xffuy192 关   阀门6   关",type)
         list.add(planBean5)
+
+        for(i in 0..30){
+            val  planBean = PlanBean("1-10\n07:21","泵0xffuy162 开   阀门3   开",type)
+            list.add(planBean)
+        }
 
         tablayout.setTabAdapter(object : TabAdapter{
             override fun getIcon(position: Int): ITabView.TabIcon? {
@@ -93,9 +99,15 @@ class PlanChildFragment(position : Int): BaseFragment() {
             }
         })
 
-        recyclerview.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
-        adapter = PlanListAdapter(activity, R.layout.plan_list_item_layout,list)
-        recyclerview.adapter = adapter
+        recycler_view.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+            adapter = PlanListAdapter(activity,R.layout.plan_list_item_layout,list)
+        }
+
+        refresh_layout.apply {
+            setColorSchemeResources(R.color.colorBlue)
+            setOnRefreshListener { postDelayed( { isRefreshing = false },3000) }
+        }
     }
 
     override fun initData() {

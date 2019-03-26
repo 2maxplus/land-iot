@@ -1,6 +1,6 @@
 package com.hyf.intelligence.kotlin.contract
 
-import com.hyf.intelligence.kotlin.domain.pumb.WaterPump
+import com.hyf.intelligence.kotlin.domain.pumb.WaterPumpValves
 import mvp.ljb.kt.contract.IPresenterContract
 import mvp.ljb.kt.contract.IViewContract
 
@@ -11,7 +11,7 @@ import mvp.ljb.kt.contract.IViewContract
 interface PumpItemContract {
 
     interface IView:  IViewContract{
-        fun showPage(data: WaterPump)
+        fun showPage(data: WaterPumpValves)
         fun errorPage(t: Throwable)
     }
 

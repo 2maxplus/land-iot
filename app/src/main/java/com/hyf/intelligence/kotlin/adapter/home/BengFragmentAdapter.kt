@@ -12,7 +12,7 @@ class BengFragmentAdapter(fm: FragmentManager,var fragmenList: MutableList<PumpC
     override fun getItem(position: Int): Fragment {
         val fragments = FrequencyConverterFragment()
         val bundle = Bundle()
-        bundle.putParcelableArrayList("data",fragmenList[position].frequencyConverterCabinet.waterPumps)
+        bundle.putParcelableArrayList("data",fragmenList[position].frequencyConverterCabinet.waterPumpValves)
         fragments.arguments = bundle
         return fragments
     }

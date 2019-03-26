@@ -3,10 +3,10 @@ package com.hyf.intelligence.kotlin.adapter.home
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.hyf.intelligence.kotlin.domain.pumb.WaterPump
+import com.hyf.intelligence.kotlin.domain.pumb.WaterPumpValves
 import com.hyf.intelligence.kotlin.fragment.pumb.PumpItemFragment
 
-class BengChildFragmentAdapter(fm: FragmentManager, var fragmentList: MutableList<WaterPump>) : FragmentPagerAdapter(fm) {
+class BengChildFragmentAdapter(fm: FragmentManager, var fragmentList: MutableList<WaterPumpValves>) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
         val fragments = PumpItemFragment()

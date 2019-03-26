@@ -21,5 +21,5 @@ data class FrequencyConverterCabinet(
         val voltageA: Int,
         val voltageB: Int,
         val voltageC: Int,
-        val waterPumps: ArrayList<WaterPump>
+        val waterPumpValves: ArrayList<WaterPumpValves>
 ) : Parcelable

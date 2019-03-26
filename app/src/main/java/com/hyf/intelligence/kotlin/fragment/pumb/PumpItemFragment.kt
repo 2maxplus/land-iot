@@ -1,5 +1,7 @@
 package com.hyf.intelligence.kotlin.fragment.pumb
 
+import android.annotation.TargetApi
+import android.os.Build
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.LinearLayout
@@ -11,17 +13,20 @@ import com.hyf.intelligence.kotlin.contract.PumpItemContract
 import com.hyf.intelligence.kotlin.domain.device.Datas
 import com.hyf.intelligence.kotlin.domain.device.FaKongBean
 import com.hyf.intelligence.kotlin.domain.device.Valves
-import com.hyf.intelligence.kotlin.domain.pumb.WaterPump
+import com.hyf.intelligence.kotlin.domain.pumb.WaterPumpValves
 import com.hyf.intelligence.kotlin.presenter.PumpItemPresenter
 import com.hyf.intelligence.kotlin.widget.RecycleViewDivider
 import com.hyf.intelligence.kotlin.widget.dialog.MyDialog
 import kotlinx.android.synthetic.main.layout_recycler_view.*
 import kotlinx.android.synthetic.main.pump_item_layout.*
+import android.support.v7.widget.RecyclerView
+import com.hyf.intelligence.kotlin.widget.MyLinearLayoutManager
+
 
 class PumpItemFragment: BaseMvpFragment<PumpItemContract.IPresenter>(),PumpItemContract.IView {
     override fun registerPresenter() = PumpItemPresenter::class.java
 
-    override fun showPage(data: WaterPump) {
+    override fun showPage(data: WaterPumpValves) {
     }
 
     override fun errorPage(t: Throwable) {
@@ -35,6 +40,7 @@ class PumpItemFragment: BaseMvpFragment<PumpItemContract.IPresenter>(),PumpItemC
 
     override fun getLayoutId(): Int = R.layout.pump_item_layout
 
+    @TargetApi(Build.VERSION_CODES.M)
     override fun initView() {
 
         var valves = ArrayList<Valves>()
@@ -62,28 +68,40 @@ class PumpItemFragment: BaseMvpFragment<PumpItemContract.IPresenter>(),PumpItemC
         faList.add(datas7);faList.add(datas8);faList.add(datas9)
         faList.add(datas10);faList.add(datas11);faList.add(datas12)
 
-        recycler_view.addItemDecoration(
-            RecycleViewDivider(
-                activity, LinearLayoutManager.VERTICAL
-            )
-        )
-        recycler_view.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL,false)
-        adapter = FaKongListAdapter(
-            activity,
-            R.layout.shebai_list_item,
-            faList,
-            object : ValveListAdapter.GetCounts {
-                override fun adds() {
-                    bengOpenCount ++
-                }
 
-                override fun subs() {
-                    bengOpenCount --
-                }
+        val linearLayoutManager = MyLinearLayoutManager(activity!!, LinearLayout.VERTICAL,false)
+        linearLayoutManager.setScrollEnabled(false)
+        recycler_view.apply {
+            layoutManager = linearLayoutManager
+            adapter = FaKongListAdapter(
+                    activity,
+                    R.layout.shebai_list_item,
+                    faList,
+                    object : ValveListAdapter.GetCounts {
+                        override fun adds() {
+                            bengOpenCount ++
+                        }
 
-            })
-        recycler_view.adapter = adapter
+                        override fun subs() {
+                            bengOpenCount --
+                        }
 
+                    })
+            addItemDecoration( RecycleViewDivider(
+                    activity, LinearLayoutManager.VERTICAL
+            ))
+//            addOnScrollListener(object : RecyclerView.OnScrollListener(){
+//                override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+//                    super.onScrolled(recyclerView, dx, dy)
+//                    val topRowVerticalPosition = if (recyclerView == null || recyclerView.childCount == 0) 0 else recyclerView.getChildAt(0).top
+//                    val fragment = (this@PumpItemFragment.parentFragment!!.parentFragment) as PumbRoomFragment
+//                    fragment.getonScroll(topRowVerticalPosition >= 0 && recyclerView != null
+//                            && !recyclerView.canScrollVertically(-1)
+//                            && (recycler_view.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition() == 0)
+//                }
+//            })
+
+        }
 
         val bean1 = FaKongBean("54m³",3f,9f)
         val bean2 = FaKongBean("66m³",13f,20f)
@@ -127,3 +145,4 @@ class PumpItemFragment: BaseMvpFragment<PumpItemContract.IPresenter>(),PumpItemC
     }
 
 }
+

@@ -5,7 +5,7 @@ import android.widget.LinearLayout
 import com.hyf.intelligence.kotlin.R
 import com.hyf.intelligence.kotlin.adapter.home.BengChildFragmentAdapter
 import com.hyf.intelligence.kotlin.common.fragment.BaseFragment
-import com.hyf.intelligence.kotlin.domain.pumb.WaterPump
+import com.hyf.intelligence.kotlin.domain.pumb.WaterPumpValves
 import kotlinx.android.synthetic.main.frequency_converter_layout.*
 
 class FrequencyConverterFragment: BaseFragment() {
@@ -31,7 +31,7 @@ class FrequencyConverterFragment: BaseFragment() {
     }
 
     override fun initData() {
-        val waterPumpList = arguments!!.getParcelableArrayList<WaterPump>("data") ?: return
+        val waterPumpList = arguments!!.getParcelableArrayList<WaterPumpValves>("data") ?: return
         mAdapter.fragmentList.clear()
         mAdapter.fragmentList.addAll(waterPumpList)
         mAdapter.notifyDataSetChanged()
