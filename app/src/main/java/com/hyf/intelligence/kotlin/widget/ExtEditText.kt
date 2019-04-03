@@ -1,5 +1,6 @@
 package com.hyf.intelligence.kotlin.widget
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
 import android.support.v7.widget.AppCompatEditText
@@ -16,6 +17,7 @@ import com.hyf.intelligence.kotlin.R
  * 扩展的EditText组件
  * com.hyf.intelligence.kotlin.widget.ExtEditText
  */
+@Suppress("DEPRECATION")
 class ExtEditText : AppCompatEditText {
 //    private var imgEnable: Drawable? = null
     private var enableClearButton = true
@@ -70,10 +72,10 @@ class ExtEditText : AppCompatEditText {
         return super.dispatchKeyEventPreIme(event)
     }
 
-    fun setDispatchKeyEventPreIme(
-            ondispatchKeyEventPreIme: OndispatchKeyEventPreIme) {
-        m_diKeyEventPreIme = ondispatchKeyEventPreIme
-    }
+//    fun setDispatchKeyEventPreIme(
+//            ondispatchKeyEventPreIme: OndispatchKeyEventPreIme) {
+//        m_diKeyEventPreIme = ondispatchKeyEventPreIme
+//    }
 
     /**
      * 设置删除图片
@@ -101,14 +103,14 @@ class ExtEditText : AppCompatEditText {
      * 获取删除图标右边缘到控件右边缘的距离 getWidth() - getTotalPaddingRight() 计算删除图标左边缘到控件左边缘的距离
      * getWidth() - getPaddingRight() 计算删除图标右边缘到控件左边缘的距离
      */
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (enableClearButton && imgEnable != null
-                && event.action == MotionEvent.ACTION_UP) {
+        if (enableClearButton && event.action == MotionEvent.ACTION_UP) {
             val x = event.x.toInt()
             // 判断触摸点是否在水平范围内
             val isInnerWidth = x > width - totalPaddingRight && x < width - paddingRight
             // 获取删除图标的边界，返回一个Rect对象
-            val rect = imgEnable!!.bounds
+            val rect = imgEnable.bounds
             // 获取删除图标的高度
             val height = rect.height()
             val y = event.y.toInt()
