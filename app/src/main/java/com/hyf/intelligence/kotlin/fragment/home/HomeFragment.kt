@@ -4,12 +4,12 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Build
+import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.support.v4.app.ActivityCompat
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
 import com.baidu.location.BDLocation
 import com.baidu.location.BDLocationListener
 import com.baidu.location.LocationClient
@@ -17,14 +17,46 @@ import com.baidu.location.LocationClientOption
 import com.baidu.mapapi.map.*
 import com.baidu.mapapi.model.LatLng
 import com.hyf.intelligence.kotlin.R
-import com.hyf.intelligence.kotlin.common.fragment.BaseFragment
+import com.hyf.intelligence.kotlin.activity.ValveDetailActivity
+import com.hyf.intelligence.kotlin.common.fragment.BaseMvpFragment
+import com.hyf.intelligence.kotlin.contract.DeviceCoordinatesContract
+import com.hyf.intelligence.kotlin.domain.DeviceCoordinates
+import com.hyf.intelligence.kotlin.presenter.DeviceCoordinatesPresenter
+import com.hyf.intelligence.kotlin.utils.newIntent
+import com.hyf.intelligence.kotlin.utils.showToast
 import com.hyf.intelligence.kotlin.widget.spinner.SpinnerChooseAdapter
 import com.hyf.intelligence.kotlin.widget.spinner.SpinnerUtils
 import java.util.*
 import kotlinx.android.synthetic.main.home_layout.*
 
 
-class HomeFragment: BaseFragment() {
+class HomeFragment: BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(),DeviceCoordinatesContract.IView {
+
+    private val deviceList: ArrayList<DeviceCoordinates> = ArrayList()
+    override fun registerPresenter() = DeviceCoordinatesPresenter::class.java
+
+    override fun showPage(data: MutableList<DeviceCoordinates>) {
+        deviceList.addAll(data)
+        for(latlng in data){
+            initmaker( LatLng(latlng.latitude,latlng.longitude),"0",0)
+        }
+
+        mBaiduMap!!.setOnMarkerClickListener { marker ->
+            for (i in markerlist.indices) {
+                if (marker == markerlist[i]) {
+                    val bundle = Bundle()
+                    bundle.putString("id", deviceList[i].id)  //设备ID
+                    activity?.newIntent<ValveDetailActivity>(bundle)
+                }
+            }
+            true
+        }
+    }
+
+    override fun errorPage(t: Throwable) {
+
+    }
+
     //百度
     private var mBaiduMap: BaiduMap? = null
     private var ooA: MarkerOptions? = null
@@ -75,6 +107,7 @@ class HomeFragment: BaseFragment() {
     }
 
     override fun initData() {
+        getPresenter().getCoordinates()
     }
 
     //热力图自定义数据
@@ -112,7 +145,6 @@ class HomeFragment: BaseFragment() {
      * @param isShow
      */
     private fun setBaiduHeatMap(isShow : Boolean) {
-
         mBaiduMap!!.isBaiduHeatMapEnabled = isShow
     }
 
@@ -122,7 +154,7 @@ class HomeFragment: BaseFragment() {
         // 开启定位图层
         mBaiduMap!!.isMyLocationEnabled = true
         // 定位初始化
-        mLocClient = LocationClient(mContext)
+        mLocClient = LocationClient(context)
         mLocClient!!.registerLocationListener(myListener)
         val option = LocationClientOption()
         option.locationMode = LocationClientOption.LocationMode.Hight_Accuracy//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
@@ -132,14 +164,7 @@ class HomeFragment: BaseFragment() {
         mLocClient!!.locOption = option
         mLocClient!!.start()
         mBaiduMap!!.setOnMapTouchListener(MyMapTouchListener())
-        mBaiduMap!!.setOnMarkerClickListener { marker ->
-            for (i in markerlist.indices) {
-                if (marker == markerlist[i]) {
-//                    activity?.newIntent<FakongDatailsActivity>()
-                }
-            }
-            true
-        }
+
     }
 
 
@@ -229,11 +254,10 @@ class HomeFragment: BaseFragment() {
                 builder.target(ll).zoom(14.0f)
                 mBaiduMap!!.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()))
             }
-            val random = Random()
-            for (i in 0..49) {
-                initmaker( getRandomLatLng(LatLng(locationLat,locationLng),0.25),"0",0)
-            }
-            addHeatMap()
+//            for (i in 0..49) {
+//                initmaker( getRandomLatLng(LatLng(locationLat,locationLng),0.25),"0",0)
+//            }
+//            addHeatMap()
         }
 
         fun onReceivePoi(poiLocation: BDLocation) {
@@ -259,23 +283,23 @@ class HomeFragment: BaseFragment() {
 
     private fun showLocationPermission() {
         if (ActivityCompat.checkSelfPermission(
-                mContext!!,
+                        context!!,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
             || ActivityCompat.checkSelfPermission(
-                mContext!!,
+                        context!!,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
             || ActivityCompat.checkSelfPermission(
-                mContext!!,
+                        context!!,
                 Manifest.permission.READ_PHONE_STATE
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            Toast.makeText(mContext, "没有权限,请手动开启定位权限", Toast.LENGTH_SHORT).show()
+            activity?.showToast("没有权限,请手动开启定位权限")
             // 申请一个（或多个）权限，并提供用于回调返回的获取码（用户定义）
-            mActivity?.let {
+            activity?.let {
                 ActivityCompat.requestPermissions(
-                    it,
+                        it,
                     arrayOf(
                         Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.ACCESS_FINE_LOCATION,
@@ -300,7 +324,7 @@ class HomeFragment: BaseFragment() {
                 initbaidu()
             } else {
                 // 没有获取到权限，做特殊处理
-                Toast.makeText(mContext, "获取位置权限失败，请手动开启", Toast.LENGTH_SHORT).show()
+                activity?.showToast("获取位置权限失败，请手动开启")
             }
             else -> {
             }

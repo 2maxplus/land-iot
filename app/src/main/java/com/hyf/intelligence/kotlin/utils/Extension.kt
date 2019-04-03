@@ -29,6 +29,17 @@ inline fun <reified T: Activity> Activity.newIntent(bundle:Bundle) {
     startActivity(intent)
 }
 
+inline fun <reified T: Activity> Activity.newIntentForResult(requestCode: Int) {
+    val intent = Intent(this, T::class.java)
+    startActivityForResult(intent,requestCode)
+}
+
+inline fun <reified T: Activity> Activity.newIntentForResult(requestCode: Int,bundle:Bundle) {
+    val intent = Intent(this, T::class.java)
+    intent.putExtra("bundle",bundle)
+    startActivityForResult(intent,requestCode)
+}
+
 
 
 

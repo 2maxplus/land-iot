@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/little_gray">
+
+    <include
+        layout="@layout/layout_common_title"/>
+
+    <com.hyf.intelligence.kotlin.widget.ExtEditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="@dimen/comm_margin"
+        style="@style/edit_box_style"
+        android:hint="@string/hint_edit_feedback"/>
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/btn_style"
+        android:text="@string/confirm"/>
+
+</LinearLayout>

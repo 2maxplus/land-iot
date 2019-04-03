@@ -6,7 +6,7 @@ import com.hyf.intelligence.kotlin.utils.SPUtils
 
 /** 服务器Host */
 //const val HTTP_API_DOMAIN = "https://api.github.com"
-const val HTTP_API_DOMAIN = "http://192.168.0.114:5002"
+const val HTTP_API_DOMAIN = "http://192.168.0.140:5002"
 
 /** Log */
 val LOG_DEBUG = BuildConfig.DEBUG
@@ -17,6 +17,10 @@ class LoginUser {
         var name: String
             get() = SPUtils.getString(Constant.SPConstant.CUR_USER_NAME)
             set(value) = SPUtils.putString(Constant.SPConstant.CUR_USER_NAME, value)
+
+        var token: String
+            get() = SPUtils.getString(Constant.SPConstant.CUR_TOKEN)
+            set(value) = SPUtils.putString(Constant.SPConstant.CUR_TOKEN, value)
     }
 }
 

@@ -12,9 +12,9 @@
         android:padding="10dp">
 
         <TextView
+            style="@style/text_base_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/text_base_style"
             android:text="变频柜"
             android:textSize="20sp" />
 
@@ -29,21 +29,21 @@
                 android:orientation="vertical">
 
                 <TextView
+                    style="@style/text_base_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/text_base_style"
                     android:text="电流A: --" />
 
                 <TextView
+                    style="@style/text_base_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/text_base_style"
                     android:text="电流B: --" />
 
                 <TextView
+                    style="@style/text_base_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/text_base_style"
                     android:text="电流C: --" />
             </LinearLayout>
 
@@ -54,32 +54,33 @@
                 android:orientation="vertical">
 
                 <TextView
+                    style="@style/text_base_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/text_base_style"
                     android:text="电压A: --" />
 
                 <TextView
+                    style="@style/text_base_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/text_base_style"
                     android:text="电压B: --" />
 
                 <TextView
+                    style="@style/text_base_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/text_base_style"
                     android:text="电压C: --" />
             </LinearLayout>
 
         </LinearLayout>
 
         <TextView
+            style="@style/text_base_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/text_base_style"
             android:text="总输出功率: --" />
     </LinearLayout>
+
 
     <View
         android:layout_width="match_parent"

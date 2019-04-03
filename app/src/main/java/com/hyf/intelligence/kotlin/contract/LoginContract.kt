@@ -13,10 +13,13 @@ interface LoginContract {
         fun loginSuccess()
         fun loginError(errorMsg: String?)
         fun goHome()
+        fun getCodeSuccess(loginId: String)
+        fun getCodeError(errorMsg: String?)
     }
 
     interface IPresenter : IPresenterContract {
-        fun login(userName: String)
+        fun login(loginId: String,code: String)
         fun delayGoHomeTask()
+        fun getCode(phone: String)
     }
 }

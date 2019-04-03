@@ -18,9 +18,14 @@ public class MyDialog extends Dialog {
 
     private View.OnClickListener listener;
 
+
+    public MyDialog(Context context,  String content, View.OnClickListener listener) {
+        super(context, R.style.MyDialog);
+        this.content = content;
+        this.listener = listener;
+    }
     public MyDialog(Context context, String title, String content, View.OnClickListener listener) {
         super(context, R.style.MyDialog);
-
         this.title = title;
         this.content = content;
         this.listener = listener;
@@ -48,7 +53,12 @@ public class MyDialog extends Dialog {
         TextView leftText = findViewById(R.id.left_text);
         TextView rightText = findViewById(R.id.right_text);
 
-        tvTitle.setText(title);
+        if(title == null){
+            tvTitle.setVisibility(View.GONE);
+        }else{
+            tvTitle.setVisibility(View.VISIBLE);
+            tvTitle.setText(title);
+        }
         tvContent.setText(content);
         if (leftStr != null && !leftStr.equals("")){
             leftText.setText(leftStr);

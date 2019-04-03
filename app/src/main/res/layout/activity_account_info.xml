@@ -44,7 +44,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
             android:layout_toLeftOf="@+id/more_icon"
-            android:src="@drawable/defult_head_icon"
+            android:src="@drawable/default_head_icon"
             android:visibility="visible" />
     </RelativeLayout>
 
@@ -54,14 +54,14 @@
         android:layout_marginLeft="10dp" />
 
     <LinearLayout
-        android:id="@+id/nick_name"
+        android:id="@+id/layout_nickname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:clickable="true"
         android:focusable="true"
-        android:orientation="horizontal"
         android:foreground="?android:attr/selectableItemBackground"
+        android:orientation="horizontal"
         android:padding="@dimen/comm_margin">
 
         <TextView
@@ -71,15 +71,15 @@
             android:layout_centerVertical="true"
             android:text="@string/nick_name" />
 
-        <EditText
-            android:id="@+id/et_nick_name"
-            style="@style/edit_base_style"
+        <TextView
+            android:id="@+id/nickname"
+            style="@style/singleline_edit_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:gravity="right"
             android:drawableRight="@drawable/arr_right"
-            android:drawablePadding="@dimen/padding_15"/>
+            android:drawablePadding="@dimen/padding_15"
+            android:gravity="right" />
     </LinearLayout>
 
 
@@ -88,20 +88,52 @@
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp" />
 
-    <TextView
-        android:id="@+id/telephone"
-        style="@style/my_text_style"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/telephone" />
+        android:background="@color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="horizontal"
+        android:padding="@dimen/comm_margin">
+
+        <TextView
+            style="@style/text_base_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/telephone" />
+
+
+        <TextView
+            android:id="@+id/telephone"
+            style="@style/singleline_edit_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:drawableRight="@drawable/arr_right"
+            android:drawablePadding="@dimen/padding_15"
+            android:gravity="right" />
+    </LinearLayout>
+
 
     <View style="@style/h_view_style" />
 
-    <View
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/little_gray" />
+        android:background="@color/little_gray">
+
+        <Button
+            android:id="@+id/btn_logout"
+            style="@style/btn_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_red_selector"
+            android:text="@string/logout" />
+    </RelativeLayout>
 
 </LinearLayout>
 

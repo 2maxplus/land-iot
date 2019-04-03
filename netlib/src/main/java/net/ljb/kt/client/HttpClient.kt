@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package net.ljb.kt.client
 
 import net.ljb.kt.HttpConfig

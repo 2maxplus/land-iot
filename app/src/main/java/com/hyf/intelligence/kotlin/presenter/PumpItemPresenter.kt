@@ -20,12 +20,12 @@ class PumpItemPresenter : BaseRxLifePresenter<PumpItemContract.IView>(),
 
     private fun getDataFromNet() {
         HttpFactory.getProtocol(IUserHttpProtocol::class.java)
-                .getPumpRoomByName()
+                .getDevice()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx(
-                        { },
-                        { }
+                        { getMvpView().showPage(it.data)},
+                        { getMvpView().errorPage(it)}
                 ).bindRxLifeEx(RxLife.ON_DESTROY)
     }
 

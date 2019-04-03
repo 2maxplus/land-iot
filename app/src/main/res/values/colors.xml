@@ -9,7 +9,7 @@
     <color name="text_green">#2fc37e</color>
     <color name="text_blue">#339bd4</color>
     <color name="reveal_color">#cfcfcf</color>
-    <color name="text_gray">#7d7d7d</color>
+    <color name="text_gray">#6d6d6d</color>
 
     <color name="plan1">#a4ce68</color>
     <color name="plan2">#ec7c3c</color>
@@ -21,7 +21,7 @@
     <color name="colorBlue">#39B6DF</color>
     <color name="color666">#666</color>
     <color name="color999">#999</color>
-    <color name="colorRed">#FF1A1A</color>
+    <color name="colorRed">#FF3A3A</color>
     <color name="colorD2D2D2">#d2d2d2</color>
     <color name="colorTabDef">#A6B6BB</color>
     <color name="colorOrange">#F18E33</color>

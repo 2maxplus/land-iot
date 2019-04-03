@@ -2,26 +2,27 @@ package com.hyf.intelligence.kotlin.fragment.home
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import android.view.View
 import android.widget.ExpandableListView
 import com.hyf.intelligence.kotlin.R
-import com.hyf.intelligence.kotlin.activity.FakongDatailsActivity
+import com.hyf.intelligence.kotlin.activity.ValveDetailActivity
 import com.hyf.intelligence.kotlin.activity.ScanActivity
 import com.hyf.intelligence.kotlin.adapter.home.ValvesExpandableListViewAdapter
 import com.hyf.intelligence.kotlin.common.fragment.BaseFragment
 import com.hyf.intelligence.kotlin.domain.device.Datas
 import com.hyf.intelligence.kotlin.domain.device.Valves
 import com.hyf.intelligence.kotlin.utils.newIntent
-import kotlinx.android.synthetic.main.fakong_layout.*
+import kotlinx.android.synthetic.main.fragment_valve_control.*
 
 
-class FaKongFragment: BaseFragment() {
+class ValveControlFragment: BaseFragment() {
 
     private val REQUEST_SCAN_SUCCESS = 110
 
     private lateinit var groups : ArrayList<String>
     private lateinit var childs : ArrayList<ArrayList<Datas>>
-    override fun getLayoutId(): Int = R.layout.fakong_layout
+    override fun getLayoutId(): Int = R.layout.fragment_valve_control
 
     override fun initView() {
 
@@ -63,14 +64,18 @@ class FaKongFragment: BaseFragment() {
         childs = ArrayList()
         childs.add(array1);childs.add(array2);childs.add(array3);childs.add(array4)
 
-        expandableListView.setAdapter(ValvesExpandableListViewAdapter(activity,groups,childs))
-        expandableListView.setGroupIndicator(null)
-        expandableListView.setOnChildClickListener(object : ExpandableListView.OnChildClickListener{
-            override fun onChildClick(parent: ExpandableListView?, v: View?, groupPosition: Int, childPosition: Int, id: Long): Boolean {
-                activity?.newIntent<FakongDatailsActivity>()
-                return true
-            }
-        })
+        expandableListView.apply {
+            setAdapter(ValvesExpandableListViewAdapter(activity,groups,childs))
+            setGroupIndicator(null)
+            setOnChildClickListener(object : ExpandableListView.OnChildClickListener{
+                override fun onChildClick(parent: ExpandableListView?, v: View?, groupPosition: Int, childPosition: Int, id: Long): Boolean {
+                    val bundle = Bundle()
+                    bundle.putString("id",childs[groupPosition][childPosition].str6)  //设备ID
+                    activity?.newIntent<ValveDetailActivity>(bundle)
+                    return true
+                }
+            })
+        }
 
         ivScan.setOnClickListener {
             val intent = Intent(activity, ScanActivity::class.java)
@@ -97,6 +102,11 @@ class FaKongFragment: BaseFragment() {
                 }
             }
 
+        }
+
+        refresh_layout.apply {
+            setColorSchemeResources(R.color.colorBlue)
+            setOnRefreshListener { postDelayed( { isRefreshing = false },2000) }
         }
 
     }

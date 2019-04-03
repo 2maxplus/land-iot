@@ -1,185 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:descendantFocusability="blocksDescendants"
-        android:background="@color/white"
-        android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/white"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical">
 
     <LinearLayout
-            android:layout_width="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_device_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginLeft="20dp"
+            android:text="设备号: "
+            android:textStyle="bold" />
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="设备号: "
-                android:textStyle="bold"
-                android:layout_marginLeft="20dp"/>
-
-        <TextView
-                android:id="@+id/tv_device_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="78ASFVMN254320PL"
-                android:paddingTop="3dp"
-                android:textColor="@color/text_blue"
-                android:paddingBottom="3dp"
-                android:gravity="center_horizontal"/>
+            android:id="@+id/tv_device_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:text="78ASFVMN254320PL"
+            android:textColor="@color/text_blue" />
 
     </LinearLayout>
 
     <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp">
+
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp">
-
-        <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/reveal_color"
-                android:padding="0.5dp">
+            android:layout_height="match_parent"
+            android:background="@color/reveal_color"
+            android:padding="0.5dp">
 
             <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    style="@style/text_table_title_style"
-                    android:text="日照强度"/>
+                style="@style/text_table_title_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="日照强度" />
 
             <TextView
-                    android:id="@+id/tv_sun_exposure"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="0.5dp"
-                    style="@style/text_value_style"
-                    android:text="45Lux"/>
+                android:id="@+id/tv_sun_exposure"
+                style="@style/text_value_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0.5dp"
+                android:layout_weight="1"
+                android:text="45Lux" />
         </TableRow>
 
         <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/reveal_color"
-                android:paddingLeft="0.5dp"
-                android:paddingRight="0.5dp"
-                android:paddingBottom="0.5dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/reveal_color"
+            android:paddingLeft="0.5dp"
+            android:paddingRight="0.5dp"
+            android:paddingBottom="0.5dp">
 
             <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    style="@style/text_table_title_style"/>
+                style="@style/text_table_title_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
             <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="0.5dp"
-                    android:text="温度"
-                    style="@style/text_table_title_style"/>
+                style="@style/text_table_title_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0.5dp"
+                android:layout_weight="1"
+                android:text="温度" />
 
             <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="0.5dp"
-                    android:text="相对湿度"
-                    style="@style/text_table_title_style"/>
+                style="@style/text_table_title_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0.5dp"
+                android:layout_weight="1"
+                android:text="相对湿度" />
         </TableRow>
 
         <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/reveal_color"
-                android:paddingLeft="0.5dp"
-                android:paddingRight="0.5dp"
-                android:paddingBottom="0.5dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/reveal_color"
+            android:paddingLeft="0.5dp"
+            android:paddingRight="0.5dp"
+            android:paddingBottom="0.5dp">
 
 
             <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="空气"
-                    style="@style/text_table_title_style"
-                    android:visibility="visible"/>
+                style="@style/text_table_title_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="空气"
+                android:visibility="visible" />
 
 
             <TextView
-                    android:id="@+id/tv_air_temperature"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="0.5dp"
-                    android:text="24.8℃"
-                    style="@style/text_value_style"/>
+                android:id="@+id/tv_air_temperature"
+                style="@style/text_value_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0.5dp"
+                android:layout_weight="1"
+                android:text="24.8℃" />
 
 
             <TextView
-                    android:id="@+id/tv_air_humidity"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="0.5dp"
-                    android:text="65%"
-                    style="@style/text_value_style"/>
+                android:id="@+id/tv_air_humidity"
+                style="@style/text_value_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0.5dp"
+                android:layout_weight="1"
+                android:text="65%" />
 
         </TableRow>
 
         <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/reveal_color"
-                android:paddingLeft="0.5dp"
-                android:paddingRight="0.5dp"
-                android:paddingBottom="0.5dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/reveal_color"
+            android:paddingLeft="0.5dp"
+            android:paddingRight="0.5dp"
+            android:paddingBottom="0.5dp">
 
 
             <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="土壤"
-                    style="@style/text_table_title_style"
-                    android:visibility="visible"/>
+                style="@style/text_table_title_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="土壤"
+                android:visibility="visible" />
 
 
             <TextView
-                    android:id="@+id/tv_soil_temperature"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="0.5dp"
-                    android:text="24.8℃"
-                    style="@style/text_value_style"/>
+                android:id="@+id/tv_soil_temperature"
+                style="@style/text_value_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0.5dp"
+                android:layout_weight="1"
+                android:text="24.8℃" />
 
 
             <TextView
-                    android:id="@+id/tv_soil_humidity"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="0.5dp"
-                    android:text="65%"
-                    style="@style/text_value_style"/>
+                android:id="@+id/tv_soil_humidity"
+                style="@style/text_value_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0.5dp"
+                android:layout_weight="1"
+                android:text="65%" />
         </TableRow>
 
 
     </TableLayout>
 
-    <include layout="@layout/layout_recycler_view"/>
+    <include layout="@layout/layout_recycler_view" />
 
-    <View android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:background="@color/little_gray"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="@color/little_gray" />
 
 </LinearLayout>
 

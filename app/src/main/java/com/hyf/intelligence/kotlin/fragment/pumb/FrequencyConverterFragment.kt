@@ -1,6 +1,7 @@
 package com.hyf.intelligence.kotlin.fragment.pumb
 
 import android.support.v4.content.ContextCompat
+import android.view.View
 import android.widget.LinearLayout
 import com.hyf.intelligence.kotlin.R
 import com.hyf.intelligence.kotlin.adapter.home.BengChildFragmentAdapter
@@ -33,6 +34,8 @@ class FrequencyConverterFragment: BaseFragment() {
     override fun initData() {
         val waterPumpList = arguments!!.getParcelableArrayList<WaterPumpValves>("data") ?: return
         mAdapter.fragmentList.clear()
+        if (waterPumpList.size <= 1)
+            tabLayout.visibility = View.GONE
         mAdapter.fragmentList.addAll(waterPumpList)
         mAdapter.notifyDataSetChanged()
     }

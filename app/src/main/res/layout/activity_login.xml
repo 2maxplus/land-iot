@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_login"
+    android:visibility="gone"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/ll_login"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -13,8 +14,9 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:id="@+id/iv_login"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:src="@drawable/ic_launcher" />
@@ -23,34 +25,64 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/comm_margin"
             android:text="@string/app_name"
             android:textSize="30sp" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="60dp"
             android:layout_marginRight="20dp"
+            android:background="@drawable/shape_round_white"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="账号"
-                android:visibility="gone" />
-
-            <EditText
+            <com.hyf.intelligence.kotlin.widget.ExtEditText
                 android:id="@+id/et_user"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/white_round_shape"
-                android:hint="请输入账号"
-                android:textColor="@color/text_gray"
-                android:textSize="15dp" />
+                android:hint="请输入手机号"
+                android:inputType="number"
+                android:maxLength="11"
+                style="@style/edit_style"
+                android:lines="1"/>
 
+        </RelativeLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/shape_round_white"
+            android:orientation="horizontal">
+            <com.hyf.intelligence.kotlin.widget.ExtEditText
+                android:id="@+id/et_code"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="请输入验证码"
+                android:inputType="number"
+                style="@style/edit_style"
+                android:lines="1"/>
+
+            <View android:background="@color/little_gray"
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/margin_5"
+                android:layout_marginTop="@dimen/margin_5"/>
+            <TextView
+                android:id="@+id/tv_get_code"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/get_code"
+                android:textColor="@color/color_blue2gray"
+                android:gravity="center"
+                android:layout_gravity="center_vertical"/>
         </LinearLayout>
 
         <LinearLayout
@@ -59,6 +91,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView
@@ -72,11 +105,11 @@
                 android:id="@+id/et_pwd"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/white_round_shape"
+                android:background="@drawable/shape_round_white"
                 android:hint="请输入密码"
                 android:inputType="textPassword"
-                android:textColor="@color/text_gray"
-                android:textSize="15dp" />
+                style="@style/edit_style"
+                android:lines="1"/>
 
         </LinearLayout>
 
@@ -84,14 +117,12 @@
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            style="@style/btn_style"
+            android:enabled="false"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="50dp"
             android:layout_marginRight="20dp"
-            android:background="@drawable/login_img_selector"
-            android:text="登录"
-            android:textColor="@color/white"
-            android:textSize="15dp" />
+            android:text="登录" />
     </LinearLayout>
 
     <TextView

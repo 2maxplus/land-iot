@@ -21,14 +21,14 @@ class MyPresenter : BaseRxLifePresenter<MyContract.IView>(),
         MyContract.IPresenter {
 
     override fun getUserInfo() {
-        Observable.concat(
-                DaoFactory.getProtocol(IUserDaoProtocol::class.java).findUserByName(getContextEx(), LoginUser.name),
-                HttpFactory.getProtocol(IUserHttpProtocol::class.java).getUserInfoByName(LoginUser.name)
-        ).filter { user: User? -> user != null }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeEx({ getMvpView().showUserInfo(it!!) })
-                .bindRxLifeEx(RxLife.ON_DESTROY)
+//        Observable.concat(
+//                DaoFactory.getProtocol(IUserDaoProtocol::class.java).findUserByName(getContextEx(), LoginUser.name),
+//                HttpFactory.getProtocol(IUserHttpProtocol::class.java).userLogin(LoginUser.name,"")
+//        ).filter { user: User? -> user != null }
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeEx({ getMvpView().showUserInfo(it!!) })
+//                .bindRxLifeEx(RxLife.ON_DESTROY)
     }
 
 

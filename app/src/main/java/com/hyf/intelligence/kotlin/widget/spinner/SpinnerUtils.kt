@@ -20,7 +20,7 @@ class SpinnerUtils(private val mContext: Context, private val mTextView: TextVie
         val view = LayoutInflater.from(mContext).inflate(R.layout.choose_pop, null)
         val popupWindow = PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
         popupWindow.isTouchable = true
-        popupWindow.setBackgroundDrawable(mContext.resources.getDrawable(R.drawable.white_round_shape))
+        popupWindow.setBackgroundDrawable(mContext.resources.getDrawable(R.drawable.shape_round_white))
         popupWindow.showAsDropDown(mTextView, 0, 15)
         popupWindow.setOnDismissListener(PopupDismissListener())
         val recyclerView = view.findViewById<RecyclerView>(R.id.rv_choose_pop)

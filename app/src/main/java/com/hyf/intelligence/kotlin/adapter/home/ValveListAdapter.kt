@@ -8,53 +8,94 @@ import android.view.ViewGroup
 import android.widget.Switch
 import android.widget.TextView
 import com.hyf.intelligence.kotlin.R
-import com.hyf.intelligence.kotlin.domain.device.Valves
+import com.hyf.intelligence.kotlin.common.ex.subscribeEx
+import com.hyf.intelligence.kotlin.domain.device.Valve
+import com.hyf.intelligence.kotlin.protocol.http.IUserHttpProtocol
+import com.hyf.intelligence.kotlin.utils.showToast
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import net.ljb.kt.client.HttpFactory
 
-class ValveListAdapter(context: Activity?, list: ArrayList<Valves>, getCounts: GetCounts?) :
-    RecyclerView.Adapter<ValveListAdapter.ViewHolders>() {
+class ValveListAdapter(context: Activity?, list: ArrayList<Valve>) :
+        RecyclerView.Adapter<ValveListAdapter.ViewHolders>() {
     private var context: Activity? = null
-    private var mData: ArrayList<Valves>
-    private var getCounts: GetCounts
-    private var valvesCount :Int = 0
+    private var mData: ArrayList<Valve>
+    private lateinit var getCounts: GetCounts
+    private var valvesCount: Int = 0
+
     init {
         this.context = context
         this.mData = list
-        this.getCounts = getCounts!!
+    }
+
+    fun setGetOunts(getCounts: ValveListAdapter.GetCounts) {
+        this.getCounts = getCounts
     }
 
     override fun getItemCount(): Int = mData.size
 
     override fun onBindViewHolder(holder: ViewHolders, position: Int) {
         val valve = mData[position]
-        holder.tv_valve_name?.text = valve.valveName
+        holder.tvValveName?.text = valve.name
 
         when (valve.state) {
-            1 ->
+            3 ->  // 打开
             {
-                holder.switch_state?.isChecked = true
-                valvesCount ++
+                holder.switchState?.isChecked = true
+                valvesCount++
             }
-            0 -> holder.switch_state?.isChecked = false
+            2 -> {  //正在启动
+                holder.switchState?.isEnabled = false
+            }
+            0, 1 ->  //关闭
+                holder.switchState?.isChecked = false
         }
 
-        holder.switch_state?.setOnCheckedChangeListener { _, isChecked ->
+        holder.switchState?.setOnClickListener {
+            val valveState = valve.state
+            val state = when(valveState) {
+                1 -> "open"
+                3 -> "close"
+                else -> "open"
+            }
+            if(state.isEmpty()){
+                context?.showToast("不可操作")
+                return@setOnClickListener
+            }
+            HttpFactory.getProtocol(IUserHttpProtocol::class.java)
+                    .setDeviceStateById(state, valve.id)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .map { it.data }
+                    .subscribeEx(
+                             {
+                                if(it.success){
+                                    valve.state = 2
+                                    holder.switchState.isEnabled = false
+                                }else{
+                                    context?.showToast(it.message)
+                                }
+                                 notifyDataSetChanged()
+                            },{})
+//                    .dispose()
+        }
+
+        holder.switchState?.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-//                valvesCount ++
                 getCounts.adds()
             } else {
-//                valvesCount --
                 getCounts.subs()
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolders =
-        ViewHolders(LayoutInflater.from(context).inflate(R.layout.valve_operate_item, parent, false))
+            ViewHolders(LayoutInflater.from(context).inflate(R.layout.valve_operate_item, parent, false))
 
 
     class ViewHolders(itemview: View?) : RecyclerView.ViewHolder(itemview!!) {
-        val tv_valve_name = itemview?.findViewById<TextView>(R.id.tv_valve_name)
-        val switch_state = itemview?.findViewById<Switch>(R.id.switch_state)
+        val tvValveName = itemview?.findViewById<TextView>(R.id.tv_valve_name)
+        val switchState = itemview?.findViewById<Switch>(R.id.switch_state)
     }
 
     interface GetCounts {
@@ -62,6 +103,6 @@ class ValveListAdapter(context: Activity?, list: ArrayList<Valves>, getCounts: G
         fun subs()
     }
 
-    fun getValves() : Int = valvesCount
+    fun getValves(): Int = valvesCount
 
 }

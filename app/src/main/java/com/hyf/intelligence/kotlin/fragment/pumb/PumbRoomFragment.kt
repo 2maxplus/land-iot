@@ -32,7 +32,10 @@ class PumbRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomC
         }
         refresh_layout.apply {
             setColorSchemeResources(R.color.colorBlue)
-            setOnRefreshListener { getPresenter().getPumpInfo() }
+            setOnRefreshListener {
+                getPresenter().getPumpInfo()
+                childFragmentManager.findFragmentByTag("")
+            }
         }
         viewPager.apply {
             adapter = mAdapter
@@ -67,7 +70,4 @@ class PumbRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomC
         page_layout.setPage(PageStateLayout.PageState.STATE_ERROR)
     }
 
-    fun getonScroll(isEnable: Boolean) {
-        refresh_layout.isEnabled = isEnable
-    }
 }

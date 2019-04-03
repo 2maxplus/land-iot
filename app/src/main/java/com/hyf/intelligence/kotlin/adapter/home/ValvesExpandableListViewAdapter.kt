@@ -13,9 +13,9 @@ import com.hyf.intelligence.kotlin.domain.device.Datas
 import java.util.ArrayList
 
 class ValvesExpandableListViewAdapter(
-    context: Activity?,
-    groups: ArrayList<String>,
-    childs: ArrayList<ArrayList<Datas>>
+        context: Activity?,
+        groups: ArrayList<String>,
+        childs: ArrayList<ArrayList<Datas>>
 ) : BaseExpandableListAdapter() {
     private var context: Activity? = null
     private var groups: ArrayList<String>
@@ -74,11 +74,11 @@ class ValvesExpandableListViewAdapter(
 
     //【重要】填充二级列表
     override fun getChildView(
-        groupPosition: Int,
-        childPosition: Int,
-        isLastChild: Boolean,
-        convertView: View?,
-        parent: ViewGroup
+            groupPosition: Int,
+            childPosition: Int,
+            isLastChild: Boolean,
+            convertView: View?,
+            parent: ViewGroup
     ): View {
         var convertView = convertView
 
@@ -100,20 +100,20 @@ class ValvesExpandableListViewAdapter(
         text4.text = childs[groupPosition][childPosition].str4
         text5.text = childs[groupPosition][childPosition].str5
         text6.text = childs[groupPosition][childPosition].str6
-        recyclerView.apply {
-            this!!.layoutManager = GridLayoutManager(context, 2)
-            adapter = ValveListAdapter(this@ValvesExpandableListViewAdapter.context,
-                childs[groupPosition][childPosition].valves,
-                object : ValveListAdapter.GetCounts {
-                    override fun adds() {
-
-                    }
-                    override fun subs() {
-
-                    }
-
-                })
-        }
+//        recyclerView.apply {
+//            this!!.layoutManager = GridLayoutManager(context, 2)
+//            adapter = ValveListAdapter(this@ValvesExpandableListViewAdapter.context,
+//                childs[groupPosition][childPosition].valves,
+//                object : ValveListAdapter.GetCounts {
+//                    override fun adds() {
+//
+//                    }
+//                    override fun subs() {
+//
+//                    }
+//
+//                })
+//        }
         return convertView
     }
 

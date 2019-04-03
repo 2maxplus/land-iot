@@ -5,12 +5,14 @@ import android.content.Intent
 import android.view.View
 import com.hyf.intelligence.kotlin.R
 import com.hyf.intelligence.kotlin.activity.AccountInfoActivity
+import com.hyf.intelligence.kotlin.activity.FeedbackActivity
 import com.hyf.intelligence.kotlin.activity.LoginActivity
 import com.hyf.intelligence.kotlin.common.fragment.BaseMvpFragment
 import com.hyf.intelligence.kotlin.contract.MyContract
 import com.hyf.intelligence.kotlin.domain.User
 import com.hyf.intelligence.kotlin.presenter.MyPresenter
 import com.hyf.intelligence.kotlin.utils.newIntent
+import com.hyf.intelligence.kotlin.utils.showToast
 import com.hyf.intelligence.kotlin.widget.dialog.NormalMsgDialog
 import kotlinx.android.synthetic.main.layout_common_title.*
 import kotlinx.android.synthetic.main.fragment_mine.*
@@ -33,6 +35,9 @@ class MyFragment: BaseMvpFragment<MyContract.IPresenter>(), MyContract.IView {
         iv_back.visibility = View.GONE
         tv_title.text = "我的"
         tv_account.setOnClickListener { activity?.newIntent<AccountInfoActivity>() }
+        tv_help_feedback.setOnClickListener { activity?.newIntent<FeedbackActivity>() }
+        tv_about_us.setOnClickListener { activity?.showToast("开发中") }
+
     }
 
     override fun initData() {
@@ -44,7 +49,7 @@ class MyFragment: BaseMvpFragment<MyContract.IPresenter>(), MyContract.IView {
     }
 
     private fun goLogin() {
-        startActivity(Intent(activity, LoginActivity::class.java))
+        activity?.newIntent<LoginActivity>()
         activity!!.finish()
     }
 

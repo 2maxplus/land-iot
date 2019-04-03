@@ -3,17 +3,17 @@ package com.hyf.intelligence.kotlin.presenter
 import com.hyf.intelligence.kotlin.common.LoginUser
 import com.hyf.intelligence.kotlin.common.ex.subscribeEx
 import com.hyf.intelligence.kotlin.contract.LoginContract
-import com.hyf.intelligence.kotlin.domain.User
+import com.hyf.intelligence.kotlin.domain.base.GenResult
+import com.hyf.intelligence.kotlin.domain.user.LoginInfo
+import com.hyf.intelligence.kotlin.domain.user.VerifyBean
 import com.hyf.intelligence.kotlin.presenter.base.BaseRxLifePresenter
-import com.hyf.intelligence.kotlin.protocol.dao.IUserDaoProtocol
-import com.hyf.intelligence.kotlin.protocol.dao.base.DaoFactory
 import com.hyf.intelligence.kotlin.protocol.http.IUserHttpProtocol
 import com.hyf.intelligence.kotlin.utils.RxUtils
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import mvp.ljb.kt.presenter.getContextEx
+import net.ljb.kt.HttpConfig
 import net.ljb.kt.client.HttpFactory
 import java.util.concurrent.TimeUnit
 
@@ -25,6 +25,25 @@ import java.util.concurrent.TimeUnit
 class LoginPresenter : BaseRxLifePresenter<LoginContract.IView>(), LoginContract.IPresenter {
 
     private var mLoginDisposable: Disposable? = null
+    override fun getCode(phone: String) {
+        RxUtils.dispose(mLoginDisposable)
+        mLoginDisposable = HttpFactory.getProtocol(IUserHttpProtocol::class.java)
+                .getSMSCode(phone)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeEx(
+                        { handlerCode(it) },
+                        { getMvpView().getCodeError(it.message) })
+                .bindRxLifeEx(RxLife.ON_DESTROY)
+    }
+
+    private fun handlerCode(result: GenResult<VerifyBean>){
+        if (result.code == 200) {
+            getMvpView().getCodeSuccess(result.data.id)
+        } else {
+            getMvpView().getCodeError(result.msg)
+        }
+    }
 
     override fun delayGoHomeTask() {
         Observable.timer(1500, TimeUnit.MILLISECONDS)
@@ -32,29 +51,27 @@ class LoginPresenter : BaseRxLifePresenter<LoginContract.IView>(), LoginContract
                 .bindRxLifeEx(RxLife.ON_DESTROY)
     }
 
-    override fun login(userName: String) {
+    override fun login(loginId: String, code: String) {
         RxUtils.dispose(mLoginDisposable)
-        mLoginDisposable = HttpFactory.getProtocol(IUserHttpProtocol::class.java).getUserInfoByName(userName)
+        mLoginDisposable = HttpFactory.getProtocol(IUserHttpProtocol::class.java)
+                .userLogin(loginId, code)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map { handlerUser(it) }
-                .filter { it.message.isNullOrBlank() }
-                .observeOn(Schedulers.io())
-                .flatMap { DaoFactory.getProtocol(IUserDaoProtocol::class.java).saveUser(getContextEx(), it) }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeEx(onError = {
-                    getMvpView().loginError(it.message)
-                }).bindRxLifeEx(RxLife.ON_DESTROY)
+                .subscribeEx({ handlerUser(it) },
+                        { getMvpView().loginError(it.message) })
+                .bindRxLifeEx(RxLife.ON_DESTROY)
     }
 
-    private fun handlerUser(user: User): User {
-        if (user.message.isNullOrBlank()) {
-            LoginUser.name = user.login
+    private fun handlerUser(result: GenResult<LoginInfo>){
+        if (result.code == 200) {
+            LoginUser.token = result.data.token
+            val paramMap = mapOf("token" to LoginUser.token)
+            HttpConfig.setParam(paramMap)
             getMvpView().loginSuccess()
         } else {
-            getMvpView().loginError(user.message)
+            getMvpView().loginError(result.msg)
         }
-        return user
     }
+
 
 }

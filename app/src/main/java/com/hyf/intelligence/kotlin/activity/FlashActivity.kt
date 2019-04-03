@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_flash.*
 
 
 class FlashActivity : BaseActivity(){
-    private var BAIDU_READ_PHONE_STATE = 100
+    private val BAIDU_READ_PHONE_STATE = 100
 
     override fun getLayoutId(): Int = R.layout.activity_flash
 
@@ -24,6 +24,9 @@ class FlashActivity : BaseActivity(){
         flash.postDelayed( {
             if(Build.VERSION.SDK_INT >= 23){
                 showPermissions()
+            }else{
+                newIntent<MainActivity>()
+                finish()
             }
         },2000)
     }
@@ -35,6 +38,7 @@ class FlashActivity : BaseActivity(){
     fun showPermissions() {
         if (ActivityCompat.checkSelfPermission(
                 this,
+//                        Manifest.permission_group.LOCATION
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
             || ActivityCompat.checkSelfPermission(
@@ -64,7 +68,7 @@ class FlashActivity : BaseActivity(){
                 )
             }
         }else{
-            newIntent<MainActivity>()
+            newIntent<LoginActivity>()
             finish()
         }
     }
@@ -75,12 +79,12 @@ class FlashActivity : BaseActivity(){
         when (requestCode) {
             // requestCode即所声明的权限获取码，在checkSelfPermission时传入
             BAIDU_READ_PHONE_STATE -> if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                newIntent<MainActivity>()
+                newIntent<LoginActivity>()
                 finish()
             } else {
                 // 没有获取到权限，做特殊处理
                 showToast("没有获取到权限")
-                newIntent<MainActivity>()
+                newIntent<LoginActivity>()
                 finish()
             }
         }

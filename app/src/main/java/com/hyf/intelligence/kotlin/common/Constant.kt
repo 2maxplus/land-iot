@@ -13,6 +13,7 @@ object Constant {
      * */
     object SPConstant {
         val CUR_USER_NAME = "user_name"
+        val CUR_TOKEN = "token"
     }
 
     object WEB {
@@ -26,7 +27,7 @@ object Constant {
     object DBProvider {
 
         const val AUTHORITY = "com.hyf.intelligence.kotlin.provider"
-        const val DATABASE_NAME = "mvpkotlindb"
+        const val DATABASE_NAME = "gl_db"
         const val DATABASE_VERSION = 1
 
         //用户表

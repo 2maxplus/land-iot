@@ -1,21 +1,27 @@
 package com.hyf.intelligence.kotlin
 
+import android.app.Activity
 import android.app.Application
+import android.os.Bundle
 import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
 import com.hyf.intelligence.kotlin.common.HTTP_API_DOMAIN
 import com.hyf.intelligence.kotlin.utils.SPUtils
 import com.squareup.leakcanary.LeakCanary
 import net.ljb.kt.HttpConfig
+import java.util.HashSet
 
-/**
- * Created by L on 2017/7/14.
- */
 class App : Application() {
+    private var allActivities: HashSet<Activity>? = null
+
+    companion object {
+        lateinit var instance: App
+    }
 
     //应避免创建全局的Application引用
     override fun onCreate() {
         super.onCreate()
+        instance = this
         if (LeakCanary.isInAnalyzerProcess(this)) {
             return
         }
@@ -27,12 +33,67 @@ class App : Application() {
         LeakCanary.install(this)
         SPUtils.init(this)
         initNet()
+        registerActivity()
     }
 
     private fun initNet() {
-//        val paramMap = mapOf(
-//                "client_id" to CLIENT_ID,
-//                "client_secret" to CLIENT_SECRET)
         HttpConfig.init(HTTP_API_DOMAIN, null, null, true)
+    }
+
+    private fun registerActivity(){
+        registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks{
+            override fun onActivityPaused(p0: Activity?) {
+            }
+
+            override fun onActivityResumed(p0: Activity?) {
+            }
+
+            override fun onActivityStarted(p0: Activity?) {
+            }
+
+            override fun onActivityDestroyed(p0: Activity?) {
+                p0?.let { removeActivity(it) }
+            }
+
+            override fun onActivitySaveInstanceState(p0: Activity?, p1: Bundle?) {
+            }
+
+            override fun onActivityStopped(p0: Activity?) {
+            }
+
+            override fun onActivityCreated(p0: Activity?, p1: Bundle?) {
+                p0?.let { addActivity(it) }
+            }
+        })
+    }
+
+    fun addActivity(act: Activity) {
+        if (allActivities == null) {
+            allActivities = HashSet()
+        } else {
+            allActivities?.add(act)
+        }
+    }
+
+    fun removeAllActivity(){
+        allActivities?.forEach {
+            it.finish()
+        }
+    }
+
+    fun removeActivity(act: Activity) {
+        allActivities?.remove(act)
+    }
+
+    @Synchronized fun exitApp() {
+        allActivities?.let {
+            for (act in it) {
+                act.finish()
+            }
+        }
+        allActivities?.clear()
+//        aCache.clear()
+        android.os.Process.killProcess(android.os.Process.myPid())
+        System.exit(0)
     }
 }

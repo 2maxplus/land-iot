@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.widget.Toast
+import com.hyf.intelligence.kotlin.App
 import com.hyf.intelligence.kotlin.R
 import com.hyf.intelligence.kotlin.domain.TabBean
 import com.hyf.intelligence.kotlin.adapter.MainTabAdapter
-import com.hyf.intelligence.kotlin.fragment.home.FaKongFragment
+import com.hyf.intelligence.kotlin.fragment.home.ValveControlFragment
 import com.hyf.intelligence.kotlin.fragment.home.MyFragment
 import com.hyf.intelligence.kotlin.fragment.pumb.PumbRoomFragment
 import com.hyf.intelligence.kotlin.fragment.home.HomeFragment
@@ -25,13 +26,13 @@ class MainActivity : FragmentActivity() {
     private val mFragments = listOf<Fragment>(
             HomeFragment(),
             PumbRoomFragment(),
-            FaKongFragment(),
+            ValveControlFragment(),
             PlanFragment(),
             MyFragment())
 
     private val mTabList = listOf(
             TabBean(R.drawable.home_selector, R.string.tab1),
-            TabBean(R.drawable.beng_selector, R.string.tab2),
+            TabBean(R.drawable.pumb_selector, R.string.tab2),
             TabBean(R.drawable.fakong_selector, R.string.tab3),
             TabBean(R.drawable.plan_selector, R.string.tab4),
             TabBean(R.drawable.mine_selector, R.string.tab5))
@@ -72,6 +73,8 @@ class MainActivity : FragmentActivity() {
             Toast.makeText(this, R.string.exit_go_out, Toast.LENGTH_SHORT).show()
             mFirstDownBack = System.currentTimeMillis()
             return
+        }else{
+            App.instance.exitApp()
         }
         super.onBackPressed()
     }
