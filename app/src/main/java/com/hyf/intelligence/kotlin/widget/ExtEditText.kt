@@ -19,7 +19,6 @@ import com.hyf.intelligence.kotlin.R
  */
 @Suppress("DEPRECATION")
 class ExtEditText : AppCompatEditText {
-//    private var imgEnable: Drawable? = null
     private var enableClearButton = true
 
     private var mContext: Context? = null
