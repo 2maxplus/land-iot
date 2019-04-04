@@ -52,7 +52,7 @@
 
         </LinearLayout>
 
-        <com.hyf.intelligence.kotlin.widget.chart.HorizontalChartViewFlow
+        <com.hyf.intelligence.iot.widget.chart.HorizontalChartViewFlow
             android:id="@+id/horizontalChartView"
             android:layout_width="match_parent"
             android:layout_height="200dp" />

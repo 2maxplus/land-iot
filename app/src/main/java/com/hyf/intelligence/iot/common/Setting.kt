@@ -1,0 +1,26 @@
+package com.hyf.intelligence.iot.common
+
+import com.hyf.intelligence.iot.BuildConfig
+import com.hyf.intelligence.iot.utils.SPUtils
+
+
+/** 服务器Host */
+//const val HTTP_API_DOMAIN = "https://api.github.com"
+const val HTTP_API_DOMAIN = "http://192.168.0.140:5002"
+
+/** Log */
+val LOG_DEBUG = BuildConfig.DEBUG
+
+/** 用户登录信息 */
+class LoginUser {
+    companion object {
+        var name: String
+            get() = SPUtils.getString(Constant.SPConstant.CUR_USER_NAME)
+            set(value) = SPUtils.putString(Constant.SPConstant.CUR_USER_NAME, value)
+
+        var token: String
+            get() = SPUtils.getString(Constant.SPConstant.CUR_TOKEN)
+            set(value) = SPUtils.putString(Constant.SPConstant.CUR_TOKEN, value)
+    }
+}
+

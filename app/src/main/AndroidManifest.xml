@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.hyf.intelligence.kotlin">
+    package="com.hyf.intelligence.iot">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -30,7 +30,7 @@
 
 
     <application
-        android:name=".App"
+        android:name="com.hyf.intelligence.iot.App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -42,7 +42,7 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="00woQaplyQRmnswhNGSUD4tbVTgUaGNm" />
 
-        <activity android:name="com.hyf.intelligence.kotlin.activity.LoginActivity"
+        <activity android:name="com.hyf.intelligence.iot.activity.LoginActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop">
             <intent-filter>
@@ -51,26 +51,37 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.hyf.intelligence.kotlin.activity.MainActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name="com.hyf.intelligence.kotlin.activity.WebActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".activity.FlashActivity" >
+            android:name="com.hyf.intelligence.iot.activity.MainActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
 
         </activity>
-        <activity android:name=".activity.AccountInfoActivity" />
-        <activity android:name=".activity.ValveDetailActivity" />
-        <activity android:name=".activity.ScanActivity" />
-        <activity android:name=".activity.FeedbackActivity" />
-        <activity android:name=".activity.ModifyNickNameActivity" />
+        <activity
+            android:name="com.hyf.intelligence.iot.activity.WebActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="com.hyf.intelligence.iot.activity.FlashActivity" >
+
+        </activity>
+        <activity android:name="com.hyf.intelligence.iot.activity.AccountInfoActivity" />
+        <activity android:name="com.hyf.intelligence.iot.activity.ValveDetailActivity" />
+        <activity android:name="com.hyf.intelligence.iot.activity.ScanActivity" />
+        <activity android:name="com.hyf.intelligence.iot.activity.FeedbackActivity" />
+        <activity android:name="com.hyf.intelligence.iot.activity.ModifyNickNameActivity" />
 
         <provider
-            android:name="com.hyf.intelligence.kotlin.db.DatabaseProvider"
-            android:authorities="com.hyf.intelligence.kotlin.provider"
+            android:name="com.hyf.intelligence.iot.db.DatabaseProvider"
+            android:authorities="com.hyf.intelligence.iot.provider"
             android:exported="false" />
 
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.hyf.intelligence.iot.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
 
     </application>
 

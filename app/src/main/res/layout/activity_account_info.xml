@@ -10,7 +10,7 @@
     <View style="@style/h_view_style" />
 
     <RelativeLayout
-        android:id="@+id/rl_head"
+        android:id="@+id/rl_portrait"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -104,14 +104,12 @@
             android:layout_centerVertical="true"
             android:text="@string/telephone" />
 
-
         <TextView
             android:id="@+id/telephone"
             style="@style/singleline_edit_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:drawableRight="@drawable/arr_right"
             android:drawablePadding="@dimen/padding_15"
             android:gravity="right" />
     </LinearLayout>
