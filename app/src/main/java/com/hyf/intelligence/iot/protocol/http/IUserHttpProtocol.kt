@@ -10,6 +10,8 @@ import com.hyf.intelligence.iot.domain.user.LoginInfo
 import com.hyf.intelligence.iot.domain.user.UserInfo
 import com.hyf.intelligence.iot.domain.user.VerifyBean
 import io.reactivex.Observable
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface IUserHttpProtocol {
@@ -39,6 +41,13 @@ interface IUserHttpProtocol {
      * */
     @POST("/api/User/Get")
     fun getUserInfo(): Observable<GenResult<UserInfo>>
+    /**
+     * @return  修改用户头像
+     * @param file 头像form
+     * */
+    @Multipart
+    @POST("/api/User/ModifyHeadPortrait")
+    fun modifyPortrait(@Part file : MultipartBody.Part): Observable<GenResult<String>>
 
     /**
      * @param nickName 昵称

@@ -5,8 +5,8 @@ import com.hyf.intelligence.iot.utils.SPUtils
 
 
 /** 服务器Host */
-//const val HTTP_API_DOMAIN = "https://api.github.com"
-const val HTTP_API_DOMAIN = "http://192.168.0.140:5002"
+const val HTTP_API_DOMAIN_DEBUG = "http://192.168.0.140:6070"
+const val HTTP_API_DOMAIN_RELEASE = "http://app.land-iot.com:6070"
 
 /** Log */
 val LOG_DEBUG = BuildConfig.DEBUG

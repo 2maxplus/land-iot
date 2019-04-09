@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <paths>
-        <external-path
-            name="image"
-            path="land_intelligence" />
-    </paths>
-</resources>
+<paths>
+    <external-path
+        name="external_files"
+        path="." />
+</paths>

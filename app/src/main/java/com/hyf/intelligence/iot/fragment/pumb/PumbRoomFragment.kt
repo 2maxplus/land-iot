@@ -1,7 +1,7 @@
 package com.hyf.intelligence.iot.fragment.pumb
 
+import android.content.Intent
 import android.view.View
-import com.hyf.intelligence.iot.App
 import com.hyf.intelligence.iot.R
 import com.hyf.intelligence.iot.activity.LoginActivity
 import com.hyf.intelligence.iot.adapter.home.BengFragmentAdapter
@@ -18,7 +18,9 @@ import kotlinx.android.synthetic.main.layout_common_viewpager.*
 
 
 
-class PumbRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomContract.IView {
+class PumbRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomContract.IView{
+
+
     override fun onTokenExpired(msg: String) {
         activity?.showToast(msg)
         activity?.newIntent<LoginActivity>()
@@ -43,7 +45,7 @@ class PumbRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomC
             setColorSchemeResources(R.color.colorBlue)
             setOnRefreshListener {
                 getPresenter().getPumpInfo()
-                childFragmentManager.findFragmentByTag("")
+                activity?.sendBroadcast(Intent(PumpItemFragment.INTENT_ACTION_REFRESH))
             }
         }
         viewPager.apply {

@@ -1,11 +1,13 @@
 package com.hyf.intelligence.iot.fragment.pumb
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.LinearLayout
-import com.hyf.intelligence.iot.App
 import com.hyf.intelligence.iot.R
-import com.hyf.intelligence.iot.activity.LoginActivity
 import com.hyf.intelligence.iot.adapter.home.DeviceListAdapter
 import com.hyf.intelligence.iot.adapter.home.ValveListAdapter
 import com.hyf.intelligence.iot.common.fragment.BaseMvpFragment
@@ -13,16 +15,19 @@ import com.hyf.intelligence.iot.contract.PumpItemContract
 import com.hyf.intelligence.iot.domain.device.FaKongBean
 import com.hyf.intelligence.iot.domain.device.DeviceItem
 import com.hyf.intelligence.iot.presenter.PumpItemPresenter
-import com.hyf.intelligence.iot.utils.newIntent
-import com.hyf.intelligence.iot.utils.showToast
 import com.hyf.intelligence.iot.widget.RecycleViewDivider
 import com.hyf.intelligence.iot.widget.dialog.MyDialog
-import kotlinx.android.synthetic.main.layout_recycler_view.*
 import kotlinx.android.synthetic.main.pump_item_layout.*
 import com.hyf.intelligence.iot.widget.MyLinearLayoutManager
+import kotlinx.android.synthetic.main.layout_recycler_view.*
 
 
 class PumpItemFragment: BaseMvpFragment<PumpItemContract.IPresenter>(),PumpItemContract.IView {
+
+    companion object {
+        const val INTENT_ACTION_REFRESH = "com.action.refresh"
+    }
+
     override fun onTokenExpired(msg: String) {
     }
 
@@ -73,11 +78,14 @@ class PumpItemFragment: BaseMvpFragment<PumpItemContract.IPresenter>(),PumpItemC
         horizontalChartView.setData(list)
 
         switchs.setOnClickListener {
-            val ischecked = !switchs.isChecked
-            content = if (ischecked){
+            val isCheck = !switchs.isChecked
+            content = if (isCheck){
                 "当前水泵已经开启20小时，灌溉水量100m3，请问是否关闭水泵?"
             }else{
-                var openCounts = mAdapter.getValves() + bengOpenCount
+                if( mAdapter.list.size == 0 ){
+                    return@setOnClickListener
+                }
+                val openCounts = mAdapter.getValves() + bengOpenCount
                 if (openCounts > 0){
                     "检测到当前有${openCounts}个阀门已经打开，请问是否继续开泵？"
                 }else{
@@ -87,10 +95,10 @@ class PumpItemFragment: BaseMvpFragment<PumpItemContract.IPresenter>(),PumpItemC
             dialogs = MyDialog(activity,content, View.OnClickListener {
                 when(it.id){
                     R.id.left_text ->{
-                        switchs.isChecked = ischecked
+                        switchs.isChecked = isCheck
                     }
                     R.id.right_text ->{
-                        switchs.isChecked = !ischecked
+                        switchs.isChecked = !isCheck
                     }
                 }
                 dialogs.dismiss()
@@ -102,6 +110,27 @@ class PumpItemFragment: BaseMvpFragment<PumpItemContract.IPresenter>(),PumpItemC
 
     override fun initData() {
         getPresenter().getPumpItemInfo()
+    }
+
+    lateinit var receiveBroadCast: ReceiveBroadCast
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        receiveBroadCast = ReceiveBroadCast()
+        val intentFilter = IntentFilter(INTENT_ACTION_REFRESH)
+        activity?.registerReceiver(receiveBroadCast,intentFilter)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        if(receiveBroadCast != null){
+            activity?.unregisterReceiver(receiveBroadCast)
+        }
+    }
+
+    inner class ReceiveBroadCast : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            this@PumpItemFragment.initData()
+        }
     }
 
 }

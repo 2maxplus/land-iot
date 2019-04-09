@@ -3,17 +3,12 @@ package com.hyf.intelligence.iot.fragment.home
 import android.content.DialogInterface
 import android.view.View
 import com.hyf.intelligence.iot.R
-import com.hyf.intelligence.iot.activity.AccountInfoActivity
-import com.hyf.intelligence.iot.activity.FeedbackActivity
-import com.hyf.intelligence.iot.activity.LoginActivity
-import com.hyf.intelligence.iot.activity.WebActivity
-import com.hyf.intelligence.iot.common.HTTP_API_DOMAIN
+import com.hyf.intelligence.iot.activity.*
 import com.hyf.intelligence.iot.common.fragment.BaseMvpFragment
 import com.hyf.intelligence.iot.contract.MyContract
 import com.hyf.intelligence.iot.domain.User
 import com.hyf.intelligence.iot.presenter.MyPresenter
 import com.hyf.intelligence.iot.utils.newIntent
-import com.hyf.intelligence.iot.utils.showToast
 import com.hyf.intelligence.iot.widget.dialog.NormalMsgDialog
 import kotlinx.android.synthetic.main.layout_common_title.*
 import kotlinx.android.synthetic.main.fragment_mine.*
@@ -40,8 +35,8 @@ class MyFragment: BaseMvpFragment<MyContract.IPresenter>(), MyContract.IView {
         tv_title.text = "我的"
         tv_account.setOnClickListener { activity?.newIntent<AccountInfoActivity>() }
         tv_help_feedback.setOnClickListener { activity?.newIntent<FeedbackActivity>() }
-        tv_about_us.setOnClickListener { WebActivity.startActivity(context!!, "$HTTP_API_DOMAIN/swagger/index.html","关于我们") }
-
+        tv_about_us.setOnClickListener { MessageActivity.startActivity(context!!, "关于我们","关于我们") }
+        tv_message.setOnClickListener { MessageActivity.startActivity(context!!, "我的消息","我的消息") }
     }
 
     override fun initData() {

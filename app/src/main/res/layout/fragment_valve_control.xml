@@ -27,7 +27,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:layout_weight="1"
-            android:background="@drawable/white_round_shape"
+            android:background="@drawable/shape_round_white"
             android:drawableLeft="@drawable/search"
             android:drawablePadding="8dp"
             android:gravity="center_vertical|start"

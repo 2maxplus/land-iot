@@ -56,5 +56,8 @@
 
     <string name="confirm">确认</string>
     <string name="cancel">取消</string>
+    <string name="hint_input_phone">请输入手机号</string>
+    <string name="hint_input_code">请输入验证码</string>
+    <string name="hint_input_pwd">请输入密码</string>
 
 </resources>

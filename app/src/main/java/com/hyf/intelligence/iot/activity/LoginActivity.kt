@@ -20,7 +20,12 @@ import com.hyf.intelligence.iot.utils.StringUtils
 import com.hyf.intelligence.iot.utils.newIntent
 import com.hyf.intelligence.iot.utils.showToast
 import com.hyf.intelligence.iot.widget.dialog.LoadingDialog
+import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_login.*
+import android.graphics.drawable.Drawable
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
+
 
 /**
  *  1、继承BaseMvpActivity
@@ -39,6 +44,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
             tv_get_code.isEnabled = true
             tv_get_code.text = getString(R.string.get_code)
         }
+
         override fun onTick(millisUntilFinished: Long) {
             tv_get_code.isEnabled = false
             tv_get_code.text = "已发送  (${millisUntilFinished / 1000})"
@@ -54,6 +60,15 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
     override fun registerPresenter() = LoginPresenter::class.java
 
     override fun initView() {
+        transparencyBar(this)
+//        Glide.with(this)
+//                .load(R.drawable.login_bg)
+//                .apply(RequestOptions.bitmapTransform(BlurTransformation(5,3)))
+//                .into(object : SimpleTarget<Drawable>() {
+//                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+//                        rl_login.background = resource
+//                    }
+//                })
         Glide.with(this)
                 .load(R.drawable.ic_launcher)
                 .apply(RequestOptions().transform(CircleCrop()))
@@ -90,7 +105,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
 
         })
 
-        if(Build.VERSION.SDK_INT >= 23){
+        if (Build.VERSION.SDK_INT >= 23) {
             showPermissions()
         }
     }
@@ -128,6 +143,14 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
 //        val scaleX = PropertyValuesHolder.ofFloat("scaleX", 0.5f, 1f)
 //        val scaleY = PropertyValuesHolder.ofFloat("scaleY", 0.5f, 1f)
 //        ObjectAnimator.ofPropertyValuesHolder(ll_login, alpha, scaleX, scaleY).setDuration(1000).start()
+        Glide.with(this)
+                .load(R.drawable.login_bg)
+                .apply(RequestOptions.bitmapTransform(BlurTransformation(5, 3)))
+                .into(object : SimpleTarget<Drawable>() {
+                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                        rl_login.background = resource
+                    }
+                })
         ll_login.visibility = View.VISIBLE
     }
 
@@ -174,8 +197,11 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
                 ) != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(
                         this,
-                        Manifest.permission.CAMERA
+                        Manifest.permission_group.CAMERA
                 ) != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED
         ) {
             // 申请一个（或多个）权限，并提供用于回调返回的获取码（用户定义）
             this.let {
@@ -185,6 +211,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
                                 Manifest.permission.ACCESS_COARSE_LOCATION,
                                 Manifest.permission.ACCESS_FINE_LOCATION,
                                 Manifest.permission.READ_PHONE_STATE,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
                                 Manifest.permission.CAMERA
                         ),
                         BAIDU_READ_PHONE_STATE

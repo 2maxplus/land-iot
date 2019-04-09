@@ -28,6 +28,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
 
+    <meta-data android:name="android.max_aspect"
+        android:value="2.1"/>
 
     <application
         android:name="com.hyf.intelligence.iot.App"
@@ -67,6 +69,7 @@
         <activity android:name="com.hyf.intelligence.iot.activity.ScanActivity" />
         <activity android:name="com.hyf.intelligence.iot.activity.FeedbackActivity" />
         <activity android:name="com.hyf.intelligence.iot.activity.ModifyNickNameActivity" />
+        <activity android:name=".activity.MessageActivity" />
 
         <provider
             android:name="com.hyf.intelligence.iot.db.DatabaseProvider"

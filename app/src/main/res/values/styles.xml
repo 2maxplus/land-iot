@@ -65,6 +65,7 @@
     <style name="edit_box_style" parent="text_base_style">
         <item name="android:textColorHint">@color/color999</item>
         <item name="android:background">@drawable/shape_round_white</item>
+        <item name="android:padding">@dimen/margin_5</item>
         <item name="android:gravity">top</item>
     </style>
 

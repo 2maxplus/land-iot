@@ -3,6 +3,7 @@ package com.hyf.intelligence.iot.common.activity
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
+import android.view.Window
 import mvp.ljb.kt.contract.IPresenterContract
 import mvp.ljb.kt.view.MvpActivity
 

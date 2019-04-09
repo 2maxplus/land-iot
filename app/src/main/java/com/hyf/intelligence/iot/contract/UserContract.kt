@@ -3,20 +3,20 @@ package com.hyf.intelligence.iot.contract
 import mvp.ljb.kt.contract.IPresenterContract
 import mvp.ljb.kt.contract.IViewContract
 import com.hyf.intelligence.iot.domain.user.UserInfo
+import okhttp3.MultipartBody
 
-/**
- * Created by L on 2017/7/18.
- */
 interface UserContract {
 
     interface IView : IViewContract {
         fun logoutSuccess()
-        fun logoutError(errorMsg: String?)
         fun showUserInfo(user: UserInfo)
+        fun portraitModifySuccess(headData: String)
+        fun onError(errorMsg: String?)
     }
 
     interface IPresenter : IPresenterContract {
         fun logout()
         fun getUserInfo()
+        fun modifyPortrait(path: String)
     }
 }

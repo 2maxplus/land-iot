@@ -10,6 +10,9 @@
     <color name="text_blue">#339bd4</color>
     <color name="reveal_color">#cfcfcf</color>
     <color name="text_gray">#6d6d6d</color>
+    <color name="translate">#00000000</color>
+    <color name="translateHalf">#80000000</color>
+    <color name="translate40">#30008577</color>
 
     <color name="plan1">#a4ce68</color>
     <color name="plan2">#ec7c3c</color>
