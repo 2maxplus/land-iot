@@ -52,21 +52,26 @@ object TimeUtils {
         val nd = (1000 * 24 * 60 * 60).toLong()// 一天的毫秒数
         val nh = (1000 * 60 * 60).toLong()// 一小时的毫秒数
         val nm = (1000 * 60).toLong()// 一分钟的毫秒数
+        val ns: Long = 1000// 一秒钟的毫秒数
         val diff: Long
         var day: Long = 0
         var hour: Long = 0
         var min: Long = 0
         var diffText = ""
+        var sec: Long = 0
         // 获得两个时间的毫秒时间差异
         try {
             diff = sd.parse(endTime).time - sd.parse(startTime).time
             day = diff / nd// 计算差多少天
             hour = diff % nd / nh + day * 24// 计算差多少小时
-            min = diff % nd % nh / nm + day * 24 * 60// 计算差多少分钟
+            min = diff % nd % nh / nm //+ day * 24 * 60// 计算差多少分钟
+            sec = diff % nd % nh % nm / ns// 计算差多少秒
             if(hour.toInt() != 0)
                 diffText = hour.toString() + "H"
             if(min.toInt() != 0)
-                diffText +=min.toString() + "M"
+                diffText += min.toString() + "M"
+            if(hour.toInt() == 0 && min.toInt() == 0)
+                diffText = sec.toString() + "s"
             return diffText
         } catch (e: ParseException) {
             e.printStackTrace()

@@ -1,6 +1,8 @@
 package com.hyf.intelligence.iot.presenter
 
+import com.hyf.intelligence.iot.common.HTTP_API_DOMAIN_RELEASE
 import com.hyf.intelligence.iot.common.LoginUser
+import com.hyf.intelligence.iot.common.RESULT_SUCCESS
 import com.hyf.intelligence.iot.common.ex.subscribeEx
 import com.hyf.intelligence.iot.contract.UserContract
 import com.hyf.intelligence.iot.presenter.base.BaseRxLifePresenter
@@ -18,6 +20,21 @@ import java.io.File
  */
 class UserPresenter : BaseRxLifePresenter<UserContract.IView>(),
         UserContract.IPresenter {
+    override fun getPortrait() {
+        HttpFactory.getProtocol(IUserHttpProtocol::class.java)
+                .getPortrait()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeEx({
+                    when(it.code){
+                        RESULT_SUCCESS -> getMvpView().showPortrait(HTTP_API_DOMAIN_RELEASE + it.data)
+                        214,215,216 ->{LoginUser.token = ""
+                            getMvpView().onTokenExpired(it.msg)}
+                        else -> getMvpView().onError(it.msg)
+                    }
+                })
+                .bindRxLifeEx(RxLife.ON_DESTROY)
+    }
 
     override fun modifyPortrait(path: String) {
         val fileRequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), File(path))
@@ -27,8 +44,8 @@ class UserPresenter : BaseRxLifePresenter<UserContract.IView>(),
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx({
-                    if (it.code == 200) {
-                        getMvpView().portraitModifySuccess(it.data)
+                    if (it.code == RESULT_SUCCESS) {
+                        getMvpView().portraitModifySuccess(HTTP_API_DOMAIN_RELEASE + it.data)
                     }else{
                         getMvpView().onError(it.msg)
                     }
@@ -43,7 +60,7 @@ class UserPresenter : BaseRxLifePresenter<UserContract.IView>(),
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx({
                     when(it.code){
-                        200 -> getMvpView().showUserInfo(it.data)
+                        RESULT_SUCCESS -> getMvpView().showUserInfo(it.data)
                             214,215,216 ->{LoginUser.token = ""
                             getMvpView().onTokenExpired(it.msg)}
                         else -> getMvpView().onError(it.msg)
@@ -59,7 +76,7 @@ class UserPresenter : BaseRxLifePresenter<UserContract.IView>(),
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx({
-                    if (it.code == 200) {
+                    if (it.code == RESULT_SUCCESS) {
                         LoginUser.token = ""
                         getMvpView().logoutSuccess()
                     }else{

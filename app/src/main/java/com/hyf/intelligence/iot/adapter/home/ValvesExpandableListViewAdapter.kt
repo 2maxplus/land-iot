@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
+import android.widget.TableRow
 import android.widget.TextView
 import com.hyf.intelligence.iot.R
 import com.hyf.intelligence.iot.domain.device.Datas
@@ -85,10 +86,12 @@ class ValvesExpandableListViewAdapter(
             convertView = LayoutInflater.from(context).inflate(R.layout.shebai_list_item, null)
         }
 
+        val info1 = convertView!!.findViewById<TableRow>(R.id.info1)
+        info1.visibility = View.VISIBLE
         val text1 = convertView!!.findViewById<TextView>(R.id.tv_air_temperature)
         val text2 = convertView!!.findViewById<TextView>(R.id.tv_air_humidity)
         val text3 = convertView!!.findViewById<TextView>(R.id.tv_soil_temperature)
-        val text4 = convertView!!.findViewById<TextView>(R.id.tv_soil_humidity)
+        val text4 = convertView!!.findViewById<TextView>(R.id.tv_soil_moisture)
         val text5 = convertView!!.findViewById<TextView>(R.id.tv_sun_exposure)
         val text6 = convertView!!.findViewById<TextView>(R.id.tv_device_no)
         val recyclerView = convertView!!.findViewById<RecyclerView>(R.id.recycler_view)

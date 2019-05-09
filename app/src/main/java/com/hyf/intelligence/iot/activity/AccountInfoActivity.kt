@@ -9,9 +9,7 @@ import com.luck.picture.lib.config.PictureMimeType
 import kotlinx.android.synthetic.main.activity_account_info.*
 import kotlinx.android.synthetic.main.layout_common_title.*
 import android.app.Activity
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
@@ -21,17 +19,16 @@ import com.hyf.intelligence.iot.common.activity.BaseMvpActivity
 import com.hyf.intelligence.iot.contract.UserContract
 import com.hyf.intelligence.iot.domain.user.UserInfo
 import com.hyf.intelligence.iot.presenter.UserPresenter
-import com.hyf.intelligence.iot.utils.ImageUtils
 import com.hyf.intelligence.iot.utils.newIntent
 import com.hyf.intelligence.iot.utils.newIntentForResult
 import com.hyf.intelligence.iot.utils.showToast
 import com.hyf.intelligence.iot.widget.dialog.MyDialog
 import com.luck.picture.lib.tools.PictureFileUtils
+
 //
 class AccountInfoActivity : BaseMvpActivity<UserContract.IPresenter>(), UserContract.IView {
 
     private val MODIFY_INFO_REQUEST = 101
-    private val REQUEST_CODE_GETIMAGE_BYCAMERA = 102
 
     override fun registerPresenter() = UserPresenter::class.java
 
@@ -55,8 +52,6 @@ class AccountInfoActivity : BaseMvpActivity<UserContract.IPresenter>(), UserCont
                     .previewImage(true)// 是否可预览图片 true or false
                     .isCamera(true)// 是否显示拍照按钮 true or false
                     .imageFormat(PictureMimeType.PNG)// 拍照保存图片格式后缀,默认 jpeg
-                    .sizeMultiplier(0.5f)// glide 加载图片大小 0~1 之间 如设置 .glideOverride()无效
-                    .setOutputCameraPath("/GroundPath")// 自定义拍照保存路径,可不填
                     .enableCrop(true)// 是否裁剪 true or false
                     .glideOverride(160, 160)
                     .compress(true)
@@ -67,13 +62,13 @@ class AccountInfoActivity : BaseMvpActivity<UserContract.IPresenter>(), UserCont
                     .synOrAsy(false)//同步 true 或异步 false 压缩 默认同步
                     .scaleEnabled(true) // 裁剪是否可放大缩小图片 true or false
                     .isDragFrame(true) // 是否可拖动裁剪框(固定)
-                    .forResult(PictureConfig.CHOOSE_REQUEST) //结果回调
+                    .forResult(PictureConfig.CHOOSE_REQUEST) //结果回调0
         }
 
         btn_logout.setOnClickListener {
             dialogs = MyDialog(this, "确定退出当前账号吗？", View.OnClickListener {
                 when (it.id) {
-                    R.id.left_text -> {
+                    R.id.left_text -> {  //
                         dialogs.dismiss()
                     }
                     R.id.right_text -> {
@@ -90,20 +85,12 @@ class AccountInfoActivity : BaseMvpActivity<UserContract.IPresenter>(), UserCont
 
     override fun initData() {
         getPresenter().getUserInfo()
+        getPresenter().getPortrait()
     }
 
     override fun showUserInfo(user: UserInfo) {
         nickname.text = user.nickName
         telephone.text = user.userName
-        if (user.headPortrait.isNotEmpty()) {
-            Glide
-                    .with(this)
-                    .load(user.headPortrait)
-                    .apply(RequestOptions().transform(CircleCrop()))
-                    .into(iv_head)
-        }
-
-
     }
 
     override fun logoutSuccess() {
@@ -133,6 +120,15 @@ class AccountInfoActivity : BaseMvpActivity<UserContract.IPresenter>(), UserCont
                 .into(iv_head)
     }
 
+    override fun showPortrait(url: String) {
+        Glide
+                .with(this)
+                .load(url)
+                .apply(RequestOptions().transform(CircleCrop()))
+                .into(iv_head)
+
+    }
+
     override fun onTokenExpired(msg: String) {
         showToast(msg)
         goLogin()
@@ -145,10 +141,11 @@ class AccountInfoActivity : BaseMvpActivity<UserContract.IPresenter>(), UserCont
             PictureConfig.CHOOSE_REQUEST -> {
                 val selectList = PictureSelector.obtainMultipleResult(data)
                 val media = selectList[0]
-                val path = when {
-                    media.isCut -> media.cutPath
-                    else -> media.compressPath
-                }
+                val path = media.compressPath
+//                        = when {
+//                    media.isCut -> media.cutPath
+//                    else -> media.compressPath
+//                }
                 Glide
                         .with(this)
                         .load(path)
@@ -161,24 +158,8 @@ class AccountInfoActivity : BaseMvpActivity<UserContract.IPresenter>(), UserCont
                     nickname.text = data.getStringExtra("nickname")
                 }
             }
-            REQUEST_CODE_GETIMAGE_BYCAMERA -> {
-                if (data != null) {
-                    Log.e("camera+++", data.getStringExtra("data"))
-                }
-                val path = ImageUtils.getRealPathFromUri(this, imageFilePath)
-                Glide
-                        .with(this)
-                        .load(path)
-                        .apply(RequestOptions().transform(CircleCrop()))
-                        .into(iv_head)
-                if (path != null) {
-                    getPresenter().modifyPortrait(path)
-                }
-            }
         }
 
     }
 
-
-    private lateinit var imageFilePath: Uri
 }

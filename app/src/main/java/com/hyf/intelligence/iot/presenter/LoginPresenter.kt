@@ -1,6 +1,7 @@
 package com.hyf.intelligence.iot.presenter
 
 import com.hyf.intelligence.iot.common.LoginUser
+import com.hyf.intelligence.iot.common.RESULT_SUCCESS
 import com.hyf.intelligence.iot.common.ex.subscribeEx
 import com.hyf.intelligence.iot.contract.LoginContract
 import com.hyf.intelligence.iot.domain.base.GenResult
@@ -39,13 +40,13 @@ class LoginPresenter : BaseRxLifePresenter<LoginContract.IView>(), LoginContract
 
     private fun handlerCode(result: GenResult<VerifyBean>){
         when (result.code){
-            200 -> getMvpView().getCodeSuccess(result.data.id)
+            RESULT_SUCCESS -> getMvpView().getCodeSuccess(result.data.id)
             else -> getMvpView().getCodeError(result.msg)
         }
     }
 
     override fun delayGoHomeTask() {
-        Observable.timer(1500, TimeUnit.MILLISECONDS)
+        Observable.timer(2500, TimeUnit.MILLISECONDS)
                 .subscribe { getMvpView().goHome() }
                 .bindRxLifeEx(RxLife.ON_DESTROY)
     }
@@ -63,7 +64,7 @@ class LoginPresenter : BaseRxLifePresenter<LoginContract.IView>(), LoginContract
 
     private fun handlerUser(result: GenResult<LoginInfo>){
         when(result.code){
-            200 -> {
+            RESULT_SUCCESS -> {
                 LoginUser.token = result.data.token
                 val paramMap = mapOf("token" to LoginUser.token)
                 HttpConfig.setParam(paramMap)

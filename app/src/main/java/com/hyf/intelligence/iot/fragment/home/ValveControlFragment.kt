@@ -35,18 +35,18 @@ class ValveControlFragment: BaseFragment() {
         valves.add(Valves("","阀门3",1))
         valves.add(Valves("","阀门4",0))
 
-        val datas1 = Datas("12°C", "33%", "43°C", "82%", "34Lux", "1736QSDFVB817362",valves)
-        val datas2 = Datas("22°C", "23%", "53°C", "32%", "23Lux", "173612ADSAS9A362",valves)
-        val datas3 = Datas("15°C", "53%", "73°C", "22%", "43Lux", "17362537IUJHG241",valves)
-        val datas4 = Datas("11°C", "43%", "23°C", "62%", "54Lux", "173ERTGHJ9817131",valves)
-        val datas5 = Datas("42°C", "16%", "21°C", "32%", "12Lux", "17362UYGBNMJG131",valves)
-        val datas6 = Datas("62°C", "17%", "43°C", "62%", "16Lux", "1736KJNMKK192131",valves)
-        val datas7 = Datas("22°C", "14%", "26°C", "39%", "78Lux", "1736257TYJNBVCD1",valves)
-        val datas8 = Datas("18°C", "15%", "83°C", "30%", "10Lux", "1736UHBNJKUHGFD1",valves)
-        val datas9 = Datas("16°C", "18%", "33°C", "33%", "19Lux", "1736ADFQ867U7131",valves)
-        val datas10 = Datas("62°C", "23%", "23°C","12%", "12Lux", "173876T368OI6718",valves)
-        val datas11 = Datas("22°C", "45%", "13°C","22%", "20Lux", "173645345RDF9131",valves)
-        val datas12 = Datas("24°C", "41%", "23°C","52%", "10Lux", "173621298UJ09451",valves)
+        val datas1 = Datas("","12°C", "33%", "43°C", "82%", "34Lux", "1736QSDFVB817362",valves)
+        val datas2 = Datas("","22°C", "23%", "53°C", "32%", "23Lux", "173612ADSAS9A362",valves)
+        val datas3 = Datas("","15°C", "53%", "73°C", "22%", "43Lux", "17362537IUJHG241",valves)
+        val datas4 = Datas("","11°C", "43%", "23°C", "62%", "54Lux", "173ERTGHJ9817131",valves)
+        val datas5 = Datas("","42°C", "16%", "21°C", "32%", "12Lux", "17362UYGBNMJG131",valves)
+        val datas6 = Datas("","62°C", "17%", "43°C", "62%", "16Lux", "1736KJNMKK192131",valves)
+        val datas7 = Datas("","22°C", "14%", "26°C", "39%", "78Lux", "1736257TYJNBVCD1",valves)
+        val datas8 = Datas("","18°C", "15%", "83°C", "30%", "10Lux", "1736UHBNJKUHGFD1",valves)
+        val datas9 = Datas("","16°C", "18%", "33°C", "33%", "19Lux", "1736ADFQ867U7131",valves)
+        val datas10 = Datas("","62°C", "23%", "23°C","12%", "12Lux", "173876T368OI6718",valves)
+        val datas11 = Datas("","22°C", "45%", "13°C","22%", "20Lux", "173645345RDF9131",valves)
+        val datas12 = Datas("","24°C", "41%", "23°C","52%", "10Lux", "173621298UJ09451",valves)
 
 
         val array1 = ArrayList<Datas>()
@@ -70,7 +70,7 @@ class ValveControlFragment: BaseFragment() {
             setOnChildClickListener(object : ExpandableListView.OnChildClickListener{
                 override fun onChildClick(parent: ExpandableListView?, v: View?, groupPosition: Int, childPosition: Int, id: Long): Boolean {
                     val bundle = Bundle()
-                    bundle.putString("id",childs[groupPosition][childPosition].str6)  //设备ID
+                    bundle.putString("id",childs[groupPosition][childPosition].id)  //设备ID
                     activity?.newIntent<ValveDetailActivity>(bundle)
                     return true
                 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
@@ -8,16 +9,18 @@
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:gravity="center_vertical"
+        android:layout_margin="@dimen/margin_5">
 
         <TextView
             android:id="@+id/tv_device_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"
             android:text="设备号: "
             android:textStyle="bold" />
 
@@ -25,13 +28,44 @@
             android:id="@+id/tv_device_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
+            android:layout_centerVertical="true"
             android:paddingTop="3dp"
             android:paddingBottom="3dp"
             android:text="78ASFVMN254320PL"
+            android:textSize="@dimen/font_size_15sp"
+            android:layout_toRightOf="@id/tv_device_name"
             android:textColor="@color/text_blue" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/tv_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/green_oval"
+            style="@style/text_base_style"
+            android:layout_toLeftOf="@+id/tv_battery_percent"
+            android:drawablePadding="@dimen/margin_5"
+            android:layout_marginStart="@dimen/margin_20"
+            android:text="在线"/>
+
+
+        <TextView
+            android:id="@+id/tv_battery_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_base_style"
+            android:layout_toLeftOf="@+id/battery"
+            android:layout_marginStart="@dimen/margin_20"/>
+
+        <com.hyf.intelligence.iot.widget.BatteryView
+            android:id="@+id/battery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            app:battery_view_height="36"
+            app:battery_view_width="75"/>
+
+    </RelativeLayout>
 
     <TableLayout
         android:layout_width="match_parent"
@@ -57,9 +91,10 @@
                 style="@style/text_value_style"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="0.5dp"
+                android:layout_marginStart="0.5dp"
                 android:layout_weight="1"
-                android:text="45Lux" />
+                android:text="--Lux" />
+
         </TableRow>
 
         <TableRow
@@ -80,7 +115,7 @@
                 style="@style/text_table_title_style"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="0.5dp"
+                android:layout_marginStart="0.5dp"
                 android:layout_weight="1"
                 android:text="温度" />
 
@@ -88,7 +123,7 @@
                 style="@style/text_table_title_style"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="0.5dp"
+                android:layout_marginStart="0.5dp"
                 android:layout_weight="1"
                 android:text="相对湿度" />
         </TableRow>
@@ -117,9 +152,9 @@
                 style="@style/text_value_style"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="0.5dp"
+                android:layout_marginStart="0.5dp"
                 android:layout_weight="1"
-                android:text="24.8℃" />
+                android:text="--℃" />
 
 
             <TextView
@@ -127,51 +162,44 @@
                 style="@style/text_value_style"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="0.5dp"
+                android:layout_marginStart="0.5dp"
                 android:layout_weight="1"
-                android:text="65%" />
+                android:text="--%" />
 
         </TableRow>
 
-        <TableRow
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/reveal_color"
             android:paddingLeft="0.5dp"
-            android:paddingRight="0.5dp"
-            android:paddingBottom="0.5dp">
-
-
+            android:paddingRight="0.5dp">
             <TextView
                 style="@style/text_table_title_style"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:layout_marginBottom="0.5dp"
                 android:text="土壤"
                 android:visibility="visible" />
-
-
-            <TextView
-                android:id="@+id/tv_soil_temperature"
-                style="@style/text_value_style"
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="0.5dp"
-                android:layout_weight="1"
-                android:text="24.8℃" />
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="vertical">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view_soil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white" />
+                <include android:id="@+id/info1"
+                    android:visibility="gone"
+                    layout="@layout/soil_sensor_item"/>
+            </LinearLayout>
 
-
-            <TextView
-                android:id="@+id/tv_soil_humidity"
-                style="@style/text_value_style"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="0.5dp"
-                android:layout_weight="1"
-                android:text="65%" />
-        </TableRow>
-
+        </LinearLayout>
 
     </TableLayout>
 

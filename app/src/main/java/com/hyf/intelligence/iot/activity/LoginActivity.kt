@@ -38,7 +38,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
     }
 
     private var loginId: String = ""
-    private val mLoadingDialog by lazy { LoadingDialog(this) }
+    private val mLoadingDialog by lazy { LoadingDialog(this,R.style.MyTransformDialog) }
     private val timer = object : CountDownTimer(60000, 1000) {
         override fun onFinish() {
             tv_get_code.isEnabled = true
@@ -61,14 +61,6 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
 
     override fun initView() {
         transparencyBar(this)
-//        Glide.with(this)
-//                .load(R.drawable.login_bg)
-//                .apply(RequestOptions.bitmapTransform(BlurTransformation(5,3)))
-//                .into(object : SimpleTarget<Drawable>() {
-//                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-//                        rl_login.background = resource
-//                    }
-//                })
         Glide.with(this)
                 .load(R.drawable.ic_launcher)
                 .apply(RequestOptions().transform(CircleCrop()))
@@ -114,6 +106,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
         if (LoginUser.token.isBlank()) {
             showLogin()
         } else {
+            mLoadingDialog.show()
             getPresenter().delayGoHomeTask()
         }
     }
@@ -136,6 +129,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
     override fun goHome() {
         newIntent<MainActivity>()
         finish()
+        mLoadingDialog.dismiss()
     }
 
     private fun showLogin() {
@@ -184,7 +178,6 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
     fun showPermissions() {
         if (ActivityCompat.checkSelfPermission(
                         this,
-//                        Manifest.permission_group.LOCATION
                         Manifest.permission.ACCESS_COARSE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(
@@ -197,7 +190,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
                 ) != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(
                         this,
-                        Manifest.permission_group.CAMERA
+                        Manifest.permission.CAMERA
                 ) != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(this,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -226,6 +219,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
         when (requestCode) {
             // requestCode即所声明的权限获取码，在checkSelfPermission时传入
             BAIDU_READ_PHONE_STATE -> if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //权限获取成功
 
             } else {
                 // 没有获取到权限，做特殊处理

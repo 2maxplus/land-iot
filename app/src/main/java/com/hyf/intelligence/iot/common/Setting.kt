@@ -10,6 +10,7 @@ const val HTTP_API_DOMAIN_RELEASE = "http://app.land-iot.com:6070"
 
 /** Log */
 val LOG_DEBUG = BuildConfig.DEBUG
+val RESULT_SUCCESS = 0
 
 /** 用户登录信息 */
 class LoginUser {

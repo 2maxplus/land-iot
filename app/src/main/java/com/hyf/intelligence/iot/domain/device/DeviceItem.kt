@@ -16,7 +16,10 @@ data class DeviceItem(
         val name: String,
         val number: String,
         val soilSensors: ArrayList<SoilSensor>,
+        val cellVoltage: Int,
+        val cellVoltageProportion: Float,
         val state: Int,
+        val stateString: String,
         val type: Int,
         val updated: String,
         val valves: ArrayList<Valve>

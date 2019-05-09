@@ -4,10 +4,13 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
+import android.view.View
 import android.widget.LinearLayout
 import com.hyf.intelligence.iot.App
 import com.hyf.intelligence.iot.R
 import com.hyf.intelligence.iot.adapter.LegendAdapter
+import com.hyf.intelligence.iot.adapter.home.DeviceSoilSensorAdapter
 import com.hyf.intelligence.iot.adapter.home.ValveListAdapter
 import com.hyf.intelligence.iot.common.activity.BaseMvpActivity
 import com.hyf.intelligence.iot.contract.DeviceDetailContract
@@ -30,7 +33,6 @@ class ValveDetailActivity : BaseMvpActivity<DeviceDetailContract.IPresenter>(), 
         newIntent<LoginActivity>()
         finish()
     }
-
 
     override fun registerPresenter() = DeviceDetailPresenter::class.java
 
@@ -58,7 +60,7 @@ class ValveDetailActivity : BaseMvpActivity<DeviceDetailContract.IPresenter>(), 
                 for (item in itemUseTime.startEnds) {
                     val diff = TimeUtils.dateDiff(item.start, item.end)
                     item.interval = diff.toString()
-
+                    Log.e("diff",diff)
                     val startH = TimeUtils.getHour(item.start).toFloat()
                     val startM = TimeUtils.getMin(item.start).toFloat()
                     item.start = (startH + (startM.div(60))).toString()
@@ -72,19 +74,47 @@ class ValveDetailActivity : BaseMvpActivity<DeviceDetailContract.IPresenter>(), 
         horizontalChartView.setDatas(data as ArrayList<ValveUseTime>?)
     }
 
-    override fun errorPage(t: Throwable) {
-
+    override fun errorPage(msg: String?) {
+        showToast(msg!!)
+        if(id.isBlank())
+        info1.visibility = View.VISIBLE
     }
 
     @SuppressLint("SetTextI18n")
     override fun showDetailPage(deviceItem: DeviceItem) {
-        tv_air_temperature?.text = "${deviceItem.airSensor.airTemperature}°C"
-        tv_air_humidity?.text = "${deviceItem.airSensor.airMoisture}%"
-        tv_soil_temperature?.text = "${deviceItem.soilSensors[0].soilTemperature}°C"
-        tv_soil_humidity?.text = "${deviceItem.soilSensors[0].soilMoisture}%"
-        tv_sun_exposure?.text = "${deviceItem.illuminationSensor.illumination}Lux"
+        if(deviceItem.airSensor != null){
+            tv_air_temperature?.text = "${deviceItem.airSensor.airTemperature}°C"
+            tv_air_humidity?.text = "${deviceItem.airSensor.airMoisture}%"
+        }
+        if(!deviceItem.soilSensors.isNullOrEmpty()) {
+            val sAdapter = DeviceSoilSensorAdapter(this,deviceItem.soilSensors)
+            recycler_view_soil.apply {
+                this!!.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL,false)
+                adapter = sAdapter
+            }
+        }else{
+            info1.visibility = View.VISIBLE
+        }
+        if(deviceItem.illuminationSensor != null){
+            tv_sun_exposure?.text = "${deviceItem.illuminationSensor.illumination}Lux"
+        }
         tv_device_name?.text = "${deviceItem.name}:"
         tv_device_no?.text = deviceItem.number
+
+        tv_state?.text = deviceItem.stateString
+        when(deviceItem.state){
+            0,1 -> {
+                tv_state?.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.gray_oval,0,0,0)
+            }
+            2 -> {
+                tv_state?.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.green_oval,0,0,0)
+            }
+            3 -> {
+                tv_state?.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.red_oval,0,0,0)
+            }
+        }
+        tv_battery_percent?.text =  "${(deviceItem.cellVoltageProportion * 100).toInt()}%"
+        battery?.power = deviceItem.cellVoltageProportion
 
         val mAdapter = ValveListAdapter(this, deviceItem.valves)
         mAdapter.setGetOunts(object : ValveListAdapter.GetCounts {

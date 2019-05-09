@@ -1,6 +1,7 @@
 package com.hyf.intelligence.iot.presenter
 
 import com.hyf.intelligence.iot.common.LoginUser
+import com.hyf.intelligence.iot.common.RESULT_SUCCESS
 import com.hyf.intelligence.iot.common.ex.subscribeEx
 import com.hyf.intelligence.iot.contract.DeviceCoordinatesContract
 import com.hyf.intelligence.iot.presenter.base.BaseRxLifePresenter
@@ -20,7 +21,7 @@ class DeviceCoordinatesPresenter: BaseRxLifePresenter<DeviceCoordinatesContract.
                 .subscribeEx(
                         {
                             when(it.code){
-                                200 -> getMvpView().showPage(it.data)
+                                RESULT_SUCCESS -> getMvpView().showPage(it.data)
                                 214,215,216 -> {
                                     LoginUser.token = ""
                                     getMvpView().onTokenExpired(it.msg)

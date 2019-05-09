@@ -14,7 +14,7 @@ interface DeviceDetailContract {
     interface IView: IViewContract {
         fun showPage(data: MutableList<ValveUseTime>)
         fun showDetailPage(data: DeviceItem)
-        fun errorPage(t: Throwable)
+        fun errorPage(msg: String?)
     }
 
     interface IPresenter : IPresenterContract{

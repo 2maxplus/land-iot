@@ -32,10 +32,12 @@ class PumpItemFragment: BaseMvpFragment<PumpItemContract.IPresenter>(),PumpItemC
     }
 
     private val mAdapter by lazy { DeviceListAdapter(activity!!, mutableListOf()) }
+
     override fun registerPresenter() = PumpItemPresenter::class.java
 
     override fun showPage(data: MutableList<DeviceItem>) {
         mAdapter.list.clear()
+        if(data.isNotEmpty())
         mAdapter.list.addAll(data)
         mAdapter.notifyDataSetChanged()
     }

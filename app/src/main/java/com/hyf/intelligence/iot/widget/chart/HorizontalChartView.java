@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 
+import com.hyf.intelligence.iot.R;
 import com.hyf.intelligence.iot.domain.device.FaKongBean;
 import com.hyf.intelligence.iot.domain.device.ValveUseTime;
 
@@ -142,7 +143,7 @@ public class HorizontalChartView extends View {
         paints.add(paint_plan4);
 
         paint_content = new Paint();
-        paint_content.setColor(Color.WHITE);
+        paint_content.setColor(context.getResources().getColor(R.color.white));
         paint_content.setTextSize(dp2px(context, 12f));
         paint_content.setAntiAlias(true);
         paint_content.setTextAlign(Paint.Align.CENTER);
@@ -259,7 +260,6 @@ public class HorizontalChartView extends View {
                                         + line_width * Float.valueOf(mData.get(i).getUseTime().get(j).getStartEnds().get(n).getStart()) + lift_width,
                                 interval_height * (i * 4 + j + 3f) - interval_height + (fm1.bottom - fm1.top) / 2 + 50 * i, paint_content);
                     }
-
                     canvas.restore();
                 }
             }

@@ -73,12 +73,12 @@
 
         <provider
             android:name="com.hyf.intelligence.iot.db.DatabaseProvider"
-            android:authorities="com.hyf.intelligence.iot.provider"
+            android:authorities=".provider"
             android:exported="false" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.hyf.intelligence.iot.provider"
+            android:authorities=".provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

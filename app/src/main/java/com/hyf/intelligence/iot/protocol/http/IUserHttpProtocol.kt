@@ -50,6 +50,12 @@ interface IUserHttpProtocol {
     fun modifyPortrait(@Part file : MultipartBody.Part): Observable<GenResult<String>>
 
     /**
+     * 获取头像
+     * */
+    @GET("/api/File/GetHeadPortrait")
+    fun getPortrait(): Observable<GenResult<String>>
+
+    /**
      * @param nickName 昵称
      * @return  修改用户昵称
      * */

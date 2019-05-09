@@ -1,6 +1,7 @@
 package com.hyf.intelligence.iot.presenter
 
 import com.hyf.intelligence.iot.common.LoginUser
+import com.hyf.intelligence.iot.common.RESULT_SUCCESS
 import com.hyf.intelligence.iot.common.ex.subscribeEx
 import com.hyf.intelligence.iot.contract.FeedbackContract
 import com.hyf.intelligence.iot.presenter.base.BaseRxLifePresenter
@@ -21,7 +22,7 @@ class FeedbackPresenter : BaseRxLifePresenter<FeedbackContract.IView>(),
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx({
                     when(it.code){
-                        200 -> getMvpView().feedbackSuccess(it.msg)
+                        RESULT_SUCCESS -> getMvpView().feedbackSuccess(it.msg)
                         214,215,216 -> {
                             LoginUser.token = ""
                             getMvpView().onTokenExpired(it.msg)

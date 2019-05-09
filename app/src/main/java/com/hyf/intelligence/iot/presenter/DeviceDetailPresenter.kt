@@ -1,6 +1,7 @@
 package com.hyf.intelligence.iot.presenter
 
 import com.hyf.intelligence.iot.common.LoginUser
+import com.hyf.intelligence.iot.common.RESULT_SUCCESS
 import com.hyf.intelligence.iot.common.ex.subscribeEx
 import com.hyf.intelligence.iot.contract.DeviceDetailContract
 import com.hyf.intelligence.iot.domain.base.GenResult
@@ -25,14 +26,14 @@ class DeviceDetailPresenter : BaseRxLifePresenter<DeviceDetailContract.IView>(),
                 .subscribeEx(
                         {
                             when(it.code){
-                                200 -> getMvpView().showDetailPage(it.data)
+                                RESULT_SUCCESS -> getMvpView().showDetailPage(it.data)
                                 214,215,216 -> {
                                     LoginUser.token = ""
                                     getMvpView().onTokenExpired(it.msg)
                                 }
                             }
                         },
-                        { getMvpView().errorPage(it)}
+                        { getMvpView().errorPage(it.message)}
                 ).bindRxLifeEx(RxLife.ON_DESTROY)
     }
 
@@ -43,8 +44,17 @@ class DeviceDetailPresenter : BaseRxLifePresenter<DeviceDetailContract.IView>(),
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx(
-                        { getMvpView().showPage(it.data)},
-                        { getMvpView().errorPage(it)}
+                        {
+                            when(it.code){
+                                RESULT_SUCCESS -> {
+                                    if(!it.data.isNullOrEmpty())
+                                        getMvpView().showPage(it.data)
+                                } else -> {
+                                    getMvpView().errorPage(it.msg)
+                                }
+                            }
+                        },
+                        { getMvpView().errorPage(it.message)}
                 ).bindRxLifeEx(RxLife.ON_DESTROY)
     }
 
