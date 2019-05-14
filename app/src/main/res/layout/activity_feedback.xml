@@ -9,7 +9,7 @@
     <include
         layout="@layout/layout_common_title"/>
 
-    <com.hyf.intelligence.iot.widget.ExtEditText
+    <com.hyf.iot.widget.ExtEditText
         android:id="@+id/et_content"
         android:layout_width="match_parent"
         android:layout_height="200dp"

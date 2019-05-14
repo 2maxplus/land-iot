@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.hyf.intelligence.iot.widget.VpSwipeRefreshLayout
+    <com.hyf.iot.widget.VpSwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -20,6 +20,6 @@
                 android:background="@color/white" />
         </RelativeLayout>
 
-    </com.hyf.intelligence.iot.widget.VpSwipeRefreshLayout>
+    </com.hyf.iot.widget.VpSwipeRefreshLayout>
 
 </FrameLayout>

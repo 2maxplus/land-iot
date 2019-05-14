@@ -3,9 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ground-intelligence.iml" filepath="$PROJECT_DIR$/ground-intelligence.iml" />
+      <module fileurl="file://$PROJECT_DIR$/land-iot.iml" filepath="$PROJECT_DIR$/land-iot.iml" />
       <module fileurl="file://$PROJECT_DIR$/mvplib/mvplib.iml" filepath="$PROJECT_DIR$/mvplib/mvplib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/netlib/netlib.iml" filepath="$PROJECT_DIR$/netlib/netlib.iml" />
     </modules>
   </component>
 </project>

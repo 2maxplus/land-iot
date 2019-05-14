@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white" />
 
-            <com.hyf.intelligence.iot.widget.chart.HorizontalChartView
+            <com.hyf.iot.widget.chart.HorizontalChartView
                 android:id="@+id/horizontalChartView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

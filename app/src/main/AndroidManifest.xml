@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.hyf.intelligence.iot">
+    package="com.hyf.iot">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -32,7 +32,7 @@
         android:value="2.1"/>
 
     <application
-        android:name="com.hyf.intelligence.iot.App"
+        android:name="com.hyf.iot.App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -44,7 +44,7 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="00woQaplyQRmnswhNGSUD4tbVTgUaGNm" />
 
-        <activity android:name="com.hyf.intelligence.iot.activity.LoginActivity"
+        <activity android:name="com.hyf.iot.activity.LoginActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop">
             <intent-filter>
@@ -53,32 +53,32 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.hyf.intelligence.iot.activity.MainActivity"
+            android:name="com.hyf.iot.activity.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
 
         </activity>
         <activity
-            android:name="com.hyf.intelligence.iot.activity.WebActivity"
+            android:name="com.hyf.iot.activity.WebActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.hyf.intelligence.iot.activity.FlashActivity" >
+        <activity android:name="com.hyf.iot.activity.FlashActivity" >
 
         </activity>
-        <activity android:name="com.hyf.intelligence.iot.activity.AccountInfoActivity" />
-        <activity android:name="com.hyf.intelligence.iot.activity.ValveDetailActivity" />
-        <activity android:name="com.hyf.intelligence.iot.activity.ScanActivity" />
-        <activity android:name="com.hyf.intelligence.iot.activity.FeedbackActivity" />
-        <activity android:name="com.hyf.intelligence.iot.activity.ModifyNickNameActivity" />
+        <activity android:name="com.hyf.iot.activity.AccountInfoActivity" />
+        <activity android:name="com.hyf.iot.activity.ValveDetailActivity" />
+        <activity android:name="com.hyf.iot.activity.ScanActivity" />
+        <activity android:name="com.hyf.iot.activity.FeedbackActivity" />
+        <activity android:name="com.hyf.iot.activity.ModifyNickNameActivity" />
         <activity android:name=".activity.MessageActivity" />
 
-        <provider
-            android:name="com.hyf.intelligence.iot.db.DatabaseProvider"
-            android:authorities=".provider"
-            android:exported="false" />
+        <!--<provider-->
+            <!--android:name="com.hyf.iot.db.DatabaseProvider"-->
+            <!--android:authorities=".provider"-->
+            <!--android:exported="false" />-->
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities=".provider"
+            android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

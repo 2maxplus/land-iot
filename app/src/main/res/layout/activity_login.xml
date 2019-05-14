@@ -45,7 +45,7 @@
                 android:background="@drawable/shape_round_white"
                 android:orientation="horizontal">
 
-                <com.hyf.intelligence.iot.widget.ExtEditText
+                <com.hyf.iot.widget.ExtEditText
                     android:id="@+id/et_user"
                     style="@style/edit_style"
                     android:layout_width="0dp"
@@ -83,7 +83,7 @@
                 android:background="@drawable/shape_round_white"
                 android:orientation="horizontal">
 
-                <com.hyf.intelligence.iot.widget.ExtEditText
+                <com.hyf.iot.widget.ExtEditText
                     android:id="@+id/et_code"
                     style="@style/edit_style"
                     android:layout_width="0dp"

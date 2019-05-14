@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:text="@string/my_nickname" />
 
-        <com.hyf.intelligence.iot.widget.ExtEditText
+        <com.hyf.iot.widget.ExtEditText
             android:id="@+id/et_nickname"
             style="@style/singleline_edit_style"
             android:layout_marginTop="@dimen/comm_margin"

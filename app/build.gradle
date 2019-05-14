@@ -13,7 +13,7 @@ android {
     }
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.hyf.intelligence"
+        applicationId "com.hyf.iot"
         minSdkVersion 17
         targetSdkVersion 27
         multiDexEnabled true
@@ -93,7 +93,7 @@ dependencies {
     //mvp
     implementation project(':mvplib')
     //net
-    implementation project(':netlib')
+//    implementation project(':netlib')
     implementation 'com.android.support:multidex:1.0.3'
 }
 repositories {
