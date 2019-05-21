@@ -10,8 +10,6 @@ import com.baidu.mapapi.model.LatLngBounds
 import com.hyf.iot.R
 import com.hyf.iot.common.activity.BaseActivity
 import com.hyf.iot.utils.mapCeshi.CombinationOverlay
-import com.hyf.iot.utils.mapCeshi.MapUtils.getAreaByPoints
-import com.hyf.iot.utils.showToast
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.layout_common_title.*
 import java.util.*

@@ -1,4 +1,4 @@
-package com.hyf.intelligence.iot;
+package com.hyf.iot;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
