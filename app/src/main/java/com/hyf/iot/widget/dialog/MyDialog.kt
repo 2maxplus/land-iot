@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.hyf.iot.R
 
 
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MyDialog : Dialog {
 
     private var title: String? = null
@@ -31,17 +32,14 @@ class MyDialog : Dialog {
     }
 
     constructor(context: Context, title: String, content: String, leftText: String, rightText: String, listener: View.OnClickListener) : super(context, R.style.MyDialog) {
-
         this.title = title
         this.content = content
         this.listener = listener
         this.leftStr = leftText
         this.rightStr = rightText
-
-
     }
 
-    override fun onCreate(savedInstanceState: Bundle) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_layout)
 

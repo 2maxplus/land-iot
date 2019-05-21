@@ -3,9 +3,9 @@ package com.hyf.iot.common.activity
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
-import mvp.ljb.kt.contract.IPresenterContract
+import com.ljb.kt.contract.IPresenterContract
 import com.hyf.iot.common.listener.FragmentOnBackListener
-import mvp.ljb.kt.view.MvpFragmentActivity
+import com.ljb.kt.view.MvpFragmentActivity
 
 abstract class BaseFragmentActivity<out P : IPresenterContract> : MvpFragmentActivity<P>() {
 

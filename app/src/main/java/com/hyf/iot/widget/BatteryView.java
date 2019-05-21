@@ -15,7 +15,7 @@ import com.hyf.iot.R;
 
 /**
  *
- * com.hyf.intelligence.iot.widget.BatteryView
+ * com.hyf.iot.widget.BatteryView
  * 自定义画的电池 有接口 根据是否充电 白天黑夜等 改变电池的颜色 大小 等
  */
 public class BatteryView extends View {
@@ -147,4 +147,6 @@ public class BatteryView extends View {
 		}
 		invalidate();
 	}
+
+
 }

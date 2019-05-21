@@ -1,8 +1,8 @@
 package com.hyf.iot.presenter.base
 
-import mvp.ljb.kt.contract.IPresenterContract
-import mvp.ljb.kt.contract.IViewContract
-import mvp.ljb.kt.presenter.IBasePresenter
+import com.ljb.kt.contract.IPresenterContract
+import com.ljb.kt.contract.IViewContract
+import com.ljb.kt.presenter.IBasePresenter
 import io.reactivex.disposables.Disposable
 import java.lang.ref.WeakReference
 import java.util.*

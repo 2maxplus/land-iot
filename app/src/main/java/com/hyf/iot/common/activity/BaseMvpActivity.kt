@@ -3,8 +3,8 @@ package com.hyf.iot.common.activity
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
-import mvp.ljb.kt.contract.IPresenterContract
-import mvp.ljb.kt.view.MvpActivity
+import com.ljb.kt.contract.IPresenterContract
+import com.ljb.kt.view.MvpActivity
 
 abstract class BaseMvpActivity<out P : IPresenterContract> : MvpActivity<P>() {
 

@@ -14,7 +14,7 @@ import com.hyf.iot.protocol.http.IUserHttpProtocol
 import com.hyf.iot.utils.showToast
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import mvp.ljb.kt.client.HttpFactory
+import com.ljb.kt.client.HttpFactory
 
 class ValveListAdapter(context: Activity?, list: ArrayList<Valve>) :
         RecyclerView.Adapter<ValveListAdapter.ViewHolders>() {

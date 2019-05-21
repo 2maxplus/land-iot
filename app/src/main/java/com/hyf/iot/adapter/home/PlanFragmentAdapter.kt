@@ -3,7 +3,7 @@ package com.hyf.iot.adapter.home
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.hyf.iot.fragment.home.PlanChildFragment
+import com.hyf.iot.ui.fragment.main.PlanChildFragment
 
 class PlanFragmentAdapter(fm: FragmentManager, datas: ArrayList<String>) : FragmentPagerAdapter(fm) {
 

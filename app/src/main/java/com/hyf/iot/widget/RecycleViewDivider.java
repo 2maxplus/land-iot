@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+
 public class RecycleViewDivider extends RecyclerView.ItemDecoration {
 
     private Paint mPaint;
@@ -30,7 +31,6 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
             throw new IllegalArgumentException("请输入正确的参数！");
         }
         mOrientation = orientation;
-
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
         mDivider = a.getDrawable(0);
         a.recycle();

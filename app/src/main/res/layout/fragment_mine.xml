@@ -1,74 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/little_gray"
+    android:orientation="vertical">
+
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/little_gray"
-        android:orientation="vertical">
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="我的"
+        android:textSize="18sp"
+        android:visibility="gone" />
 
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="我的"
-            android:visibility="gone"
-            android:gravity="center"
-            android:textSize="18sp"/>
-
-    <include layout="@layout/layout_common_title"/>
+    <include layout="@layout/layout_common_title" />
 
 
     <TextView
-            android:id="@+id/tv_account"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/my_account"
-            style="@style/my_text_style"/>
+        android:id="@+id/tv_account"
+        style="@style/my_text_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/my_account" />
 
-    <View
-            style="@style/h_view_style"/>
+    <View style="@style/h_view_style" />
 
     <LinearLayout
-            android:id="@+id/cvBinding"
+        android:id="@+id/cvBinding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <View style="@style/h_view_style" />
+
+        <TextView
+            android:id="@+id/tv_message"
+            style="@style/my_text_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical"
-            android:layout_marginTop="15dp">
+            android:text="@string/my_message" />
 
         <View
-                style="@style/h_view_style"/>
+            style="@style/h_view_style"
+            android:layout_marginLeft="10dp" />
 
         <TextView
-                android:id="@+id/tv_message"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/my_message"
-                style="@style/my_text_style"/>
+            android:id="@+id/tv_farm"
+            style="@style/my_text_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/my_farm" />
 
         <View
-                style="@style/h_view_style"
-                android:layout_marginLeft="10dp"/>
+            android:id="@+id/view_farm_bottom"
+            style="@style/h_view_style"
+            android:layout_marginLeft="10dp" />
 
         <TextView
-                android:id="@+id/tv_help_feedback"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/my_text_style"
-                android:text="@string/help_feedback"/>
+            android:id="@+id/tv_help_feedback"
+            style="@style/my_text_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/help_feedback" />
 
         <View
-                style="@style/h_view_style"
-                android:layout_marginLeft="10dp"/>
+            style="@style/h_view_style"
+            android:layout_marginLeft="10dp" />
 
         <TextView
-                android:id="@+id/tv_about_us"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/my_text_style"
-                android:text="@string/about_us"/>
+            android:id="@+id/tv_about_us"
+            style="@style/my_text_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_us" />
 
-        <View
-                style="@style/h_view_style"/>
+        <View style="@style/h_view_style" />
     </LinearLayout>
 
 </LinearLayout>

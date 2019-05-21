@@ -57,24 +57,10 @@
                     android:lines="1"
                     android:maxLength="11" />
 
-                <View
-                    android:layout_width="0.5dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorD2D2D2" />
-
-                <TextView
-                    android:id="@+id/tv_get_code"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/get_code"
-                    android:textColor="@color/color_blue2gray" />
-
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_verify_code"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginLeft="40dp"
@@ -93,7 +79,20 @@
                     android:hint="@string/hint_input_code"
                     android:inputType="number"
                     android:lines="1" />
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorD2D2D2" />
 
+                <TextView
+                    android:id="@+id/tv_get_code"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/get_code"
+                    android:textColor="@color/color_blue2gray" />
 
             </LinearLayout>
 

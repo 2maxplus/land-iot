@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/mMapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:visibility="invisible"
+        android:layout_margin="10dp"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tvMapHead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_round_white"
+            android:text="墒情图"
+            android:textColor="@color/text_gray"
+            android:textSize="12dp" />
+    </FrameLayout>
+
+    <!--<android.support.design.widget.CoordinatorLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/floating_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:padding="10dp"
+            style="@style/menu_style">
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_btn_add_farm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/add_farm"/>
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_btn_add_land"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/add_land"/>
+
+        </com.github.clans.fab.FloatingActionMenu>
+
+    <!--</android.support.design.widget.CoordinatorLayout>-->
+
+</RelativeLayout>

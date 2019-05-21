@@ -15,7 +15,7 @@
     <string name="exit_go_out">再按一次退出</string>
     <string name="action">action:\t%s</string>
     <!--<string name="cancel">Cancel</string>-->
-    <string name="enter">Enter</string>
+    <string name="enter">确定</string>
     <string name="logout_user">Exit the current user?</string>
     <string name="format_star">start: %s</string>
     <string name="format_fork">fork: %s</string>
@@ -49,6 +49,7 @@
 
     <string name="my_account">我的账号</string>
     <string name="my_message">我的消息</string>
+    <string name="my_farm">我的农场</string>
     <string name="help_feedback">帮助与反馈</string>
     <string name="about_us">关于我们</string>
 
@@ -59,5 +60,10 @@
     <string name="hint_input_phone">请输入手机号</string>
     <string name="hint_input_code">请输入验证码</string>
     <string name="hint_input_pwd">请输入密码</string>
+
+    <string name="add_farm">新建农场</string>
+    <string name="add_land">新建地块</string>
+
+    <string name="farm_detail">农场详情</string>
 
 </resources>

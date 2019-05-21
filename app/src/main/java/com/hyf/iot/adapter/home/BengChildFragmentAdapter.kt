@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import com.hyf.iot.domain.pumb.WaterPumpValves
-import com.hyf.iot.fragment.pumb.PumpItemFragment
+import com.hyf.iot.ui.fragment.pumb.PumpItemFragment
 
 class BengChildFragmentAdapter(fm: FragmentManager, var fragmentList: MutableList<WaterPumpValves>) : FragmentPagerAdapter(fm) {
 

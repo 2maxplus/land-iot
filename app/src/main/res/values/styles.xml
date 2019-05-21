@@ -112,7 +112,7 @@
 
     </style>
 
-    <style name="my_text_style" parent="@style/my_text_base_style">
+    <style name="my_text_style" parent="my_text_base_style">
         <item name="android:drawablePadding">@dimen/margin_8</item>
         <item name="android:drawableRight">@drawable/arr_right</item>
     </style>
@@ -133,10 +133,38 @@
         <item name="android:background">@drawable/btn_login_selector</item>
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textSize">@dimen/font_size_16sp</item>
-        <item name="android:layout_marginLeft">@dimen/comm_margin</item>
-        <item name="android:layout_marginTop">@dimen/margin_20</item>
-        <item name="android:layout_marginRight">@dimen/comm_margin</item>
+        <item name="android:layout_marginLeft">@dimen/margin_20</item>
+        <item name="android:layout_marginTop">@dimen/comm_margin</item>
+        <item name="android:layout_marginRight">@dimen/margin_20</item>
+        <item name="android:layout_marginBottom">@dimen/comm_margin</item>
         <item name="android:gravity">center</item>
     </style>
+
+    <style name="floating_buttons_small">
+        <item name="fab_size">mini</item>
+        <item name="fab_colorNormal">@color/colorPrimary</item>
+        <item name="fab_colorPressed">@color/colorPrimaryDark</item>
+        <item name="fab_colorRipple">@color/colorAccent</item>
+    </style>
+
+    <style name="add_farm" parent="floating_buttons_small">
+        <item name="android:src">@drawable/icon_farm</item>
+        <item name="fab_label">@string/add_farm</item>
+    </style>
+
+    <style name="add_land" parent="floating_buttons_small">
+        <item name="android:src">@drawable/icon_land</item>
+        <item name="fab_label">@string/add_land</item>
+    </style>
+
+    <style name="menu_style">
+        <item name="menu_colorNormal">@color/colorPrimary</item>
+        <item name="menu_colorPressed">@color/colorPrimaryDark</item>
+        <item name="menu_colorRipple">@color/colorAccent</item>
+        <item name="menu_labels_ellipsize">end</item>
+        <item name="menu_labels_singleLine">true</item>
+    </style>
+
+
 
 </resources>

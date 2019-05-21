@@ -14,8 +14,8 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import mvp.ljb.kt.HttpConfig
-import mvp.ljb.kt.client.HttpFactory
+import com.ljb.kt.HttpConfig
+import com.ljb.kt.client.HttpFactory
 import java.util.concurrent.TimeUnit
 
 /**
@@ -66,8 +66,9 @@ class LoginPresenter : BaseRxLifePresenter<LoginContract.IView>(), LoginContract
         when(result.code){
             RESULT_SUCCESS -> {
                 LoginUser.token = result.data.token
-                val paramMap = mapOf("token" to LoginUser.token,"X-Requested-With" to "XMLHttpRequest")
-                HttpConfig.setHeader(paramMap)
+                val headerMap = HttpConfig.getHeader() as MutableMap<String, String>
+                headerMap["token"] = LoginUser.token
+                HttpConfig.setHeader(headerMap)
                 getMvpView().loginSuccess()
             }
             else -> getMvpView().loginError(result.msg)

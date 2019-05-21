@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.hyf.iot.R
-import com.hyf.iot.activity.ValveDetailActivity
+import com.hyf.iot.ui.activity.ValveDetailActivity
 import com.hyf.iot.domain.device.DeviceItem
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.widget.BatteryView

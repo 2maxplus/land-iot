@@ -8,7 +8,7 @@ import com.hyf.iot.presenter.base.BaseRxLifePresenter
 import com.hyf.iot.protocol.http.IUserHttpProtocol
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import mvp.ljb.kt.client.HttpFactory
+import com.ljb.kt.client.HttpFactory
 
 /**
  * Created by L on 2017/7/18.

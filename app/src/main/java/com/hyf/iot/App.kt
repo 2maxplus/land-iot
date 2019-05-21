@@ -3,21 +3,19 @@ package com.hyf.iot
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
+import android.os.Build
 import android.os.Bundle
 import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
-import com.hyf.iot.common.HTTP_API_DOMAIN_DEBUG
-import com.hyf.iot.common.HTTP_API_DOMAIN_RELEASE
+import com.hyf.iot.common.HttpDomain.HTTP_API_DOMAIN
 import com.hyf.iot.common.LoginUser
 import com.hyf.iot.utils.SPUtils
 import com.squareup.leakcanary.LeakCanary
-import mvp.ljb.kt.HttpConfig
+import com.ljb.kt.HttpConfig
 import java.util.HashSet
 
 class App : Application() {
     private var allActivities: HashSet<Activity>? = null
-
-    private val DEBUG = false
 
     companion object {
         lateinit var instance: App
@@ -43,11 +41,11 @@ class App : Application() {
     }
 
     private fun initNet() {
-        var paramMap: Map<String,String>? = mapOf("X-Requested-With" to "XMLHttpRequest")
+        val headerMap: MutableMap<String,String> = mutableMapOf("X-Requested-With" to "XMLHttpRequest")
         if(LoginUser.token.isNotBlank()) {
-            paramMap = mapOf("token" to LoginUser.token,"X-Requested-With" to "XMLHttpRequest")
+            headerMap["token"] = LoginUser.token
         }
-        HttpConfig.init(if(DEBUG) HTTP_API_DOMAIN_DEBUG else HTTP_API_DOMAIN_RELEASE, paramMap, null, true)
+        HttpConfig.init(HTTP_API_DOMAIN, headerMap, null, true)
     }
 
     private fun registerActivity(){
@@ -107,8 +105,12 @@ class App : Application() {
         System.exit(0)
     }
 
+    /**
+     * 禁止弹窗
+     * */
     @SuppressLint("PrivateApi")
     private fun closeAndroidPDialog() {
+        if (Build.VERSION.SDK_INT < 28)return
         try {
             val aClass = Class.forName("android.content.pm.PackageParser\$Package")
             val declaredConstructor = aClass.getDeclaredConstructor(String::class.java)

@@ -1,7 +1,7 @@
 package com.hyf.iot.contract
 
-import mvp.ljb.kt.contract.IPresenterContract
-import mvp.ljb.kt.contract.IViewContract
+import com.ljb.kt.contract.IPresenterContract
+import com.ljb.kt.contract.IViewContract
 
 interface FeedbackContract {
 

@@ -1,6 +1,6 @@
 package com.hyf.iot.presenter
 
-import com.hyf.iot.common.HTTP_API_DOMAIN_RELEASE
+import com.hyf.iot.common.HttpDomain.HTTP_API_DOMAIN
 import com.hyf.iot.common.LoginUser
 import com.hyf.iot.common.RESULT_SUCCESS
 import com.hyf.iot.common.ex.subscribeEx
@@ -9,7 +9,7 @@ import com.hyf.iot.presenter.base.BaseRxLifePresenter
 import com.hyf.iot.protocol.http.IUserHttpProtocol
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import mvp.ljb.kt.client.HttpFactory
+import com.ljb.kt.client.HttpFactory
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -27,7 +27,7 @@ class UserPresenter : BaseRxLifePresenter<UserContract.IView>(),
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx({
                     when(it.code){
-                        RESULT_SUCCESS -> getMvpView().showPortrait(HTTP_API_DOMAIN_RELEASE + it.data)
+                        RESULT_SUCCESS -> getMvpView().showPortrait(HTTP_API_DOMAIN + it.data)
                         214,215,216 ->{LoginUser.token = ""
                             getMvpView().onTokenExpired(it.msg)}
                         else -> getMvpView().onError(it.msg)
@@ -45,7 +45,7 @@ class UserPresenter : BaseRxLifePresenter<UserContract.IView>(),
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx({
                     if (it.code == RESULT_SUCCESS) {
-                        getMvpView().portraitModifySuccess(HTTP_API_DOMAIN_RELEASE + it.data)
+                        getMvpView().portraitModifySuccess(HTTP_API_DOMAIN + it.data)
                     }else{
                         getMvpView().onError(it.msg)
                     }

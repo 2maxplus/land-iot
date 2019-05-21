@@ -8,7 +8,7 @@ import com.hyf.iot.presenter.base.BaseRxLifePresenter
 import com.hyf.iot.protocol.http.IUserHttpProtocol
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import mvp.ljb.kt.client.HttpFactory
+import com.ljb.kt.client.HttpFactory
 
 /**
  * 泵站信息（变频柜/泵）
@@ -33,9 +33,10 @@ class PumpRoomPresenter : BaseRxLifePresenter<PumpRoomContract.IView>(),
                                     LoginUser.token = ""
                                     getMvpView().onTokenExpired(it.msg)
                                 }
+                                else -> getMvpView().errorPage(it.msg)
                             }
                         },
-                        { getMvpView().errorPage(it) }
+                        { getMvpView().errorPage(it.message) }
                 ).bindRxLifeEx(RxLife.ON_DESTROY)
     }
 

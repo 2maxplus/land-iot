@@ -5,13 +5,17 @@ import com.hyf.iot.utils.SPUtils
 
 
 /** 服务器Host */
-const val HTTP_API_DOMAIN_DEBUG = "http://192.168.0.140:6070"
+const val DEBUG = false
+const val HTTP_API_DOMAIN_DEBUG = "http://192.168.0.140:8030"
 const val HTTP_API_DOMAIN_RELEASE = "http://yun.land-iot.com:6060"
-//const val HTTP_API_DOMAIN_RELEASE = "http://app.land-iot.com:6070"
+
+object HttpDomain{
+    val HTTP_API_DOMAIN = if(DEBUG) HTTP_API_DOMAIN_DEBUG else HTTP_API_DOMAIN_RELEASE
+}
 
 /** Log */
 val LOG_DEBUG = BuildConfig.DEBUG
-val RESULT_SUCCESS = 0
+const val RESULT_SUCCESS = 0
 
 /** 用户登录信息 */
 class LoginUser {
@@ -23,6 +27,9 @@ class LoginUser {
         var token: String
             get() = SPUtils.getString(Constant.SPConstant.CUR_TOKEN)
             set(value) = SPUtils.putString(Constant.SPConstant.CUR_TOKEN, value)
+        var farmId: String
+            get() = SPUtils.getString(Constant.SPConstant.CUR_FARM_ID)
+            set(value) = SPUtils.putString(Constant.SPConstant.CUR_FARM_ID, value)
     }
 }
 

@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import mvp.ljb.kt.contract.IPresenterContract
-import mvp.ljb.kt.view.MvpFragment
+import com.ljb.kt.contract.IPresenterContract
+import com.ljb.kt.view.MvpFragment
 
 abstract class BaseMvpFragment<out P : IPresenterContract> : MvpFragment<P>() {
 

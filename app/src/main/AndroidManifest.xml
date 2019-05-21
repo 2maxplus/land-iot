@@ -37,14 +37,15 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="00woQaplyQRmnswhNGSUD4tbVTgUaGNm" />
+            android:value="FsfV7PAA37YYkIHk4awvjvUwwgzjHETs" />
 
-        <activity android:name="com.hyf.iot.activity.LoginActivity"
+        <activity android:name="com.hyf.iot.ui.activity.LoginActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop">
             <intent-filter>
@@ -53,23 +54,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.hyf.iot.activity.MainActivity"
+            android:name="com.hyf.iot.ui.activity.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
 
         </activity>
         <activity
-            android:name="com.hyf.iot.activity.WebActivity"
+            android:name="com.hyf.iot.ui.activity.WebActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.hyf.iot.activity.FlashActivity" >
+        <activity android:name="com.hyf.iot.ui.activity.FlashActivity" >
 
         </activity>
-        <activity android:name="com.hyf.iot.activity.AccountInfoActivity" />
-        <activity android:name="com.hyf.iot.activity.ValveDetailActivity" />
-        <activity android:name="com.hyf.iot.activity.ScanActivity" />
-        <activity android:name="com.hyf.iot.activity.FeedbackActivity" />
-        <activity android:name="com.hyf.iot.activity.ModifyNickNameActivity" />
-        <activity android:name=".activity.MessageActivity" />
+        <activity android:name="com.hyf.iot.ui.activity.AccountInfoActivity" />
+        <activity android:name="com.hyf.iot.ui.activity.ValveDetailActivity" />
+        <activity android:name="com.hyf.iot.ui.activity.ScanActivity" />
+        <activity android:name="com.hyf.iot.ui.activity.FeedbackActivity" />
+        <activity android:name="com.hyf.iot.ui.activity.ModifyNickNameActivity" />
+        <activity android:name="com.hyf.iot.ui.activity.MessageActivity" />
+        <activity android:name="com.hyf.iot.ui.activity.FarmAddOrEditActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity android:name="com.hyf.iot.ui.activity.LandActivity" />
+        <activity android:name=".ui.activity.FarmListActivity" />
+        <activity android:name=".ui.activity.FarmDetailActivity" />
 
         <!--<provider-->
             <!--android:name="com.hyf.iot.db.DatabaseProvider"-->

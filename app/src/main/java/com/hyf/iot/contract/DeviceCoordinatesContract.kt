@@ -1,8 +1,8 @@
 package com.hyf.iot.contract
 
 import com.hyf.iot.domain.DeviceCoordinates
-import mvp.ljb.kt.contract.IPresenterContract
-import mvp.ljb.kt.contract.IViewContract
+import com.ljb.kt.contract.IPresenterContract
+import com.ljb.kt.contract.IViewContract
 
 class DeviceCoordinatesContract {
     interface IView: IViewContract {
