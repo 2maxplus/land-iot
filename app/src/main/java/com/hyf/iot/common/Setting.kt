@@ -27,6 +27,7 @@ class LoginUser {
         var token: String
             get() = SPUtils.getString(Constant.SPConstant.CUR_TOKEN)
             set(value) = SPUtils.putString(Constant.SPConstant.CUR_TOKEN, value)
+
         var farmId: String
             get() = SPUtils.getString(Constant.SPConstant.CUR_FARM_ID)
             set(value) = SPUtils.putString(Constant.SPConstant.CUR_FARM_ID, value)

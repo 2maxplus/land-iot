@@ -21,7 +21,6 @@ import com.hyf.iot.contract.UserContract
 import com.hyf.iot.domain.user.UserInfo
 import com.hyf.iot.presenter.UserPresenter
 import com.hyf.iot.utils.newIntent
-import com.hyf.iot.utils.newIntentForResult
 import com.hyf.iot.utils.showToast
 import com.hyf.iot.widget.dialog.MyDialog
 import com.luck.picture.lib.tools.PictureFileUtils
@@ -43,7 +42,7 @@ class AccountInfoActivity : BaseMvpActivity<UserContract.IPresenter>(), UserCont
         layout_nickname.setOnClickListener {
             val bundle = Bundle()
             bundle.putString("nickname", nickname.text.toString())
-            newIntentForResult<ModifyNickNameActivity>(MODIFY_INFO_REQUEST, bundle)
+            newIntent<ModifyNickNameActivity>(MODIFY_INFO_REQUEST, bundle)
         }
         rl_portrait.setOnClickListener {
             // 进入相册 以下是例子：用不到的 api 可以不写

@@ -47,6 +47,7 @@
 
         <activity android:name="com.hyf.iot.ui.activity.LoginActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

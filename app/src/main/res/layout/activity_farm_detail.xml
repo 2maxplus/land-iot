@@ -1,11 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/bg_page">
     <include
-        android:id="@+id/tabLayout"
         layout="@layout/layout_common_title"/>
 
+    <TextView
+        android:id="@+id/tv_manager"
+        style="@style/text_base_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/margin_8"
+        android:padding="@dimen/padding_15"
+        android:visibility="gone"
+        android:background="@color/white"
+        android:drawableEnd="@drawable/arr_right"
+        android:text="管理员" />
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/comm_margin"
+        android:background="@color/white">
+        <TextView
+            android:id="@+id/tv_farm_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_base_style"/>
+
+        <TextView
+            android:id="@+id/tv_farm_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_base_style"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_land_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0块地，0.00亩"
+        style="@style/text_base_style"/>
+
+    <include layout="@layout/layout_recycler_view"/>
+
+</LinearLayout>

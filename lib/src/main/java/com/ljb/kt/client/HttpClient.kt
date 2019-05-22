@@ -26,7 +26,7 @@ import javax.net.ssl.X509TrustManager
  */
 object HttpClient {
 
-    private const val DEFAULT_TIME_OUT = 1000L * 10
+    private const val DEFAULT_TIME_OUT = 1000L * 30
     private const val DEFAULT_DOWN_TIME_OUT = 1000L * 60 * 3
 
     private val mRetrofit by lazy {

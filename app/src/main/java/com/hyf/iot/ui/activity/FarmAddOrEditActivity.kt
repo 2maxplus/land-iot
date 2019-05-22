@@ -3,6 +3,7 @@ package com.hyf.iot.ui.activity
 import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
 import android.graphics.Point
+import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,11 @@ import com.baidu.mapapi.search.geocode.*
 import com.baidu.mapsdkplatform.comapi.location.CoordinateType
 import com.hyf.iot.App
 import com.hyf.iot.R
+import com.hyf.iot.common.Constant.KEY_PARAM_ADDRESS
+import com.hyf.iot.common.Constant.KEY_PARAM_ID
+import com.hyf.iot.common.Constant.KEY_PARAM_LAT
+import com.hyf.iot.common.Constant.KEY_PARAM_LONG
+import com.hyf.iot.common.Constant.KEY_PARAM_NAME
 import com.hyf.iot.common.activity.BaseMvpActivity
 import com.hyf.iot.contract.FarmContract
 import com.hyf.iot.presenter.FarmAddOrEditPresenter
@@ -39,8 +45,10 @@ class FarmAddOrEditActivity : BaseMvpActivity<FarmContract.IPresenter>(), FarmCo
     private var mCenterPoint: Point? = null
     /**当前地理坐标 */
     private var mLoactionLatLng: LatLng? = null
-    internal var mLantitude = 30.654008
+    internal var mLatitude = 30.654008
     internal var mLongtitude = 104.093591
+    private var mAddr = ""
+    private var mFarmName = ""
     /**是否第一次定位   */
     var isFirstLoc = true
     /**地理编码 */
@@ -53,10 +61,33 @@ class FarmAddOrEditActivity : BaseMvpActivity<FarmContract.IPresenter>(), FarmCo
 
     override fun getLayoutId() = R.layout.activity_add_farm
 
+    override fun init(savedInstanceState: Bundle?) {
+        super.init(savedInstanceState)
+        val bundle = intent.getBundleExtra("bundle")
+        if (bundle != null) {
+            id = bundle.getString(KEY_PARAM_ID)
+            mLatitude = bundle.getDouble(KEY_PARAM_LAT)
+            mLongtitude = bundle.getDouble(KEY_PARAM_LONG)
+            mAddr = bundle.getString(KEY_PARAM_ADDRESS)
+            mFarmName = bundle.getString(KEY_PARAM_NAME)
+        }
+    }
+
     override fun initView() {
         super.initView()
         iv_back.setOnClickListener { onBackPressed() }
-        tv_title.text = getString(R.string.add_farm)
+        tv_location.text = "移动地图获取位置"
+        if (id.isNullOrEmpty()) {
+            tv_title.text = getString(R.string.add_farm)
+            btn_add_farm.text = getString(R.string.create_completion)
+        } else {
+            tv_title.text = getString(R.string.edit_farm)
+            btn_add_farm.text = getString(R.string.create_completion)
+//            tv_location.text = addressDetail?.province + addressDetail?.city + addressDetail?.district
+            et_address_detail.setText(mAddr)
+            et_farm_name.setText(mFarmName)
+        }
+
         initSettingMapView()
         btn_add_farm.setOnClickListener {
             val farmName = et_farm_name.text.toString()
@@ -67,9 +98,9 @@ class FarmAddOrEditActivity : BaseMvpActivity<FarmContract.IPresenter>(), FarmCo
                 return@setOnClickListener
             }
             if (id.isNullOrEmpty())
-                getPresenter().farmAdd(farmName,address,mLantitude,mLongtitude, addressDetail?.province!!,addressDetail?.city!!,addressDetail?.district!!)
+                getPresenter().farmAdd(farmName, address, mLatitude, mLongtitude, addressDetail?.province!!, addressDetail?.city!!, addressDetail?.district!!)
             else
-                getPresenter().farmEdit(farmName,address,mLantitude,mLongtitude, addressDetail?.province!!,addressDetail?.city!!,addressDetail?.district!!,id)
+                getPresenter().farmEdit(farmName, address, mLatitude, mLongtitude, addressDetail?.province!!, addressDetail?.city!!, addressDetail?.district!!, id)
         }
     }
 
@@ -92,30 +123,23 @@ class FarmAddOrEditActivity : BaseMvpActivity<FarmContract.IPresenter>(), FarmCo
 
     override fun addSuccess() {
         showToast("添加成功")
+        setResult(RESULT_OK)
         finish()
     }
 
     override fun editSuccess() {
         showToast("编辑完成")
+        setResult(RESULT_OK)
         finish()
     }
 
     private fun initSettingMapView() {
+        mBaiduMap = mMapView.map
         // 初始化地图
         mMapView.showZoomControls(false)
-        mBaiduMap = mMapView.map
         // 开启定位图层
         mBaiduMap!!.isMyLocationEnabled = true
-        // 定位初始化
-        mLocationClient = LocationClient(this)
-        mLocationClient!!.registerLocationListener(MyBDLocationListener())
-        val option = LocationClientOption()
-        option.isOpenGps = true// 打开gps
-        option.setCoorType(CoordinateType.BD09LL) // 设置坐标类型
-        option.setScanSpan(0)
-        mLocationClient!!.locOption = option
-        mLocationClient!!.start()
-
+        initLoc()
         //初始化缩放比例
         val msu = MapStatusUpdateFactory.zoomTo(17.0f)
         mBaiduMap!!.setMapStatus(msu)
@@ -144,6 +168,18 @@ class FarmAddOrEditActivity : BaseMvpActivity<FarmContract.IPresenter>(), FarmCo
 
     }
 
+    private fun initLoc() {
+        // 定位初始化
+        mLocationClient = LocationClient(this)
+        mLocationClient!!.registerLocationListener(MyBDLocationListener())
+        val option = LocationClientOption()
+        option.isOpenGps = true// 打开gps
+        option.setCoorType(CoordinateType.BD09LL) // 设置坐标类型
+        option.setScanSpan(0)
+        mLocationClient!!.locOption = option
+        mLocationClient!!.start()
+    }
+
     // 定位监听器
     inner class MyBDLocationListener : BDLocationListener {
 
@@ -160,15 +196,20 @@ class FarmAddOrEditActivity : BaseMvpActivity<FarmContract.IPresenter>(), FarmCo
                     .longitude(location.longitude)//
                     .build()
             mBaiduMap!!.setMyLocationData(data)
-            mLantitude = location.latitude
-            mLongtitude = location.longitude
-            mLoactionLatLng = LatLng(mLantitude, mLongtitude)
-            // 是否第一次定位
-            if (isFirstLoc) {
-                isFirstLoc = false
-                // 实现动画跳转
+            if(id.isNullOrEmpty()){
+                mLatitude = location.latitude
+                mLongtitude = location.longitude
+                mLoactionLatLng = LatLng(mLatitude, mLongtitude)
+                // 是否第一次定位
+                if (isFirstLoc) {
+                    isFirstLoc = false
+                    // 实现动画跳转
+                    mBaiduMap!!.animateMapStatus(MapStatusUpdateFactory.newLatLng(mLoactionLatLng))
+                    mGeoCoder!!.reverseGeoCode(ReverseGeoCodeOption().location(mLoactionLatLng))
+                }
+            }else{
+                mLoactionLatLng = LatLng(mLatitude, mLongtitude)
                 mBaiduMap!!.animateMapStatus(MapStatusUpdateFactory.newLatLng(mLoactionLatLng))
-                mGeoCoder!!.reverseGeoCode(ReverseGeoCodeOption().location(mLoactionLatLng))
             }
         }
     }
@@ -223,7 +264,7 @@ class FarmAddOrEditActivity : BaseMvpActivity<FarmContract.IPresenter>(), FarmCo
                 tv_location.text = addressDetail?.province + addressDetail?.city + addressDetail?.district
                 et_address_detail.setText(mAddr)
                 //经纬度
-                mLantitude = result.location.latitude
+                mLatitude = result.location.latitude
                 mLongtitude = result.location.longitude
 
                 mBaiduMap!!.clear()

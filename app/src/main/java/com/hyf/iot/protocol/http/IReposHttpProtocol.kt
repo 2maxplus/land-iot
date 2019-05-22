@@ -2,6 +2,8 @@ package com.hyf.iot.protocol.http
 
 import com.baidu.mapapi.model.LatLng
 import com.hyf.iot.domain.base.GenResult
+import com.hyf.iot.domain.farm.Farm
+import com.hyf.iot.domain.farm.Massif
 import io.reactivex.Observable
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -37,12 +39,12 @@ interface IReposHttpProtocol {
      * 农场列表
      * */
     @POST("/api/Farm/List")
-    fun getFarmList(@Query("name") name: String, @Query("companyName") companyName: String): Observable<GenResult<String>>
+    fun getFarmList(@Query("name") name: String, @Query("companyName") companyName: String): Observable<GenResult<MutableList<Farm>>>
      /**
       * 农场详情
       * */
     @POST("/api/Farm/Detail")
-    fun getFarmDetail(@Query("id") id: String): Observable<GenResult<String>>
+    fun getFarmDetail(@Query("id") id: String): Observable<GenResult<Farm>>
     /**
      * 农场删除
      * */
@@ -54,14 +56,14 @@ interface IReposHttpProtocol {
      *
      * */
     @POST("/api/Massif/List")
-    fun getMassifList(@Query("farmId") farmId: String,@Query("name")name: String): Observable<GenResult<String>>
+    fun getMassifList(@Query("farmId") farmId: String,@Query("name")name: String): Observable<GenResult<MutableList<Massif>>>
 
     /**
      * 地块新建
      *
      * */
     @POST("/api/Massif/Add")
-    fun massifAdd(@Query("farmId") farmId: String,@Query("name")name: String,@Query("Size")Size: String,
+    fun massifAdd(@Query("farmId") farmId: String,@Query("name")name: String,@Query("Size")Size: Float,
                   @Query("massifCoordinates")massifCoordinates: ArrayList<LatLng>): Observable<GenResult<String>>
 
     /**
@@ -76,7 +78,7 @@ interface IReposHttpProtocol {
      *
      * */
     @POST("/api/Massif/Edit")
-    fun massifEdit(@Query("farmId") farmId: String,@Query("name")name: String,@Query("Size")Size: String,
+    fun massifEdit(@Query("farmId") farmId: String,@Query("name")name: String,@Query("Size")Size: Float,
                    @Query("massifCoordinates")massifCoordinates: ArrayList<LatLng>,@Query("Id")Id: String): Observable<GenResult<String>>
 
     /**

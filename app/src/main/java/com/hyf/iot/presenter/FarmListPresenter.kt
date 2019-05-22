@@ -23,7 +23,7 @@ class FarmListPresenter : BaseRxLifePresenter<FarmListContract.IView>(),
                 .subscribeEx(
                         {
                             when(it.code){
-                                RESULT_SUCCESS -> getMvpView().showPageList()
+                                RESULT_SUCCESS -> getMvpView().showPageList(it.data)
                                 214,215,216 -> {
                                     LoginUser.token = ""
                                     getMvpView().onTokenExpired(it.msg)

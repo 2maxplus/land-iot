@@ -25,9 +25,9 @@ class LandActivity : BaseActivity() {
     private var infoWindow: InfoWindow? = null
     private var tempOverlay: CombinationOverlay? = null// 当前选中的覆盖物
     private var lastx: Float = 0.toFloat()
-    private var lasty:Float = 0.toFloat()
+    private var lasty: Float = 0.toFloat()
     private var offsetx: Float = 0.toFloat()
-    private var offsety:Float = 0.toFloat()
+    private var offsety: Float = 0.toFloat()
 
     private var isDrag = false  //marker是否正在拖拽
     private var popupView: View? = null  //弹出View

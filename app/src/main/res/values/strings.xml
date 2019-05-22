@@ -62,8 +62,11 @@
     <string name="hint_input_pwd">请输入密码</string>
 
     <string name="add_farm">新建农场</string>
+    <string name="edit_farm">农场编辑</string>
     <string name="add_land">新建地块</string>
 
     <string name="farm_detail">农场详情</string>
+    <string name="create_completion">创建完成</string>
+    <string name="update_completion">编辑完成</string>
 
 </resources>

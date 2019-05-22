@@ -1,12 +1,13 @@
 package com.hyf.iot.ui.activity
 
-import android.content.DialogInterface
+import android.content.Intent
 import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.hyf.iot.App
 import com.hyf.iot.R
 import com.hyf.iot.adapter.rv.FarmAdapter
+import com.hyf.iot.common.Constant.RequestKey.ON_SUCCESS
 import com.hyf.iot.common.LoginUser
 import com.hyf.iot.common.activity.BaseMvpActivity
 import com.hyf.iot.contract.FarmListContract
@@ -43,52 +44,13 @@ class FarmListActivity : BaseMvpActivity<FarmListContract.IPresenter>(), FarmLis
 
     override fun registerPresenter() = FarmListPresenter::class.java
 
-    override fun onError(errorMsg: String?) {
-        page_layout.setPage(PageStateLayout.PageState.STATE_SUCCEED)
-        val data = ArrayList<Farm>()
-        data.add(Farm("1", "测试1", true))
-        data.add(Farm("2", "测试2", false))
-        data.add(Farm("3", "测试3", false))
-        data.add(Farm("4", "测试4", false))
-        mAdapter.setData(data)
-        mAdapter.notifyDataSetChanged()
-
-        mLoadingDialog.dismiss()
-//        page_layout.setPage(PageStateLayout.PageState.STATE_ERROR)
-//        if (errorMsg.isNullOrEmpty()) {
-//            showToast(R.string.net_error)
-//        } else {
-//            showToast(errorMsg)
-//        }
-    }
-
     private var mTitle: String? = "我的农场"
 
     override fun getLayoutId() = R.layout.activity_farm_list
 
     override fun initView() {
         tv_title.text = mTitle
-//        when(mTitle){
-//            getString(R.string.user_binding) ->{
-//                mAdapter.flag = 1
-//                tvBindingListTips.visibility = View.VISIBLE
-//                iv_icon.visibility = View.VISIBLE
-//                iv_icon.setOnClickListener {
-//                    newIntent<UserBindingActivity>(Constant.RequestKey.ON_SUCCESS)
-//                }
-//            }
-//            getString(R.string.user_exchange) ->{
-//                mAdapter.flag = 3
-//                btnConfirm.visibility = View.VISIBLE
-//                btnConfirm.setOnClickListener {
-//                    LoginUser.meterUserId = mAdapter.getCheckedUserId()
-//                    setResult(RESULT_OK)
-//                    finish()
-//                }
-//            }
-//        }
         iv_back.setOnClickListener { onBack() }
-
         page_layout.apply {
             setContentView(View.inflate(context, R.layout.layout_recycler_view, null))
             setOnPageErrorClickListener { onReload() }
@@ -102,8 +64,8 @@ class FarmListActivity : BaseMvpActivity<FarmListContract.IPresenter>(), FarmLis
             ))
         }
 
-        mAdapter.setCallback(object: FarmAdapter.Callback{
-            override fun click(v: View,id: String) {
+        mAdapter.setCallback(object : FarmAdapter.Callback {
+            override fun click(v: View, id: String) {
                 LoginUser.farmId = mAdapter.getCheckedId()
                 setResult(FragmentActivity.RESULT_OK)
                 finish()
@@ -135,30 +97,33 @@ class FarmListActivity : BaseMvpActivity<FarmListContract.IPresenter>(), FarmLis
         finish()
     }
 
-    override fun showPageList() {
-//        if(data.isEmpty()){
-//            tvBindingListTips.visibility = View.GONE
-//            btnConfirm.visibility = View.GONE
-//            page_layout.setPage(PageStateLayout.PageState.STATE_EMPTY)
-//        }else{
-        page_layout.setPage(PageStateLayout.PageState.STATE_SUCCEED)
-        val data = ArrayList<Farm>()
-        data.add(Farm("1", "测试1", true))
-        data.add(Farm("2", "测试2", false))
-        data.add(Farm("3", "测试3", false))
-        data.add(Farm("4", "测试4", false))
-        mAdapter.setData(data)
-        mAdapter.notifyDataSetChanged()
-//        }
+    override fun onError(errorMsg: String?) {
+        mLoadingDialog.dismiss()
+        page_layout.setPage(PageStateLayout.PageState.STATE_ERROR)
+        if (errorMsg.isNullOrEmpty()) {
+            showToast(R.string.net_error)
+        } else {
+            showToast(errorMsg)
+        }
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if(resultCode == RESULT_OK){
-//            if(requestCode == Constant.RequestKey.ON_SUCCESS){
-//                onReload()
-//            }
-//        }
-//    }
+    override fun showPageList(data: MutableList<Farm>) {
+        if (data.isEmpty()) {
+            page_layout.setPage(PageStateLayout.PageState.STATE_EMPTY)
+        } else {
+            page_layout.setPage(PageStateLayout.PageState.STATE_SUCCEED)
+            mAdapter.setData(data)
+            mAdapter.notifyDataSetChanged()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == RESULT_OK){
+            if(requestCode == ON_SUCCESS){
+                initData()
+            }
+        }
+    }
 
 }

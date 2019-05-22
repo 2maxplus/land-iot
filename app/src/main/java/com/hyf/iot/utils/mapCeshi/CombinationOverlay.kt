@@ -9,7 +9,6 @@ import com.hyf.iot.utils.mapCeshi.MapUtils.getLatLngByOffset
 
 import java.util.ArrayList
 import com.hyf.iot.domain.MyLatLng
-import com.hyf.iot.utils.mapCeshi.MapUtils.getArea
 
 /**
  * CombinationOverlay  组合覆盖 一个代表一个组

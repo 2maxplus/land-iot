@@ -39,6 +39,6 @@
         android:text="保存"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/font_size_14sp"
-        android:visibility="gone" />
+        android:visibility="invisible" />
 
 </RelativeLayout>
