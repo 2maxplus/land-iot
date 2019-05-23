@@ -32,6 +32,7 @@ import com.hyf.iot.common.Constant.KEY_PARAM_LONG
 import com.hyf.iot.common.Constant.KEY_PARAM_NAME
 import com.hyf.iot.common.activity.BaseMvpActivity
 import com.hyf.iot.contract.FarmContract
+import com.hyf.iot.domain.farm.Farm
 import com.hyf.iot.presenter.FarmAddOrEditPresenter
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
@@ -49,6 +50,9 @@ class FarmAddOrEditActivity : BaseMvpActivity<FarmContract.IPresenter>(), FarmCo
     internal var mLongtitude = 104.093591
     private var mAddr = ""
     private var mFarmName = ""
+    private var mProvince = ""
+    private var mCity = ""
+    private var mDistrict = ""
     /**是否第一次定位   */
     var isFirstLoc = true
     /**地理编码 */
@@ -63,14 +67,16 @@ class FarmAddOrEditActivity : BaseMvpActivity<FarmContract.IPresenter>(), FarmCo
 
     override fun init(savedInstanceState: Bundle?) {
         super.init(savedInstanceState)
-        val bundle = intent.getBundleExtra("bundle")
-        if (bundle != null) {
-            id = bundle.getString(KEY_PARAM_ID)
-            mLatitude = bundle.getDouble(KEY_PARAM_LAT)
-            mLongtitude = bundle.getDouble(KEY_PARAM_LONG)
-            mAddr = bundle.getString(KEY_PARAM_ADDRESS)
-            mFarmName = bundle.getString(KEY_PARAM_NAME)
-        }
+        val data = intent.getParcelableExtra<Farm>("extraKey")
+        id = data.id
+//        val bundle = intent.getBundleExtra("bundle")
+//        if (bundle != null) {
+//            id = bundle.getString(KEY_PARAM_ID)
+//            mLatitude = bundle.getDouble(KEY_PARAM_LAT)
+//            mLongtitude = bundle.getDouble(KEY_PARAM_LONG)
+//            mAddr = bundle.getString(KEY_PARAM_ADDRESS)
+//            mFarmName = bundle.getString(KEY_PARAM_NAME)
+//        }
     }
 
     override fun initView() {
@@ -98,9 +104,9 @@ class FarmAddOrEditActivity : BaseMvpActivity<FarmContract.IPresenter>(), FarmCo
                 return@setOnClickListener
             }
             if (id.isNullOrEmpty())
-                getPresenter().farmAdd(farmName, address, mLatitude, mLongtitude, addressDetail?.province!!, addressDetail?.city!!, addressDetail?.district!!)
+                getPresenter().farmAdd(farmName, address, mLatitude, mLongtitude,  mProvince, mCity,mDistrict)
             else
-                getPresenter().farmEdit(farmName, address, mLatitude, mLongtitude, addressDetail?.province!!, addressDetail?.city!!, addressDetail?.district!!, id)
+                getPresenter().farmEdit(farmName, address, mLatitude, mLongtitude, mProvince, mCity,mDistrict, id)
         }
     }
 
@@ -261,7 +267,10 @@ class FarmAddOrEditActivity : BaseMvpActivity<FarmContract.IPresenter>(), FarmCo
                 mCurentInfo.location = result.location
                 val mAddr = mCurentInfo.address
                 addressDetail = result.addressDetail
-                tv_location.text = addressDetail?.province + addressDetail?.city + addressDetail?.district
+                mProvince = addressDetail?.province!!
+                mCity = addressDetail?.city!!
+                mDistrict = addressDetail?.district!!
+                tv_location.text = mProvince + mCity + mDistrict
                 et_address_detail.setText(mAddr)
                 //经纬度
                 mLatitude = result.location.latitude

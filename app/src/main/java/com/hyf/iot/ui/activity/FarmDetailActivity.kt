@@ -47,13 +47,17 @@ class FarmDetailActivity : BaseMvpActivity<FarmDetailContract.IPresenter>(),Farm
         tv_operate.visibility = View.VISIBLE
         tv_operate.text = "编辑"
         tv_operate.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString(KEY_PARAM_ID,data!!.id)
-            bundle.putDouble(KEY_PARAM_LAT,data!!.latitude)
-            bundle.putDouble(KEY_PARAM_LONG,data!!.longitude)
-            bundle.putString(Constant.KEY_PARAM_ADDRESS,data!!.address)
-            bundle.putString(Constant.KEY_PARAM_NAME,data!!.name)
-            newIntent<FarmAddOrEditActivity>(ON_SUCCESS,bundle)
+//            val bundle = Bundle()
+//            bundle.putString(KEY_PARAM_ID,data!!.id)
+//            bundle.putDouble(KEY_PARAM_LAT,data!!.latitude)
+//            bundle.putDouble(KEY_PARAM_LONG,data!!.longitude)
+//            bundle.putString(Constant.KEY_PARAM_ADDRESS,data!!.address)
+//            bundle.putString(Constant.KEY_PARAM_NAME,data!!.name)
+//            newIntent<FarmAddOrEditActivity>(ON_SUCCESS,bundle)
+
+            val intent = Intent(this@FarmDetailActivity, FarmAddOrEditActivity::class.java)
+            intent.putExtra("extraKey", data)
+            startActivity(intent)
         }
     }
 
