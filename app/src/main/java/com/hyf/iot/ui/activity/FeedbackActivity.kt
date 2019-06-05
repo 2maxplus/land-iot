@@ -40,7 +40,7 @@ class FeedbackActivity: BaseMvpActivity<FeedbackContract.IPresenter>(),FeedbackC
         iv_back.setOnClickListener { onBackPressed() }
         tv_title.text = getString(R.string.help_feedback)
         btn_submit.setOnClickListener {
-            if(et_content.text.isEmpty()){
+            if(et_content.text!!.isEmpty()){
                 showToast(R.string.hint_edit_feedback)
                 return@setOnClickListener
             }

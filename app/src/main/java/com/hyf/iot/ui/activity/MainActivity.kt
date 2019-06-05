@@ -10,7 +10,7 @@ import com.hyf.iot.domain.TabBean
 import com.hyf.iot.adapter.MainTabAdapter
 import com.hyf.iot.ui.fragment.main.ValveControlFragment
 import com.hyf.iot.ui.fragment.main.MyFragment
-import com.hyf.iot.ui.fragment.pumb.PumbRoomFragment
+import com.hyf.iot.ui.fragment.pumb.PumpRoomFragment
 import com.hyf.iot.ui.fragment.main.HomeFragment
 import com.hyf.iot.ui.fragment.main.PlanFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -25,7 +25,7 @@ class MainActivity : FragmentActivity() {
 
     private val mFragments = listOf<Fragment>(
             HomeFragment(),
-            PumbRoomFragment(),
+            PumpRoomFragment(),
             ValveControlFragment(),
             PlanFragment(),
             MyFragment())

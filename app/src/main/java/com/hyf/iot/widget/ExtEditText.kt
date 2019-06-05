@@ -15,7 +15,7 @@ import com.hyf.iot.R
 
 /**
  * 扩展的EditText组件
- * com.hyf.intelligence.kotlin.widget.ExtEditText
+ * com.hyf.iot.widget.ExtEditText
  */
 @Suppress("DEPRECATION")
 class ExtEditText : AppCompatEditText {

@@ -6,6 +6,7 @@ import com.hyf.iot.domain.base.OperateData
 import com.hyf.iot.domain.device.DeviceItem
 import com.hyf.iot.domain.device.ValveUseTime
 import com.hyf.iot.domain.pumb.PumpControlStations
+import com.hyf.iot.domain.waterPump.WaterPumpStation
 import com.hyf.iot.domain.user.LoginInfo
 import com.hyf.iot.domain.user.UserInfo
 import com.hyf.iot.domain.user.VerifyBean
@@ -147,4 +148,17 @@ interface IUserHttpProtocol {
      * */
     @POST("/api/Device/GetCoordinates")
     fun getCoordinates(): Observable<GenResult<MutableList<DeviceCoordinates>>>
+
+    /***
+     * 获取水泵信息
+     *
+     * */
+    @POST("/api/Device/GetWaterPump")
+    fun getWaterPumpByFarmId(@Query("farmId")farmId: String):Observable<GenResult<MutableList<WaterPumpStation>>>
+
+
+
+
+
+
 }

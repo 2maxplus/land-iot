@@ -75,9 +75,14 @@ class FarmListActivity : BaseMvpActivity<FarmListContract.IPresenter>(), FarmLis
 //                            getPresenter().unbindUserById(id)
 //                        })
 //                dialog.show()
-
             }
         })
+
+        tv_operate.visibility = View.VISIBLE
+        tv_operate.setCompoundDrawablesRelativeWithIntrinsicBounds(0,R.drawable.fab_add,0,0)
+        tv_operate.setOnClickListener {
+           newIntent<FarmAddOrEditActivity>()
+        }
     }
 
     override fun initData() {

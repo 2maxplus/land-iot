@@ -80,8 +80,12 @@ class HomeFragment: BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(),Devi
         }
     }
 
-    override fun errorPage(t: Throwable) {
-
+    override fun errorPage(msg: String?) {
+        if (msg.isNullOrEmpty()) {
+            context?.showToast(R.string.net_error)
+        } else {
+            context?.showToast(msg)
+        }
     }
 
     override fun initView() {

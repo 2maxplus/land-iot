@@ -7,7 +7,7 @@ import com.ljb.kt.contract.IViewContract
 class DeviceCoordinatesContract {
     interface IView: IViewContract {
         fun showPage(data: MutableList<DeviceCoordinates>)
-        fun errorPage(t: Throwable)
+        fun errorPage(msg: String?)
     }
 
     interface IPresenter : IPresenterContract {

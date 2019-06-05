@@ -16,16 +16,20 @@ import com.ljb.kt.client.HttpFactory
 class FarmAddOrEditPresenter : BaseRxLifePresenter<FarmContract.IView>(),
         FarmContract.IPresenter {
 
-    override fun farmAdd(name: String, address: String, longitude: Double, latitude: Double
-    ,province: String,city: String,district: String) {
+    override fun farmAdd(name: String, address: String,
+                         linkMan: String,linkPhone:String,
+                         longitude: Double, latitude: Double,
+                         province: String,city: String,district: String) {
         HttpFactory.getProtocol(IReposHttpProtocol::class.java)
-                .farmAdd(name,address,longitude,latitude,province,city,district)
+                .farmAdd(name,address,linkMan,linkPhone,longitude,latitude,province,city,district)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx(
                         {
                             when(it.code){
-                                RESULT_SUCCESS -> getMvpView().addSuccess()
+                                RESULT_SUCCESS -> {
+                                    getMvpView().addSuccess()
+                                }
                                 214,215,216 -> {
                                     LoginUser.token = ""
                                     getMvpView().onTokenExpired(it.msg)
@@ -36,11 +40,12 @@ class FarmAddOrEditPresenter : BaseRxLifePresenter<FarmContract.IView>(),
                         { getMvpView().onError(it.message)}
                 ).bindRxLifeEx(RxLife.ON_DESTROY)
     }
-
-    override fun farmEdit(name: String, address: String, longitude: Double, latitude: Double,
+    override fun farmEdit(name: String, address: String,
+                          linkMan: String,linkPhone:String,
+                          longitude: Double, latitude: Double,
                           province: String,city: String,district: String,id: String) {
         HttpFactory.getProtocol(IReposHttpProtocol::class.java)
-                .farmEdit(name,address,longitude,latitude,province,city,district,id)
+                .farmEdit(name,address,linkMan,linkPhone,longitude,latitude,province,city,district,id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx(

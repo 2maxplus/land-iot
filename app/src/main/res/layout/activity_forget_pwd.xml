@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_page"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_common_title" />
+
+
+    <LinearLayout
+        android:id="@+id/ll_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_20"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/shape_round_white"
+            android:orientation="horizontal">
+
+            <com.hyf.iot.widget.ExtEditText
+                android:id="@+id/et_login_user"
+                style="@style/edit_style"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="@null"
+                android:hint="@string/input_user"
+                android:inputType="number"
+                android:lines="1"
+                android:maxLength="11" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/comm_margin"
+                android:layout_marginBottom="@dimen/comm_margin"
+                android:background="@color/colorD2D2D2" />
+
+            <TextView
+                android:id="@+id/tv_get_code"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:text="@string/get_code"
+                android:textColor="@color/color_blue2gray" />
+
+        </LinearLayout>
+
+        <com.hyf.iot.widget.ExtEditText
+            android:id="@+id/et_identify_code"
+            style="@style/edit_style"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="@dimen/margin_8"
+            android:hint="@string/hint_identify_code"
+            android:padding="10dp"
+            android:inputType="number" />
+
+        <com.hyf.iot.widget.ExtEditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            style="@style/edit_style"
+            android:hint="@string/hint_new_password"
+            android:layout_marginTop="@dimen/margin_8"
+            android:padding="10dp"
+            android:inputType="textPassword" />
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/btn_finish"
+        style="@style/btn_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_20"
+        android:text="@string/finish" />
+</LinearLayout>

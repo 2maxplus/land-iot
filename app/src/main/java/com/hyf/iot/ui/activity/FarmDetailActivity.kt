@@ -6,10 +6,8 @@ import android.support.v4.app.FragmentActivity
 import android.view.View
 import com.hyf.iot.App
 import com.hyf.iot.R
-import com.hyf.iot.common.Constant
+import com.hyf.iot.common.Constant.KEY_PARAM_1
 import com.hyf.iot.common.Constant.KEY_PARAM_ID
-import com.hyf.iot.common.Constant.KEY_PARAM_LAT
-import com.hyf.iot.common.Constant.KEY_PARAM_LONG
 import com.hyf.iot.common.Constant.RequestKey.ON_SUCCESS
 import com.hyf.iot.common.activity.BaseMvpActivity
 import com.hyf.iot.contract.FarmDetailContract
@@ -47,17 +45,9 @@ class FarmDetailActivity : BaseMvpActivity<FarmDetailContract.IPresenter>(),Farm
         tv_operate.visibility = View.VISIBLE
         tv_operate.text = "编辑"
         tv_operate.setOnClickListener {
-//            val bundle = Bundle()
-//            bundle.putString(KEY_PARAM_ID,data!!.id)
-//            bundle.putDouble(KEY_PARAM_LAT,data!!.latitude)
-//            bundle.putDouble(KEY_PARAM_LONG,data!!.longitude)
-//            bundle.putString(Constant.KEY_PARAM_ADDRESS,data!!.address)
-//            bundle.putString(Constant.KEY_PARAM_NAME,data!!.name)
-//            newIntent<FarmAddOrEditActivity>(ON_SUCCESS,bundle)
-
-            val intent = Intent(this@FarmDetailActivity, FarmAddOrEditActivity::class.java)
-            intent.putExtra("extraKey", data)
-            startActivity(intent)
+            val bundle = Bundle()
+            bundle.putParcelable(KEY_PARAM_1,data)
+            newIntent<FarmAddOrEditActivity>(ON_SUCCESS,bundle)
         }
     }
 

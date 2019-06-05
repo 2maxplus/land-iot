@@ -81,7 +81,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
                 return@setOnClickListener
             }
             //获取验证码
-            getPresenter().getCode(et_user.text.trim().toString())
+            getPresenter().getCode(et_user.text!!.trim().toString())
 
         }
         et_code.addTextChangedListener(object : TextWatcher {
@@ -155,7 +155,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
             return
         }
         mLoadingDialog.show()
-        getPresenter().login(loginId, et_code.text.trim().toString())
+        getPresenter().login(loginId, et_code.text!!.trim().toString())
     }
 
     override fun getCodeSuccess(loginId: String) {

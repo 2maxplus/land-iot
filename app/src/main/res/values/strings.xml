@@ -26,13 +26,20 @@
     <string name="copy_success">复制成功</string>
     <string name="net_error">网络错误</string>
 
-    <string name="logout">退出登录</string>
     <string name="hint_user">输入您的手机号码</string>
+    <string name="hint_password">请输入密码</string>
+    <string name="hint_new_password">请输入新密码</string>
+    <string name="hint_identify_code">请输入验证码</string>
     <string name="login">登录</string>
+    <string name="pwd_login">账号密码登录</string>
+    <string name="forget_pwd">忘记密码</string>
+
+    <string name="logout">退出登录</string>
     <string name="login_success">登录成功</string>
     <string name="get_code">获取验证码</string>
     <string name="input_user">请输入您的手机号</string>
     <string name="publish_text">Copyright©2012–2019 \n海南丰达中天农业综合服务有限公司</string>
+    <!--<string name="publish_text">Copyright©2012–2019 \n海南宝秀节水灌溉有限公司</string>-->
 
     <string name="tab1">首页</string>
     <string name="tab2">泵站</string>
@@ -57,6 +64,7 @@
 
     <string name="confirm">确认</string>
     <string name="cancel">取消</string>
+    <string name="finish">完成</string>
     <string name="hint_input_phone">请输入手机号</string>
     <string name="hint_input_code">请输入验证码</string>
     <string name="hint_input_pwd">请输入密码</string>

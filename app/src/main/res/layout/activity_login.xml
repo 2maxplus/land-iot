@@ -29,11 +29,12 @@
 
                 <ImageView
                     android:id="@+id/iv_login"
-                    android:layout_width="130dp"
-                    android:layout_height="130dp"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp"
-                    android:src="@drawable/ic_launcher" />
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_launcher"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -93,7 +94,7 @@
                         android:layout_height="match_parent"
                         android:background="@color/colorD2D2D2" />
 
-                    <TextView
+                    <Button
                         android:id="@+id/tv_get_code"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -101,6 +102,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="@string/get_code"
+                        android:background="@null"
                         android:textColor="@color/color_blue2gray" />
 
                 </LinearLayout>

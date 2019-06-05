@@ -21,8 +21,9 @@ interface IReposHttpProtocol {
      * */
     @POST("/api/Farm/Add")
     fun farmAdd(@Query("Name") Name: String, @Query("Address") Address: String,
+                @Query("LinkMan")LinkMan: String,@Query("LinkPhone") LinkPhone: String,
                  @Query("Latitude") Latitude: Double,@Query("Longitude") Longitude: Double,
-                @Query("Province")Province: String,@Query("City")City: String,@Query("District")District: String): Observable<GenResult<String>>
+                @Query("Province")Province: String,@Query("City")City: String,@Query("District")District: String): Observable<GenResult<Farm>>
     /**
      * 农场更新
      *
@@ -31,6 +32,7 @@ interface IReposHttpProtocol {
      * */
     @POST("/api/Farm/Edit")
     fun farmEdit(@Query("Name") Name: String, @Query("Address") Address: String,
+                 @Query("LinkMan")LinkMan: String,@Query("LinkPhone") LinkPhone: String,
                   @Query("Latitude") Latitude: Double,@Query("Longitude") Longitude: Double,
                  @Query("Province")Province: String,@Query("City")City: String,@Query("District")District: String,
                  @Query("Id")Id: String): Observable<GenResult<String>>

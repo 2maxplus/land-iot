@@ -36,8 +36,9 @@ class ModifyNickNameActivity : BaseMvpActivity<NickNameContract.IPresenter>(), N
         tv_title.text = getString(R.string.modify_nickname)
         et_nickname.imgEnable = resources.getDrawable(R.drawable.icon_edit_delete)
         tv_operate.visibility = View.VISIBLE
+        tv_operate.text = "保存"
         tv_operate.setOnClickListener {
-            if (et_nickname.text.isEmpty()) {
+            if (et_nickname.text!!.isEmpty()) {
                 showToast(R.string.hint_nickname)
                 return@setOnClickListener
             }

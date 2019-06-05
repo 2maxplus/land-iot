@@ -73,7 +73,7 @@ class AccountInfoActivity : BaseMvpActivity<UserContract.IPresenter>(), UserCont
                     }
                     R.id.right_text -> {
                         //退出登录
-                        LoginUser.token = ""
+
                         getPresenter().logout()
                         dialogs.dismiss()
                     }
@@ -95,6 +95,7 @@ class AccountInfoActivity : BaseMvpActivity<UserContract.IPresenter>(), UserCont
     }
 
     override fun logoutSuccess() {
+        LoginUser.token = ""
         goLogin()
     }
 

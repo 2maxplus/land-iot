@@ -49,9 +49,7 @@ class ValveDetailActivity : BaseMvpActivity<DeviceDetailContract.IPresenter>(), 
 
     override fun initView() {
         iv_back.setOnClickListener { finish() }
-        tv_title.text = "阀控详情"
     }
-
 
     override fun showPage(data: MutableList<ValveUseTime>) {
         for (itemDate in data) {
@@ -98,23 +96,25 @@ class ValveDetailActivity : BaseMvpActivity<DeviceDetailContract.IPresenter>(), 
         if(deviceItem.illuminationSensor != null){
             tv_sun_exposure?.text = "${deviceItem.illuminationSensor.illumination}Lux"
         }
-        tv_device_name?.text = "${deviceItem.name}:"
-        tv_device_no?.text = deviceItem.number
+//        tv_device_name?.text = "${deviceItem.name}:"
+        tv_title.text = deviceItem.name
+        tv_device_name.visibility = View.GONE
+        tv_device_no.text = deviceItem.number
 
-        tv_state?.text = deviceItem.stateString
+        tv_state.text = deviceItem.stateString
         when(deviceItem.state){
             0,1 -> {
-                tv_state?.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.gray_oval,0,0,0)
+                tv_state.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.gray_oval,0,0,0)
             }
             2 -> {
-                tv_state?.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.green_oval,0,0,0)
+                tv_state.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.green_oval,0,0,0)
             }
             3 -> {
-                tv_state?.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.red_oval,0,0,0)
+                tv_state.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.red_oval,0,0,0)
             }
         }
-        tv_battery_percent?.text =  "${(deviceItem.cellVoltageProportion * 100).toInt()}%"
-        battery?.power = deviceItem.cellVoltageProportion
+        tv_battery_percent.text =  "${(deviceItem.cellVoltageProportion * 100).toInt()}%"
+        battery.power = deviceItem.cellVoltageProportion
 
         val mAdapter = ValveListAdapter(this, deviceItem.valves)
         mAdapter.setGetOunts(object : ValveListAdapter.GetCounts {

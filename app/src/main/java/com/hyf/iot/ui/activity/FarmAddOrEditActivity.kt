@@ -25,15 +25,12 @@ import com.baidu.mapapi.search.geocode.*
 import com.baidu.mapsdkplatform.comapi.location.CoordinateType
 import com.hyf.iot.App
 import com.hyf.iot.R
-import com.hyf.iot.common.Constant.KEY_PARAM_ADDRESS
-import com.hyf.iot.common.Constant.KEY_PARAM_ID
-import com.hyf.iot.common.Constant.KEY_PARAM_LAT
-import com.hyf.iot.common.Constant.KEY_PARAM_LONG
-import com.hyf.iot.common.Constant.KEY_PARAM_NAME
+import com.hyf.iot.common.Constant.KEY_PARAM_1
 import com.hyf.iot.common.activity.BaseMvpActivity
 import com.hyf.iot.contract.FarmContract
 import com.hyf.iot.domain.farm.Farm
 import com.hyf.iot.presenter.FarmAddOrEditPresenter
+import com.hyf.iot.utils.StringUtils
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
 import kotlinx.android.synthetic.main.activity_add_farm.*
@@ -50,6 +47,8 @@ class FarmAddOrEditActivity : BaseMvpActivity<FarmContract.IPresenter>(), FarmCo
     internal var mLongtitude = 104.093591
     private var mAddr = ""
     private var mFarmName = ""
+    private var mLinkMan = ""
+    private var mLinkPhone = ""
     private var mProvince = ""
     private var mCity = ""
     private var mDistrict = ""
@@ -67,16 +66,17 @@ class FarmAddOrEditActivity : BaseMvpActivity<FarmContract.IPresenter>(), FarmCo
 
     override fun init(savedInstanceState: Bundle?) {
         super.init(savedInstanceState)
-        val data = intent.getParcelableExtra<Farm>("extraKey")
-        id = data.id
-//        val bundle = intent.getBundleExtra("bundle")
-//        if (bundle != null) {
-//            id = bundle.getString(KEY_PARAM_ID)
-//            mLatitude = bundle.getDouble(KEY_PARAM_LAT)
-//            mLongtitude = bundle.getDouble(KEY_PARAM_LONG)
-//            mAddr = bundle.getString(KEY_PARAM_ADDRESS)
-//            mFarmName = bundle.getString(KEY_PARAM_NAME)
-//        }
+        val bundle = intent.getBundleExtra("bundle")
+        if (bundle != null) {
+            val data = bundle.getParcelable<Farm>(KEY_PARAM_1)
+            id = data.id!!
+            mLatitude = data.latitude
+            mLongtitude = data.longitude
+            mAddr = data.address!!
+            mFarmName = data.name!!
+            mLinkMan = data.linkMan!!
+            mLinkPhone = data.linkPhone!!
+        }
     }
 
     override fun initView() {
@@ -88,25 +88,44 @@ class FarmAddOrEditActivity : BaseMvpActivity<FarmContract.IPresenter>(), FarmCo
             btn_add_farm.text = getString(R.string.create_completion)
         } else {
             tv_title.text = getString(R.string.edit_farm)
-            btn_add_farm.text = getString(R.string.create_completion)
-//            tv_location.text = addressDetail?.province + addressDetail?.city + addressDetail?.district
+            btn_add_farm.text = getString(R.string.update_completion)
+            tv_location.text = "移动地图获取位置"
             et_address_detail.setText(mAddr)
             et_farm_name.setText(mFarmName)
+            et_linkMan.setText(mLinkMan)
+            et_linkPhone.setText(mLinkPhone)
         }
 
         initSettingMapView()
         btn_add_farm.setOnClickListener {
-            val farmName = et_farm_name.text.toString()
-            val address = et_address_detail.text.toString()
-            if (farmName.isNullOrBlank()) {
+            mFarmName = et_farm_name.text.toString()
+            mAddr = et_address_detail.text.toString()
+            if (mFarmName.isNullOrBlank()) {
                 et_farm_name.requestFocus()
                 showToast("请输入农场名字")
                 return@setOnClickListener
             }
+            mLinkMan = et_linkMan.text.toString()
+            if (mLinkMan.isNullOrBlank()) {
+                et_linkMan.requestFocus()
+                showToast("请输入农场联系人")
+                return@setOnClickListener
+            }
+            mLinkPhone = et_linkPhone.text.toString()
+            if (mLinkPhone.isNullOrBlank()) {
+                et_linkPhone.requestFocus()
+                showToast("请输入联系电话")
+                return@setOnClickListener
+            }
+            if (!StringUtils.isPhone(mLinkPhone)) {
+                showToast("请输入正确的手机号")
+                et_linkPhone.requestFocus()
+                return@setOnClickListener
+            }
             if (id.isNullOrEmpty())
-                getPresenter().farmAdd(farmName, address, mLatitude, mLongtitude,  mProvince, mCity,mDistrict)
+                getPresenter().farmAdd(mFarmName, mAddr, mLinkMan,mLinkPhone,mLatitude, mLongtitude,  mProvince, mCity,mDistrict)
             else
-                getPresenter().farmEdit(farmName, address, mLatitude, mLongtitude, mProvince, mCity,mDistrict, id)
+                getPresenter().farmEdit(mFarmName, mAddr, mLinkMan,mLinkPhone,mLatitude, mLongtitude, mProvince, mCity,mDistrict, id)
         }
     }
 
@@ -142,7 +161,7 @@ class FarmAddOrEditActivity : BaseMvpActivity<FarmContract.IPresenter>(), FarmCo
     private fun initSettingMapView() {
         mBaiduMap = mMapView.map
         // 初始化地图
-        mMapView.showZoomControls(false)
+        mMapView.showZoomControls(true)
         // 开启定位图层
         mBaiduMap!!.isMyLocationEnabled = true
         initLoc()

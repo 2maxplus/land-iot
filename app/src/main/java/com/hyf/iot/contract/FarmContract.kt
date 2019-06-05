@@ -15,7 +15,7 @@ interface FarmContract {
     }
 
     interface IPresenter : IPresenterContract{
-        fun farmAdd(name: String,address: String,latitude: Double,longitude: Double,province: String,city: String,district: String)
-        fun farmEdit(name: String,address: String,latitude: Double,longitude: Double,province: String,city: String,district: String,id:String)
+        fun farmAdd(name: String,address: String,linkMan: String,linkPhone:String,latitude: Double,longitude: Double,province: String,city: String,district: String)
+        fun farmEdit(name: String,address: String,linkMan: String,linkPhone:String,latitude: Double,longitude: Double,province: String,city: String,district: String,id:String)
     }
 }

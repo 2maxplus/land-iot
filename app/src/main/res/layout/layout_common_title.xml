@@ -36,7 +36,6 @@
         android:ellipsize="end"
         android:gravity="center"
         android:padding="@dimen/comm_margin"
-        android:text="保存"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/font_size_14sp"
         android:visibility="invisible" />

@@ -48,7 +48,6 @@ class ValveControlFragment: BaseFragment() {
         val datas11 = Datas("","22°C", "45%", "13°C","22%", "20Lux", "173645345RDF9131",valves)
         val datas12 = Datas("","24°C", "41%", "23°C","52%", "10Lux", "173621298UJ09451",valves)
 
-
         val array1 = ArrayList<Datas>()
         array1.add(datas1);array1.add(datas2);array1.add(datas3)
 

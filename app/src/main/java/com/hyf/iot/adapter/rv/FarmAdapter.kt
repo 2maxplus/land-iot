@@ -36,7 +36,7 @@ class FarmAdapter(context: Activity?, list: MutableList<Farm>) : RecyclerView.Ad
     fun setData(mData: MutableList<Farm>) {
         this.mData.clear()
         this.mData.addAll(mData)
-        if (mData.size == 1) LoginUser.farmId = mData[0].id
+        if (mData.size == 1) LoginUser.farmId = mData[0].id!!
         for (i in 0 until mData.size) {
             map[i] = LoginUser.farmId == mData[i].id
         }
@@ -58,7 +58,7 @@ class FarmAdapter(context: Activity?, list: MutableList<Farm>) : RecyclerView.Ad
             map[position] = !map[position]!!
             notifyDataSetChanged()
             singleSet(position)
-            mCallback.click(it, item.id)
+            mCallback.click(it, item.id!!)
         }
         holder.itemView.setOnClickListener {
             val bundle = Bundle()
@@ -97,7 +97,7 @@ class FarmAdapter(context: Activity?, list: MutableList<Farm>) : RecyclerView.Ad
     fun getCheckedId(): String {
         var id = ""
         map.forEach { (key, value) ->
-            if (value) id = mData[key].id
+            if (value) id = mData[key].id!!
         }
         return id
     }

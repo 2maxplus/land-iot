@@ -26,9 +26,12 @@ class DeviceCoordinatesPresenter: BaseRxLifePresenter<DeviceCoordinatesContract.
                                     LoginUser.token = ""
                                     getMvpView().onTokenExpired(it.msg)
                                 }
+                                else->{
+                                getMvpView().errorPage(it.msg)
+                            }
                             }
                         },
-                        { getMvpView().errorPage(it)}
+                        { getMvpView().errorPage(it.message)}
                 ).bindRxLifeEx(RxLife.ON_DESTROY)
     }
 }

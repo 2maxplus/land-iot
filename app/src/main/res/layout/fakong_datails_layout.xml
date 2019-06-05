@@ -16,11 +16,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <include
                 android:id="@+id/layout_device"
                 layout="@layout/shebai_list_item" />
-
             <include layout="@layout/legend_layout"
                 android:visibility="gone"/>
             <android.support.v7.widget.RecyclerView

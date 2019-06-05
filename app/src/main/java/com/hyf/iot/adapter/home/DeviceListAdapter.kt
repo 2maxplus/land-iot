@@ -17,7 +17,7 @@ import com.hyf.iot.domain.device.DeviceItem
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.widget.BatteryView
 import android.view.MotionEvent
-
+import android.widget.TableRow
 
 
 class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceItem>) : RecyclerView.Adapter<DeviceListAdapter.ViewHolders>() {
@@ -50,6 +50,8 @@ class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceItem>) :
                 this!!.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL,false)
                 adapter = sAdapter
             }
+        }else{
+            holder.info1?.visibility = View.VISIBLE
         }
         if(item.illuminationSensor != null){
             holder.sunExposure?.text = "${item.illuminationSensor.illumination}Lux"
@@ -108,6 +110,7 @@ class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceItem>) :
         val deviceNo = itemview?.findViewById<TextView>(R.id.tv_device_no)
         val recyclerView = itemview?.findViewById<RecyclerView>(R.id.recycler_view)
         val recyclerViewSoil = itemview?.findViewById<RecyclerView>(R.id.recycler_view_soil)
+        val info1 = itemview?.findViewById<TableRow>(R.id.info1)
     }
 
     fun getValves() : Int = mAdapter!!.getValves()

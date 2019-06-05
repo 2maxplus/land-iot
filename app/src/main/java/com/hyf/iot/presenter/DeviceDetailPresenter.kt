@@ -31,6 +31,7 @@ class DeviceDetailPresenter : BaseRxLifePresenter<DeviceDetailContract.IView>(),
                                     LoginUser.token = ""
                                     getMvpView().onTokenExpired(it.msg)
                                 }
+                                else->getMvpView().errorPage(it.msg)
                             }
                         },
                         { getMvpView().errorPage(it.message)}

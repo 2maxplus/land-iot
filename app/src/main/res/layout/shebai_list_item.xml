@@ -9,7 +9,7 @@
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -26,13 +26,16 @@
 
         <TextView
             android:id="@+id/tv_device_no"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:paddingTop="3dp"
             android:paddingBottom="3dp"
+            android:singleLine="true"
             android:text="78ASFVMN254320PL"
-            android:textSize="@dimen/font_size_15sp"
+            style="@style/text_base_style"
+            android:ellipsize="middle"
             android:layout_toRightOf="@id/tv_device_name"
             android:textColor="@color/text_blue" />
 
@@ -47,12 +50,12 @@
             android:layout_marginStart="@dimen/margin_20"
             android:text="在线"/>
 
-
         <TextView
             android:id="@+id/tv_battery_percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/text_base_style"
+            android:textSize="12sp"
             android:layout_toLeftOf="@+id/battery"
             android:layout_marginStart="@dimen/margin_20"/>
 
@@ -62,10 +65,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            app:battery_view_height="36"
-            app:battery_view_width="75"/>
+            app:battery_view_height="25"
+            app:battery_view_width="50"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <TableLayout
         android:layout_width="match_parent"
