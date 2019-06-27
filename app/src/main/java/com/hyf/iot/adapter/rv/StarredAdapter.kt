@@ -11,9 +11,6 @@ import com.hyf.iot.domain.Starred
 import com.hyf.iot.widget.findViewByIdEx
 import com.hyf.iot.widget.loadmore.LoadMoreRecyclerAdapter
 
-/**
- * Created by L on 2017/7/19.
- */
 class StarredAdapter(mContext: Context, mData: MutableList<Starred>) : LoadMoreRecyclerAdapter<Starred>(mContext, mData) {
 
     override fun getItemHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder =

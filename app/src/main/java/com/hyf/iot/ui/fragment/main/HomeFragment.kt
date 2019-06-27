@@ -14,14 +14,11 @@ import com.baidu.location.LocationClientOption
 import com.baidu.mapapi.map.*
 import com.baidu.mapapi.model.LatLng
 import com.hyf.iot.R
-import com.hyf.iot.ui.activity.FarmAddOrEditActivity
-import com.hyf.iot.ui.activity.LandActivity
-import com.hyf.iot.ui.activity.LoginActivity
-import com.hyf.iot.ui.activity.ValveDetailActivity
 import com.hyf.iot.common.fragment.BaseMvpFragment
 import com.hyf.iot.contract.DeviceCoordinatesContract
 import com.hyf.iot.domain.DeviceCoordinates
 import com.hyf.iot.presenter.DeviceCoordinatesPresenter
+import com.hyf.iot.ui.activity.*
 import com.hyf.iot.utils.UIUtils
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
@@ -99,7 +96,7 @@ class HomeFragment: BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(),Devi
         }
         fab_btn_add_land.setOnClickListener {
             floating_menu.close(true)
-            activity?.newIntent<LandActivity>()
+            activity?.newIntent<MassifActivity>()
         }
     }
 

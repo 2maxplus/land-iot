@@ -23,7 +23,7 @@ class CombinationOverlay(private val mMapView: MapView, private var latLngList: 
     private var polylineList: MutableList<Polyline>? = null
     private var tempPolygon: Polygon? = null
     private var bdA = BitmapDescriptorFactory
-            .fromResource(R.drawable.icon_dot)
+            .fromResource(R.drawable.icon_dot_anchor)
     private val stroke = Stroke(3, -0x55ff0100)
 
     init {
