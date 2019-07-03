@@ -16,13 +16,25 @@ import com.baidu.location.LocationClient
 import com.baidu.location.LocationClientOption
 import com.baidu.mapapi.map.*
 import com.baidu.mapapi.model.LatLng
+import com.hyf.iot.App
 import com.hyf.iot.R
-import com.hyf.iot.common.activity.BaseActivity
+import com.hyf.iot.common.LoginUser
+import com.hyf.iot.common.activity.BaseMvpActivity
+import com.hyf.iot.contract.MassifContract
 import com.hyf.iot.domain.LatLonData
+import com.hyf.iot.presenter.MassifAddOrEditPresenter
 import com.hyf.iot.utils.mapCeshi.MapUtils
+import com.hyf.iot.utils.newIntent
+import com.hyf.iot.utils.showToast
+import kotlinx.android.synthetic.main.layout_common_title.*
 import kotlinx.android.synthetic.main.map_layout.*
 
-class MassifActivity : BaseActivity() {
+/**
+ * 地块
+ *
+ * */
+@SuppressLint("SetTextI18n")
+class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(),MassifContract.IView {
 
     private var mBaiduMap: BaiduMap? = null
     var myListener = MyLocationListenner()
@@ -35,10 +47,29 @@ class MassifActivity : BaseActivity() {
     private var mList: ArrayList<LatLng> = ArrayList() // 点坐标集合
     private var mMarkerList: ArrayList<LatLonData> = ArrayList()
     private var isArea: Boolean = false
+    private var id = ""  // 地块ID
 
     override fun getLayoutId(): Int = R.layout.map_layout
 
+
     override fun initView() {
+        tv_operate.visibility = View.VISIBLE
+        tv_operate.text = "确定"
+        tv_operate.setOnClickListener {
+            val massifName = et_name.text.toString()
+            if(massifName.isEmpty()){
+                et_name.requestFocus()
+                showToast("请输入地块名")
+                return@setOnClickListener
+            }
+            val massifSize = area.text.toString().toFloat()
+            if(massifSize <= 0f){
+
+                return@setOnClickListener
+            }
+            getPresenter().massifAdd(LoginUser.farmId,massifName,area.text.toString().toFloat() ,mList)
+        }
+        iv_back.setOnClickListener { onBack() }
         mBaiduMap = mMapView!!.map
         mBaiduMap!!.setMapStatus(MapStatusUpdateFactory.zoomTo(12f))
         //检查权限
@@ -71,9 +102,38 @@ class MassifActivity : BaseActivity() {
                     -1
                 }
                 pointView?.visibility = View.GONE
-                area.text = MapUtils.getArea(pl).toString()
+                area.text = MapUtils.getArea(pl)
             }
         }
+    }
+
+    override fun registerPresenter() = MassifAddOrEditPresenter::class.java
+
+    override fun onTokenExpired(msg: String) {
+        showToast(msg)
+        App.instance.removeAllActivity()
+        newIntent<LoginActivity>()
+        finish()
+    }
+
+    override fun onError(errorMsg: String?) {
+        if (errorMsg.isNullOrEmpty()) {
+            showToast(R.string.net_error)
+        } else {
+            showToast(errorMsg)
+        }
+    }
+
+    override fun addSuccess() {
+        showToast("添加成功")
+        setResult(RESULT_OK)
+        finish()
+    }
+
+    override fun editSuccess() {
+        showToast("编辑成功")
+        setResult(RESULT_OK)
+        finish()
     }
 
     private fun showContacts() {
@@ -90,7 +150,7 @@ class MassifActivity : BaseActivity() {
                         Manifest.permission.READ_PHONE_STATE
                 ) != PackageManager.PERMISSION_GRANTED
         ) {
-            Toast.makeText(this, "没有权限,请手动开启定位权限", Toast.LENGTH_SHORT).show()
+            showToast("没有权限,请手动开启定位权限")
             // 申请一个（或多个）权限，并提供用于回调返回的获取码（用户定义）
             this.let {
                 ActivityCompat.requestPermissions(
@@ -141,10 +201,10 @@ class MassifActivity : BaseActivity() {
                     if (mMarkerList.size > 2) {
                         isArea = true
                         pLine?.remove()
-                        allLineAutoAddPoint()
+//                        allLineAutoAddPoint()
                         pl = drawArea()
                         drawPoints()
-                        area.text = MapUtils.getArea(pl).toString()  // 面积
+                        area.text = MapUtils.getArea(pl) // 面积
                     } else {
                         setPointView(marker)
                     }
@@ -276,7 +336,7 @@ class MassifActivity : BaseActivity() {
     private fun addPointView(x: Int, y: Int) {
         if (pointView == null) {
             pointView = ImageView(this)
-            pointView?.setImageResource(R.drawable.icon_edit_delete)
+            pointView?.setImageResource(R.drawable.icon_arrow_drag)
             layout.addView(pointView)
             val layoutp = pointView?.layoutParams
             layoutp?.width = 100
@@ -292,12 +352,12 @@ class MassifActivity : BaseActivity() {
 //                    updataMidPoint(pos)
 //                }
                 pl?.points = mList
-                area.text = MapUtils.getArea(pl).toString()
+//                area.text = MapUtils.getArea(pl)
 
                 if (event.action == MotionEvent.ACTION_UP) {
                     pl?.points = mList
                     twoLineAutoAddPoint()
-                    area.text = MapUtils.getArea(pl).toString()
+                    area.text = MapUtils.getArea(pl)
                 }
                 true
             }
@@ -388,8 +448,8 @@ class MassifActivity : BaseActivity() {
             //在地图上绘制折线
             //mPloyline 折线对象
             val mOverlayOptions = PolylineOptions()
-                    .width(10)
-                    .color(-0x55010000)
+                    .width(6)
+                    .color(0x55f3b112)
                     .points(mList)
             pLine = mBaiduMap!!.addOverlay(mOverlayOptions) as Polyline
         }

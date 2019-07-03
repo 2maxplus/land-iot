@@ -52,6 +52,13 @@
         <item name="android:layout_height">0.5dp</item>
         <item name="android:background">@color/reveal_color</item>
     </style>
+    <style name="v_view_style">
+        <item name="android:layout_width">0.5dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:layout_marginTop">@dimen/comm_margin</item>
+        <item name="android:layout_marginBottom">@dimen/comm_margin</item>
+    </style>
 
     <!--popupwindow 动画-->
     <style name="popmenu_animation" parent="android:Animation">

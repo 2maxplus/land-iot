@@ -7,6 +7,7 @@ import com.baidu.mapapi.map.MapView
 import com.baidu.mapapi.map.Polygon
 import com.baidu.mapapi.map.Projection
 import com.baidu.mapapi.model.LatLng
+import java.text.DecimalFormat
 import kotlin.math.absoluteValue
 
 /**
@@ -77,13 +78,12 @@ object MapUtils {
         return LatLng(Gx, Gy)
     }
 
-    fun getArea(pl: Polygon?): Double {
-        val pts = pl?.points ?: return 0.0
+    fun getArea(pl: Polygon?): String {
+        val pts = pl?.points ?: return "0.0"
         //判断数组的长度，如果是小于3的话，不构成面，无法计算面积
         if (pts.size < 3) {
-            return 0.0
+            return "0.0"
         }
-
         var totalArea: Double
         var LowX: Double
         var LowY: Double
@@ -202,8 +202,9 @@ object MapUtils {
                 tempSum1
         }
         totalArea = (Sum - (Count - 2) * Math.PI) * Radius * Radius
-
-        return Math.abs(totalArea / 1000000)
+         val df = DecimalFormat("#.00")
+        return df.format(Math.abs(totalArea / 1000000) * 1500)
+//        return Math.abs(totalArea / 1000000)
 
     }
 

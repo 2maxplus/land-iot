@@ -1,6 +1,8 @@
 package com.hyf.iot.ui.activity
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Point
 import android.os.Bundle
@@ -26,6 +28,7 @@ import com.baidu.mapsdkplatform.comapi.location.CoordinateType
 import com.hyf.iot.App
 import com.hyf.iot.R
 import com.hyf.iot.common.Constant.KEY_PARAM_1
+import com.hyf.iot.common.Constant.RequestKey.ON_SUCCESS
 import com.hyf.iot.common.activity.BaseMvpActivity
 import com.hyf.iot.contract.FarmContract
 import com.hyf.iot.domain.farm.Farm
@@ -33,9 +36,14 @@ import com.hyf.iot.presenter.FarmAddOrEditPresenter
 import com.hyf.iot.utils.StringUtils
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
+import com.hyf.iot.widget.dialog.MyDialog
 import kotlinx.android.synthetic.main.activity_add_farm.*
 import kotlinx.android.synthetic.main.layout_common_title.*
 
+/**
+ * 农场
+ *
+ * */
 class FarmAddOrEditActivity : BaseMvpActivity<FarmContract.IPresenter>(), FarmContract.IView {
 
     private var mBaiduMap: BaiduMap? = null
@@ -61,6 +69,7 @@ class FarmAddOrEditActivity : BaseMvpActivity<FarmContract.IPresenter>(), FarmCo
     private var addressDetail: ReverseGeoCodeResult.AddressComponent? = null
     // 农场ID
     private var id = ""
+    private lateinit var dialogs: MyDialog
 
     override fun getLayoutId() = R.layout.activity_add_farm
 
@@ -148,8 +157,22 @@ class FarmAddOrEditActivity : BaseMvpActivity<FarmContract.IPresenter>(), FarmCo
 
     override fun addSuccess() {
         showToast("添加成功")
-        setResult(RESULT_OK)
-        finish()
+        dialogs = MyDialog(this, "添加成功,要继续添加地块吗？", View.OnClickListener {
+            when (it.id) {
+                R.id.left_text -> {  //
+                    setResult(RESULT_OK)
+                    finish()
+                    dialogs.dismiss()
+                }
+                R.id.right_text -> {
+                    //继续
+                    newIntent<MassifActivity>(ON_SUCCESS)
+                    dialogs.dismiss()
+                }
+            }
+        })
+        dialogs.show()
+
     }
 
     override fun editSuccess() {
@@ -343,5 +366,17 @@ class FarmAddOrEditActivity : BaseMvpActivity<FarmContract.IPresenter>(), FarmCo
     override fun onPause() {
         mMapView.onPause()
         super.onPause()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                ON_SUCCESS -> {
+                    setResult(RESULT_OK)
+                    finish()
+                }
+            }
+        }
     }
 }

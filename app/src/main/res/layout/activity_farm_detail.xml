@@ -44,6 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0块地，0.00亩"
+        android:padding="@dimen/comm_margin"
         style="@style/text_base_style"/>
 
     <include layout="@layout/layout_recycler_view"/>

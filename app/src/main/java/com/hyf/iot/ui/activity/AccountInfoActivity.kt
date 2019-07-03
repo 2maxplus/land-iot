@@ -73,13 +73,12 @@ class AccountInfoActivity : BaseMvpActivity<UserContract.IPresenter>(), UserCont
                     }
                     R.id.right_text -> {
                         //退出登录
-
                         getPresenter().logout()
                         dialogs.dismiss()
                     }
                 }
             })
-            dialogs?.show()
+            dialogs.show()
         }
     }
 

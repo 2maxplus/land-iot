@@ -1,36 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.baidu.mapapi.map.MapView
-        android:id="@+id/mMapView"
+    <include layout="@layout/layout_common_title" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:background="@color/bg_page"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/delete"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom|center"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="20dp"
-        android:background="#ccc"
-        android:gravity="center"
-        android:text="删除当前点" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="horizontal"
+            android:padding="@dimen/comm_margin">
 
-    <TextView
-        android:id="@+id/area"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom|center"
-        android:layout_marginStart="60dp"
-        android:layout_marginBottom="20dp"
-        android:background="#ccc"
-        android:gravity="center"
-        android:minWidth="100dp"
-        android:text="面积:" />
+            <TextView
+                style="@style/text_base_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="地块名字：" />
 
-</FrameLayout>
+            <EditText
+                android:id="@+id/et_name"
+                style="@style/singleline_edit_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/padding_15"
+                android:gravity="end" />
+        </LinearLayout>
+
+        <View
+            style="@style/h_view_style"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="horizontal"
+            android:padding="@dimen/comm_margin">
+
+            <TextView
+                style="@style/text_base_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="面积：" />
+
+            <TextView
+                android:id="@+id/area"
+                style="@style/text_base_style"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:paddingEnd="@dimen/comm_margin"
+                android:text="0.0" />
+
+            <TextView
+                style="@style/text_base_style"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="亩" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/mMapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/translateHalf"
+            android:layout_gravity="bottom|center"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/delete"
+                style="@style/text_base_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_delete_anchor"
+                android:paddingStart="@dimen/comm_margin"
+                android:paddingEnd="@dimen/comm_margin" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+</LinearLayout>
