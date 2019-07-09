@@ -51,8 +51,8 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(),MassifContra
 
     override fun getLayoutId(): Int = R.layout.map_layout
 
-
     override fun initView() {
+        tv_title.text = getString(R.string.add_massif)
         tv_operate.visibility = View.VISIBLE
         tv_operate.text = "确定"
         tv_operate.setOnClickListener {
@@ -63,15 +63,14 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(),MassifContra
                 return@setOnClickListener
             }
             val massifSize = area.text.toString().toFloat()
-            if(massifSize <= 0f){
-
+            if(massifSize <= 0f ){
                 return@setOnClickListener
             }
             getPresenter().massifAdd(LoginUser.farmId,massifName,area.text.toString().toFloat() ,mList)
         }
         iv_back.setOnClickListener { onBack() }
         mBaiduMap = mMapView!!.map
-        mBaiduMap!!.setMapStatus(MapStatusUpdateFactory.zoomTo(12f))
+        mBaiduMap!!.setMapStatus(MapStatusUpdateFactory.zoomTo(15f))
         //检查权限
         //判断是否为android6.0系统版本，如果是，需要动态添加权限
         if (Build.VERSION.SDK_INT >= 23) {
@@ -229,12 +228,9 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(),MassifContra
                     pointView?.visibility = View.GONE
                 }
             }
-
             override fun onMapStatusChangeFinish(p0: MapStatus?) {
             }
-
         })
-
     }
 
     private fun setPointView(marker: Marker) {
@@ -294,7 +290,7 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(),MassifContra
                 pl = drawArea()
                 drawPoints()
                 pos += 1
-//                mMarkerList[pos].isAddPoint = true
+                mMarkerList[pos].isAddPoint = true
             }
 
         }
@@ -492,7 +488,7 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(),MassifContra
                         location.longitude
                 )
                 val builder = MapStatus.Builder()
-                builder.target(ll).zoom(14.0f)
+                builder.target(ll).zoom(17.0f)
                 mBaiduMap!!.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()))
             }
         }

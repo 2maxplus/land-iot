@@ -25,6 +25,9 @@ import kotlinx.android.synthetic.main.activity_login.*
 import android.graphics.drawable.Drawable
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.hyf.iot.contract.FarmListContract
+import com.hyf.iot.domain.farm.Farm
+import com.hyf.iot.presenter.FarmListPresenter
 
 
 /**
@@ -33,12 +36,13 @@ import com.bumptech.glide.request.transition.Transition
  *  3、实现自己的通讯契约
  */
 class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract.IView {
+
     private val BAIDU_READ_PHONE_STATE = 100
     override fun onTokenExpired(msg: String) {
     }
 
     private var loginId: String = ""
-    private val mLoadingDialog by lazy { LoadingDialog(this,R.style.MyTransformDialog) }
+    private val mLoadingDialog by lazy { LoadingDialog(this, R.style.MyTransformDialog) }
     private val timer = object : CountDownTimer(60000, 1000) {
         override fun onFinish() {
             tv_get_code.isEnabled = true
@@ -84,6 +88,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
             getPresenter().getCode(et_user.text!!.trim().toString())
 
         }
+
         et_code.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 btn_login.isEnabled = s!!.isNotEmpty()
@@ -114,7 +119,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
     override fun loginSuccess() {
         mLoadingDialog.dismiss()
         showToast(R.string.login_success)
-        goHome()
+        getPresenter().getFarmList()
     }
 
     override fun loginError(errorMsg: String?) {
@@ -148,7 +153,6 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
         ll_login.visibility = View.VISIBLE
     }
 
-
     private fun login() {
         if (et_user.text.isNullOrBlank()) {
             showToast(R.string.input_user)
@@ -173,6 +177,21 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
         } else {
             showToast(errorMsg)
         }
+    }
+
+    override fun onError(errorMsg: String?) {
+        if (errorMsg.isNullOrEmpty()) {
+            showToast(R.string.net_error)
+        } else {
+            showToast(errorMsg)
+        }
+        goHome()
+    }
+
+    override fun showPageList(data: MutableList<Farm>) {
+        if (data != null && data.size > 0)
+            LoginUser.farmId = data[0].id!!
+        goHome()
     }
 
     fun showPermissions() {

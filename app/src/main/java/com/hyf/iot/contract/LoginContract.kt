@@ -1,5 +1,6 @@
 package com.hyf.iot.contract
 
+import com.hyf.iot.domain.farm.Farm
 import com.ljb.kt.contract.IPresenterContract
 import com.ljb.kt.contract.IViewContract
 
@@ -15,11 +16,14 @@ interface LoginContract {
         fun goHome()
         fun getCodeSuccess(loginId: String)
         fun getCodeError(errorMsg: String?)
+        fun onError(errorMsg: String?)
+        fun showPageList(data: MutableList<Farm>)
     }
 
     interface IPresenter : IPresenterContract {
         fun login(loginId: String,code: String)
         fun delayGoHomeTask()
         fun getCode(phone: String)
+        fun getFarmList()
     }
 }

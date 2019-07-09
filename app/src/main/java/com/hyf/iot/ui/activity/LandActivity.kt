@@ -44,7 +44,7 @@ class LandActivity : BaseActivity() {
     override fun initView() {
         super.initView()
         iv_back.setOnClickListener { onBackPressed() }
-        tv_title.text = getString(R.string.add_land)
+        tv_title.text = getString(R.string.add_massif)
         mBaiduMap = mMapView!!.map
         val msu = MapStatusUpdateFactory.zoomTo(14.0f)
         mBaiduMap!!.setMapStatus(msu)

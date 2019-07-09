@@ -3,21 +3,27 @@ package com.hyf.iot.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.widget.LinearLayout
 import com.hyf.iot.App
 import com.hyf.iot.R
+import com.hyf.iot.adapter.farm.MassifAdapter
 import com.hyf.iot.common.Constant.KEY_PARAM_1
 import com.hyf.iot.common.Constant.KEY_PARAM_ID
 import com.hyf.iot.common.Constant.RequestKey.ON_SUCCESS
 import com.hyf.iot.common.activity.BaseMvpActivity
 import com.hyf.iot.contract.FarmDetailContract
 import com.hyf.iot.domain.farm.Farm
+import com.hyf.iot.domain.farm.Massif
 import com.hyf.iot.presenter.FarmDetailPresenter
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
+import com.hyf.iot.widget.ItemDecoration
 import com.hyf.iot.widget.dialog.LoadingDialog
 import kotlinx.android.synthetic.main.activity_farm_detail.*
 import kotlinx.android.synthetic.main.layout_common_title.*
+import kotlinx.android.synthetic.main.layout_recycler_view.*
 
 /**
  * 农场详情
@@ -28,13 +34,21 @@ class FarmDetailActivity : BaseMvpActivity<FarmDetailContract.IPresenter>(),Farm
     private var id: String = ""
     private var data: Farm? = null
     private val mLoadingDialog by lazy { LoadingDialog(this) }
+    private val mMassifAdapter by lazy { MassifAdapter(this, ArrayList()) }
 
     override fun registerPresenter() = FarmDetailPresenter::class.java
 
-    override fun showDetail(data: Farm) {
+    override fun showFarmDetail(data: Farm) {
         this.data = data
         tv_farm_name.text = data.name
         tv_farm_address.text = data.address
+        getPresenter().getMassifList(data.id!!)
+    }
+
+    override fun showMassifList(data: MutableList<Massif>) {
+        mMassifAdapter.mData.clear()
+        mMassifAdapter.mData.addAll(data)
+        mMassifAdapter.notifyDataSetChanged()
     }
 
     override fun getLayoutId() = R.layout.activity_farm_detail
@@ -48,6 +62,13 @@ class FarmDetailActivity : BaseMvpActivity<FarmDetailContract.IPresenter>(),Farm
             val bundle = Bundle()
             bundle.putParcelable(KEY_PARAM_1,data)
             newIntent<FarmAddOrEditActivity>(ON_SUCCESS,bundle)
+        }
+
+        recycler_view.apply {
+            layoutManager = LinearLayoutManager(this@FarmDetailActivity, LinearLayout.VERTICAL,false)
+            addItemDecoration(ItemDecoration(1))
+            mMassifAdapter.isShowLoadMore(false)
+            adapter = mMassifAdapter
         }
     }
 

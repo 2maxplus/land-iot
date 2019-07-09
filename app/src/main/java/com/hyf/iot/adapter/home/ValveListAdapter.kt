@@ -53,12 +53,12 @@ class ValveListAdapter(context: Activity?, list: ArrayList<Valve>) :
 
         holder.switchState?.setOnClickListener {
             val valveState = valve.state
-            val state = when(valveState) {
+            val state = when (valveState) {
                 1 -> "open"
                 3 -> "close"
                 else -> "open"
             }
-            if(state.isEmpty()){
+            if (state.isEmpty()) {
                 context?.showToast("不可操作")
                 return@setOnClickListener
             }
@@ -68,15 +68,15 @@ class ValveListAdapter(context: Activity?, list: ArrayList<Valve>) :
                     .observeOn(AndroidSchedulers.mainThread())
                     .map { it.data }
                     .subscribeEx(
-                             {
-                                if(it.success){
+                            {
+                                if (it.success) {
                                     valve.state = 2
                                     holder.switchState.isEnabled = false
-                                }else{
+                                } else {
                                     context?.showToast(it.message)
                                 }
-                                 notifyDataSetChanged()
-                            },{})
+                                notifyDataSetChanged()
+                            }, {})
 //                    .dispose()
         }
 

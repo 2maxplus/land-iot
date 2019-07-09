@@ -2,6 +2,7 @@ package com.hyf.iot.domain.farm
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import java.math.BigDecimal
 
 @Parcelize
 data class Massif(
@@ -11,6 +12,7 @@ data class Massif(
         val created: String,
         val humidity: Double,
         val id: String,
+        val size: BigDecimal,
         val isDeleted: Boolean,
         val latitude: Double,
         val latitudeType: Int,

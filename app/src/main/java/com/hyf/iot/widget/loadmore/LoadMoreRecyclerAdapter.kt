@@ -19,13 +19,13 @@ abstract class LoadMoreRecyclerAdapter<T>(val mContext: Context, var mData: Muta
     }
 
     private var mLoadMoreHolder: LoadMoreHolder? = null
+    private var isShowLoadMore = true
 
     private var isLoading = false
     private var mOnItemClickListener: OnItemClickListener? = null
     private var mLoadMoreListener: LoadMoreListener? = null
 
     override fun getItemId(position: Int) = position.toLong()
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == TYPE_LOAD_MORE) {  //加载更多
@@ -52,7 +52,6 @@ abstract class LoadMoreRecyclerAdapter<T>(val mContext: Context, var mData: Muta
                     this.onItemClick(holder.itemView, position)
                 }
             }
-
         } else if (itemViewType == TYPE_LOAD_MORE) {
             loadMore()
         }
@@ -60,11 +59,13 @@ abstract class LoadMoreRecyclerAdapter<T>(val mContext: Context, var mData: Muta
 
     abstract fun onBindData(holder: RecyclerView.ViewHolder, position: Int)
 
-    override fun getItemCount(): Int = mData.size + 1
+    override fun getItemCount(): Int = if(isShowLoadMore)  mData.size + 1 else mData.size
 
     override fun getItemViewType(position: Int): Int {
-        if (itemCount - 1 == position) {
-            return TYPE_LOAD_MORE
+        if(isShowLoadMore){
+            if (itemCount - 1 == position) {
+                return TYPE_LOAD_MORE
+            }
         }
         return TYPE_ITEM
     }
@@ -74,7 +75,6 @@ abstract class LoadMoreRecyclerAdapter<T>(val mContext: Context, var mData: Muta
         isLoading = false
         mLoadMoreHolder?.setStatus(LoadMoreHolder.LoadMoreType.Error)
     }
-
 
     fun initLoadStatusForSize(data: List<T>) {
         if (data.size < PAGE_DATA_SIZE) {
@@ -113,6 +113,9 @@ abstract class LoadMoreRecyclerAdapter<T>(val mContext: Context, var mData: Muta
         mLoadMoreListener = listener
     }
 
+    fun isShowLoadMore(isShow: Boolean){
+        isShowLoadMore = isShow
+    }
 
     interface LoadMoreListener {
         fun onLoadMore()

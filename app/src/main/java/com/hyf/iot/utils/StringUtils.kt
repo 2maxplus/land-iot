@@ -4,6 +4,8 @@ import java.util.regex.Pattern
 import android.text.TextUtils
 import android.widget.EditText
 import android.widget.TextView
+import java.math.BigDecimal
+import java.text.DecimalFormat
 
 object StringUtils {
     private val emailer = Pattern
@@ -89,6 +91,10 @@ object StringUtils {
 
     }
 
+    fun get2Decimal(number: BigDecimal): String{
+        val df = DecimalFormat("#.00")
+        return df.format(number)
+    }
 
     /**
      * 是否是数字

@@ -73,7 +73,7 @@ interface IReposHttpProtocol {
      *
      * */
     @POST("/api/Massif/Detail")
-    fun getMassifDetail(@Query("id") id: String): Observable<GenResult<String>>
+    fun getMassifDetail(@Query("id") id: String): Observable<GenResult<Massif>>
 
     /**
      * 地块编辑

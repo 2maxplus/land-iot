@@ -161,7 +161,7 @@
 
     <style name="add_land" parent="floating_buttons_small">
         <item name="android:src">@drawable/icon_land</item>
-        <item name="fab_label">@string/add_land</item>
+        <item name="fab_label">@string/add_massif</item>
     </style>
 
     <style name="menu_style">

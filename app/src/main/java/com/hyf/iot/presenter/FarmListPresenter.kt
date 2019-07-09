@@ -11,7 +11,7 @@ import io.reactivex.schedulers.Schedulers
 import com.ljb.kt.client.HttpFactory
 
 /**
- * 农场新建与更新
+ * 农场列表
  */
 class FarmListPresenter : BaseRxLifePresenter<FarmListContract.IView>(),
         FarmListContract.IPresenter {
@@ -34,6 +34,5 @@ class FarmListPresenter : BaseRxLifePresenter<FarmListContract.IView>(),
                         { getMvpView().onError(it.message)}
                 ).bindRxLifeEx(RxLife.ON_DESTROY)
     }
-
 
 }

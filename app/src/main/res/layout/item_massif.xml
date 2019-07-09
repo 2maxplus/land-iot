@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/comm_margin">
+
+    <ImageView
+        android:id="@+id/iv_massif"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@color/text_green"
+        android:visibility="visible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_massifName"
+        style="@style/text_base_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_marginStart="@dimen/comm_margin"
+        app:layout_constraintLeft_toRightOf="@id/iv_massif"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/tv_massifSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/iv_massif"
+        app:layout_constraintTop_toBottomOf="@id/tv_massifName"
+        android:layout_marginStart="@dimen/comm_margin"
+        style="@style/text_base_style"/>
+
+</android.support.constraint.ConstraintLayout>
