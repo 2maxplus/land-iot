@@ -48,7 +48,6 @@ public class BatteryView extends View {
 		battery_width = array.getInteger(R.styleable.BatteryView_battery_view_width, 70);
 		battery_height = array.getInteger(R.styleable.BatteryView_battery_view_height, 30);
 		battery_inside_margin = array.getInteger(R.styleable.BatteryView_battery_view_inside_margin, 4);
- 
 		array.recycle();
 		init(context);
 	}

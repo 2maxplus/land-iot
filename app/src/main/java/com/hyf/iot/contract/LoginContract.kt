@@ -6,7 +6,6 @@ import com.ljb.kt.contract.IViewContract
 
 /**
  * 登录页View层\Presenter层通讯接口
- * Created by L on 2017/7/13.
  */
 interface LoginContract {
 

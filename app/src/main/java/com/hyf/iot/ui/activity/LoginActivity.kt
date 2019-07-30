@@ -1,6 +1,7 @@
 package com.hyf.iot.ui.activity
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.CountDownTimer
@@ -49,6 +50,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
             tv_get_code.text = getString(R.string.get_code)
         }
 
+        @SuppressLint("SetTextI18n")
         override fun onTick(millisUntilFinished: Long) {
             tv_get_code.isEnabled = false
             tv_get_code.text = "已发送  (${millisUntilFinished / 1000})"
@@ -66,7 +68,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
     override fun initView() {
         transparencyBar(this)
         Glide.with(this)
-                .load(R.drawable.ic_launcher)
+                .load(R.drawable.logo_1)
                 .apply(RequestOptions().transform(CircleCrop()))
                 .into(iv_login)
 

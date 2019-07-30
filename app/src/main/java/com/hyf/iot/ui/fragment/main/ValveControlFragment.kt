@@ -62,18 +62,25 @@ class ValveControlFragment: BaseFragment() {
 
         childs = ArrayList()
         childs.add(array1);childs.add(array2);childs.add(array3);childs.add(array4)
-
+        val adapter = ValvesExpandableListViewAdapter(activity,groups,childs)
         expandableListView.apply {
-            setAdapter(ValvesExpandableListViewAdapter(activity,groups,childs))
+            setAdapter(adapter)
             setGroupIndicator(null)
-            setOnChildClickListener(object : ExpandableListView.OnChildClickListener{
-                override fun onChildClick(parent: ExpandableListView?, v: View?, groupPosition: Int, childPosition: Int, id: Long): Boolean {
-                    val bundle = Bundle()
-                    bundle.putString("id",childs[groupPosition][childPosition].id)  //设备ID
-                    activity?.newIntent<ValveDetailActivity>(bundle)
-                    return true
+            setOnChildClickListener { parent, v, groupPosition, childPosition, _ ->
+                val bundle = Bundle()
+                bundle.putString("id",childs[groupPosition][childPosition].id)  //设备ID
+                activity?.newIntent<ValveDetailActivity>(bundle)
+                true
+            }
+            //只展开一个组
+            setOnGroupExpandListener {
+                val count = adapter.groupCount
+                for(i in 0 until count){
+                    if(i != it){
+                        collapseGroup(i)
+                    }
                 }
-            })
+            }
         }
 
         ivScan.setOnClickListener {

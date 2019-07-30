@@ -3,6 +3,7 @@ package com.hyf.iot.ui.activity
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.Point
 import android.os.Build
 import android.support.v4.app.ActivityCompat
@@ -28,13 +29,15 @@ import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
 import kotlinx.android.synthetic.main.layout_common_title.*
 import kotlinx.android.synthetic.main.map_layout.*
+import kotlin.math.abs
+import android.graphics.Bitmap.createBitmap as createBitmap1
 
 /**
  * 地块
  *
  * */
 @SuppressLint("SetTextI18n")
-class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(),MassifContract.IView {
+class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContract.IView {
 
     private var mBaiduMap: BaiduMap? = null
     var myListener = MyLocationListenner()
@@ -57,16 +60,16 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(),MassifContra
         tv_operate.text = "确定"
         tv_operate.setOnClickListener {
             val massifName = et_name.text.toString()
-            if(massifName.isEmpty()){
+            if (massifName.isEmpty()) {
                 et_name.requestFocus()
                 showToast("请输入地块名")
                 return@setOnClickListener
             }
             val massifSize = area.text.toString().toFloat()
-            if(massifSize <= 0f ){
+            if (massifSize <= 0f) {
                 return@setOnClickListener
             }
-            getPresenter().massifAdd(LoginUser.farmId,massifName,area.text.toString().toFloat() ,mList)
+            getPresenter().massifAdd(LoginUser.farmId, massifName, area.text.toString().toFloat(), mList)
         }
         iv_back.setOnClickListener { onBack() }
         mBaiduMap = mMapView!!.map
@@ -189,6 +192,7 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(),MassifContra
                     drawLineor()
                 }
             }
+
             override fun onMapPoiClick(p0: MapPoi?): Boolean {
                 return true
             }
@@ -228,6 +232,7 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(),MassifContra
                     pointView?.visibility = View.GONE
                 }
             }
+
             override fun onMapStatusChangeFinish(p0: MapStatus?) {
             }
         })
@@ -299,8 +304,9 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(),MassifContra
     private fun drawArea(): Polygon {
         val mPolygonOptions = PolygonOptions()
                 .points(mList)
-                .fillColor(-0x55000100) //填充颜色
-                .stroke(Stroke(1, -0x55ff0100)) //边框宽度和颜色
+                .fillColor(0x551791fc) //填充颜色
+                .stroke(Stroke(6 , 0x55FF33FF)) //边框宽度和颜色
+
         return mBaiduMap!!.addOverlay(mPolygonOptions) as Polygon
     }
 
@@ -308,21 +314,21 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(),MassifContra
         val option: MarkerOptions = MarkerOptions()
                 .position(latLng)
                 .icon(bitmap)
-                .anchor(0.5f,0.5f)
+                .anchor(0.5f, 0.5f)
         return mBaiduMap!!.addOverlay(option) as Marker
     }
 
     private fun getMidPoint(latLng0: LatLng, latLng1: LatLng): LatLng {
         val dx = if (latLng0.latitude - latLng1.latitude > 0) {
-            Math.abs(latLng0.latitude - latLng1.latitude) / 2 + latLng1.latitude
+            abs(latLng0.latitude - latLng1.latitude) / 2 + latLng1.latitude
         } else {
-            Math.abs(latLng0.latitude - latLng1.latitude) / 2 + latLng0.latitude
+            abs(latLng0.latitude - latLng1.latitude) / 2 + latLng0.latitude
         }
 
         val dy = if (latLng0.longitude - latLng1.longitude > 0) {
-            Math.abs(latLng0.longitude - latLng1.longitude) / 2 + latLng1.longitude
+            abs(latLng0.longitude - latLng1.longitude) / 2 + latLng1.longitude
         } else {
-            Math.abs(latLng0.longitude - latLng1.longitude) / 2 + latLng0.longitude
+            abs(latLng0.longitude - latLng1.longitude) / 2 + latLng0.longitude
         }
         return LatLng(dx, dy)
     }
@@ -335,25 +341,39 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(),MassifContra
             pointView?.setImageResource(R.drawable.icon_arrow_drag)
             layout.addView(pointView)
             val layoutp = pointView?.layoutParams
-            layoutp?.width = 100
-            layoutp?.height = 100
+            layoutp?.width = 80
+            layoutp?.height = 80
             pointView?.layoutParams = layoutp
-            pointView?.setOnTouchListener { _, event ->
-                val point = Point(event.rawX.toInt(), event.rawY.toInt())        // 感觉这里也要优化下"
-                addPointView(event.rawX.toInt() - 15, event.rawY.toInt() - 15) // 这里传入的坐标需要优化
-                val latlng = mBaiduMap!!.projection.fromScreenLocation(point)
-                mMarkerList[pos].marker.position = latlng
-                mList[pos] = latlng
-//                if (mMarkerList[pos].isAddPoint){
-//                    updataMidPoint(pos)
-//                }
-                pl?.points = mList
-//                area.text = MapUtils.getArea(pl)
-
-                if (event.action == MotionEvent.ACTION_UP) {
-                    pl?.points = mList
-                    twoLineAutoAddPoint()
-                    area.text = MapUtils.getArea(pl)
+            var startX = 0f
+            var startY = 0f
+            var endX: Float
+            var endY: Float
+            pointView?.setOnTouchListener { v, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        startX = event.rawX
+                        startY = event.rawY
+                    }
+                    MotionEvent.ACTION_MOVE -> {
+                        v.x = v.x + event.rawX - startX
+                        v.y = v.y + event.rawY - startY
+                        val point = Point(v.x.toInt(), v.y.toInt())
+                        addPointView(v.x.toInt(), v.y.toInt())
+                        val latLng: LatLng = mBaiduMap!!.projection.fromScreenLocation(point)
+                        mMarkerList[pos].marker.position = latLng
+                        mList[pos] = latLng
+                        pl?.points = mList
+                        startX = event.rawX
+                        startY = event.rawY
+                    }
+                    MotionEvent.ACTION_UP -> {
+                        pl?.points = mList
+                        twoLineAutoAddPoint()
+                        area.text = MapUtils.getArea(pl)
+                        endX = event.rawX
+                        endY = event.rawY
+                        if (abs(endX - startX) < 5 && abs(endY - startY) < 5) false
+                    }
                 }
                 true
             }
@@ -366,7 +386,7 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(),MassifContra
     private var lPos: Int = -1
     private var rPos: Int = -1
 
-    private fun updataMidPoint(pos: Int) {
+    private fun updateMidPoint(pos: Int) {
         val latLng0 = when (pos) {
             0 -> {
                 lPos = mList.size - 1
@@ -431,7 +451,7 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(),MassifContra
             val option: MarkerOptions = MarkerOptions()
                     .position(it)
                     .icon(bitmap)
-                    .anchor(0.5f,0.5f)
+                    .anchor(0.5f, 0.5f)
             val marker = mBaiduMap!!.addOverlay(option) as Marker
             mMarkerList.add(LatLonData(marker, false))
         }
@@ -445,7 +465,7 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(),MassifContra
             //mPloyline 折线对象
             val mOverlayOptions = PolylineOptions()
                     .width(6)
-                    .color(0x55f3b112)
+                    .color(0x55FF33FF)
                     .points(mList)
             pLine = mBaiduMap!!.addOverlay(mOverlayOptions) as Polyline
         }
@@ -454,7 +474,7 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(),MassifContra
             val option: MarkerOptions = MarkerOptions()
                     .position(it)
                     .icon(bitmap)
-                    .anchor(0.5f,0.5f)
+                    .anchor(0.5f, 0.5f)
             val marker = mBaiduMap!!.addOverlay(option) as Marker
             mMarkerList.add(LatLonData(marker, false))
         }

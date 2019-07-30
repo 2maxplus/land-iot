@@ -18,6 +18,7 @@ import com.hyf.iot.utils.newIntent
 import com.hyf.iot.widget.BatteryView
 import android.view.MotionEvent
 import android.widget.TableRow
+import com.hyf.iot.widget.SignalView
 
 
 class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceItem>) : RecyclerView.Adapter<DeviceListAdapter.ViewHolders>() {
@@ -59,6 +60,7 @@ class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceItem>) :
         holder.deviceName?.text = "${item.name}:"
         holder.deviceNo?.text = item.number
 
+        holder.signalView?.setSignalValue(3)
         holder.deviceState?.text = item.stateString
         when(item.state){
             0,1 -> {
@@ -103,6 +105,7 @@ class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceItem>) :
         val airTemperature = itemview?.findViewById<TextView>(R.id.tv_air_temperature)
         val airHumidity = itemview?.findViewById<TextView>(R.id.tv_air_humidity)
         val deviceState = itemview?.findViewById<TextView>(R.id.tv_state)
+        val signalView = itemview?.findViewById<SignalView>(R.id.signalView)
         val batteryPercent = itemview?.findViewById<TextView>(R.id.tv_battery_percent)
         val battery = itemview?.findViewById<BatteryView>(R.id.battery)
         val sunExposure = itemview?.findViewById<TextView>(R.id.tv_sun_exposure)
@@ -111,6 +114,7 @@ class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceItem>) :
         val recyclerView = itemview?.findViewById<RecyclerView>(R.id.recycler_view)
         val recyclerViewSoil = itemview?.findViewById<RecyclerView>(R.id.recycler_view_soil)
         val info1 = itemview?.findViewById<TableRow>(R.id.info1)
+
     }
 
     fun getValves() : Int = mAdapter!!.getValves()

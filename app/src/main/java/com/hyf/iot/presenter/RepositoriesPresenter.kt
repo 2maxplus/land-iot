@@ -9,9 +9,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import com.ljb.kt.client.HttpFactory
 
-/**
- * Created by L on 2017/9/27.
- */
 class RepositoriesPresenter : BaseRxLifePresenter<RepositoriesContract.IView>(),
         RepositoriesContract.IPresenter {
 

@@ -15,9 +15,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 
-/**
- * Created by L on 2017/7/18.
- */
 class UserPresenter : BaseRxLifePresenter<UserContract.IView>(),
         UserContract.IPresenter {
     override fun getPortrait() {

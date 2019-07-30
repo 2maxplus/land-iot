@@ -4,9 +4,6 @@ import com.ljb.kt.contract.IPresenterContract
 import com.ljb.kt.contract.IViewContract
 import com.hyf.iot.domain.User
 
-/**
- * Created by L on 2017/7/18.
- */
 interface MyContract {
 
     interface IView : IViewContract {

@@ -5,10 +5,6 @@ import com.hyf.iot.domain.device.ValveUseTime
 import com.ljb.kt.contract.IPresenterContract
 import com.ljb.kt.contract.IViewContract
 
-/**
- * Created 2019/03/25
- *
- */
 interface DeviceDetailContract {
 
     interface IView: IViewContract {

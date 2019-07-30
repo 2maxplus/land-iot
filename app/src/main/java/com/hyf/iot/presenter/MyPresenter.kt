@@ -4,9 +4,6 @@ import com.hyf.iot.common.LoginUser
 import com.hyf.iot.contract.MyContract
 import com.hyf.iot.presenter.base.BaseRxLifePresenter
 
-/**
- * Created by L on 2017/7/18.
- */
 class MyPresenter : BaseRxLifePresenter<MyContract.IView>(),
         MyContract.IPresenter {
 
