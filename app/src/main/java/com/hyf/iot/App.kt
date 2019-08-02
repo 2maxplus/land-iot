@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.Application
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
 import com.hyf.iot.common.HttpDomain.HTTP_API_DOMAIN
@@ -45,6 +46,7 @@ class App : Application() {
         if(LoginUser.token.isNotBlank()) {
             headerMap["token"] = LoginUser.token
         }
+        Log.i("token=====",LoginUser.token)
         HttpConfig.init(HTTP_API_DOMAIN, headerMap, null, true)
     }
 

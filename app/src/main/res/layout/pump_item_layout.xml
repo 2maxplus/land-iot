@@ -18,26 +18,20 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
+                    style="@style/text_base_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="泵1:" />
 
                 <TextView
+                    style="@style/text_base_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="累计流量: 100m³" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="瞬时流量: 100m³" />
+                    android:text="管道压力: 11MPa" />
 
                 <Switch
                     android:id="@+id/switchs"
@@ -51,6 +45,25 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/text_base_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:text="累计流量: 100m³" />
+
+                <TextView
+                    style="@style/text_base_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="瞬时流量: 100m³" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <com.hyf.iot.widget.chart.HorizontalChartViewFlow
@@ -58,9 +71,10 @@
             android:layout_width="match_parent"
             android:layout_height="200dp" />
 
-        <View android:layout_width="match_parent"
+        <View
+            android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:background="@color/bg_page"/>
+            android:background="@color/bg_page" />
 
         <include layout="@layout/layout_recycler_view" />
 

@@ -68,7 +68,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
     override fun initView() {
         transparencyBar(this)
         Glide.with(this)
-                .load(R.drawable.logo_1)
+                .load(R.drawable.ic_launcher) //logo_1
                 .apply(RequestOptions().transform(CircleCrop()))
                 .into(iv_login)
 

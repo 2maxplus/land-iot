@@ -1,8 +1,6 @@
 package com.hyf.iot.domain
 
-/**
- * Created by L on 2017/9/14.
- */
+
 data class Event(
         val id: String,
         val type: String,

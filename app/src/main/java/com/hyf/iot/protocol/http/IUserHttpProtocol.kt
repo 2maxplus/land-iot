@@ -19,7 +19,7 @@ interface IUserHttpProtocol {
      * @param loginId 验证码成功返回的ID
      * @return  用户登录
      * */
-    @POST("/api/User/SMSVerify")
+    @POST("/api/Account/SMSVerify")
     fun userLogin(@Query("id") loginId: String, @Query("code") code: String): Observable<GenResult<LoginInfo>>
 
     /**
@@ -27,26 +27,26 @@ interface IUserHttpProtocol {
      *
      * @return  短信验证码
      * */
-    @POST("/api/User/SMSLogin")
+    @POST("/api/Account/SMSLogin")
     fun getSMSCode(@Query("phone") phone: String): Observable<GenResult<VerifyBean>>
 
     /**
      * @return  短信验证码
      * */
-    @POST("/api/User/Logout")
+    @POST("/api/Account/Logout")
     fun userLogout(): Observable<GenResult<String>>
 
     /**
      * @return  获取用户详情
      * */
-    @POST("/api/User/Get")
+    @POST("/api/Account/Get")
     fun getUserInfo(): Observable<GenResult<UserInfo>>
     /**
      * @return  修改用户头像
      * @param file 头像form
      * */
     @Multipart
-    @POST("/api/User/ModifyHeadPortrait")
+    @POST("/api/Account/ModifyHeadPortrait")
     fun modifyPortrait(@Part file : MultipartBody.Part): Observable<GenResult<String>>
 
     /**
@@ -59,7 +59,7 @@ interface IUserHttpProtocol {
      * @param nickName 昵称
      * @return  修改用户昵称
      * */
-    @POST("/api/User/ModifyNickName")
+    @POST("/api/Account/ModifyNickName")
     fun modifyNickName(@Query("nickName")nickName: String): Observable<GenResult<String>>
     /**
      * @param content 内容

@@ -297,7 +297,6 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
                 pos += 1
                 mMarkerList[pos].isAddPoint = true
             }
-
         }
     }
 

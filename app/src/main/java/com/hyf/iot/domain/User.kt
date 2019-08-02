@@ -1,8 +1,5 @@
 package com.hyf.iot.domain
 
-/**
- * Created by L on 2017/7/17.
- */
 data class User(
         val login: String,
         val id: Long,

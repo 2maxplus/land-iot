@@ -20,6 +20,7 @@ import com.hyf.iot.presenter.FarmDetailPresenter
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
 import com.hyf.iot.widget.ItemDecoration
+import com.hyf.iot.widget.RecycleViewDivider
 import com.hyf.iot.widget.dialog.LoadingDialog
 import kotlinx.android.synthetic.main.activity_farm_detail.*
 import kotlinx.android.synthetic.main.layout_common_title.*
@@ -42,6 +43,8 @@ class FarmDetailActivity : BaseMvpActivity<FarmDetailContract.IPresenter>(),Farm
         this.data = data
         tv_farm_name.text = data.name
         tv_farm_address.text = data.address
+        tv_farm_linkman.text = data.linkMan
+        tv_farm_linkphone.text = data.linkPhone
         getPresenter().getMassifList(data.id!!)
     }
 
@@ -66,7 +69,8 @@ class FarmDetailActivity : BaseMvpActivity<FarmDetailContract.IPresenter>(),Farm
 
         recycler_view.apply {
             layoutManager = LinearLayoutManager(this@FarmDetailActivity, LinearLayout.VERTICAL,false)
-            addItemDecoration(ItemDecoration(1))
+//            addItemDecoration(ItemDecoration(2))
+            addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL))
             mMassifAdapter.isShowLoadMore(false)
             adapter = mMassifAdapter
         }

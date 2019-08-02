@@ -8,5 +8,5 @@ data class VerifyBean(
         val state: Int,
         val stateString: String,
         val updated: String,
-        val userId: String
+        val accountId: String
 )
