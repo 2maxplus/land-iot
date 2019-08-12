@@ -10,16 +10,17 @@ import android.widget.LinearLayout
 import com.hyf.iot.R
 import com.hyf.iot.adapter.home.DeviceListAdapter
 import com.hyf.iot.adapter.home.ValveListAdapter
+import com.hyf.iot.common.LoginUser
 import com.hyf.iot.common.fragment.BaseMvpFragment
 import com.hyf.iot.contract.PumpItemContract
 import com.hyf.iot.domain.device.FaKongBean
-import com.hyf.iot.domain.device.DeviceItem
+import com.hyf.iot.domain.device.WaterPump
 import com.hyf.iot.presenter.PumpItemPresenter
+import com.hyf.iot.widget.MyLinearLayoutManager
 import com.hyf.iot.widget.RecycleViewDivider
 import com.hyf.iot.widget.dialog.MyDialog
-import kotlinx.android.synthetic.main.pump_item_layout.*
-import com.hyf.iot.widget.MyLinearLayoutManager
 import kotlinx.android.synthetic.main.layout_recycler_view.*
+import kotlinx.android.synthetic.main.pump_item_layout.*
 
 
 class PumpItemFragment: BaseMvpFragment<PumpItemContract.IPresenter>(),PumpItemContract.IView {
@@ -35,10 +36,10 @@ class PumpItemFragment: BaseMvpFragment<PumpItemContract.IPresenter>(),PumpItemC
 
     override fun registerPresenter() = PumpItemPresenter::class.java
 
-    override fun showPage(data: MutableList<DeviceItem>) {
+    override fun showPage(data: MutableList<WaterPump>) {
         mAdapter.list.clear()
-        if(data.isNotEmpty())
-        mAdapter.list.addAll(data)
+        if(data.isNotEmpty() && data.size > 0)
+        mAdapter.list.addAll(data[0].valveControlDevices)
         mAdapter.notifyDataSetChanged()
     }
 
@@ -111,7 +112,8 @@ class PumpItemFragment: BaseMvpFragment<PumpItemContract.IPresenter>(),PumpItemC
     }
 
     override fun initData() {
-        getPresenter().getPumpItemInfo()
+        LoginUser.farmId = "CE4412AB-A62A-446E-8021-235A572FE35B"
+        getPresenter().getPumpItemInfo(LoginUser.farmId)
     }
 
     lateinit var receiveBroadCast: ReceiveBroadCast

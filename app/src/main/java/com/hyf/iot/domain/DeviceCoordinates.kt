@@ -1,5 +1,9 @@
 package com.hyf.iot.domain
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class DeviceCoordinates(
         val cellVoltage: Int,
         val companyId: String,
@@ -15,4 +19,4 @@ data class DeviceCoordinates(
         val temperature: Int,
         val type: Int,
         val updated: String
-)
+): Parcelable

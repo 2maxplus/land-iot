@@ -5,8 +5,8 @@ import com.hyf.iot.domain.base.GenResult
 import com.hyf.iot.domain.base.OperateData
 import com.hyf.iot.domain.device.DeviceItem
 import com.hyf.iot.domain.device.ValveUseTime
+import com.hyf.iot.domain.device.WaterPump
 import com.hyf.iot.domain.pumb.PumpControlStations
-import com.hyf.iot.domain.waterPump.WaterPumpStation
 import com.hyf.iot.domain.user.LoginInfo
 import com.hyf.iot.domain.user.UserInfo
 import com.hyf.iot.domain.user.VerifyBean
@@ -61,6 +61,7 @@ interface IUserHttpProtocol {
      * */
     @POST("/api/Account/ModifyNickName")
     fun modifyNickName(@Query("nickName")nickName: String): Observable<GenResult<String>>
+
     /**
      * @param content 内容
      * @return  添加意见
@@ -69,57 +70,18 @@ interface IUserHttpProtocol {
     fun feedbackAdd(@Query("content")content: String): Observable<GenResult<String>>
 
     /**
-     * @param userName 用户名
-     * @param page 页码
-     * @return Events列表数据
-     * */
-    @GET("/users/{userName}/events")
-    fun getEventsByName(@Path("userName") userName: String, @Query("page") page: Int): Observable<MutableList<Event>>
-
-    /**
-     * @param userName 用户名
-     * @param page 页码
-     * @return Starred列表数据
-     * */
-    @GET("/users/{userName}/starred")
-    fun getStarredByName(@Path("userName") userName: String, @Query("page") page: Int): Observable<MutableList<Starred>>
-
-    /**
-     * @param userName 用户名
-     * @param page 页码
-     * @returnt Followers列表数据
-     * */
-    @GET("/users/{userName}/followers")
-    fun getFollowersByName(@Path("userName") userName: String, @Query("page") page: Int): Observable<MutableList<Follower>>
-
-    /**
-     * @param userName 用户名
-     * @param page 页码
-     * @returnt Repositories列表数据
-     * */
-    @GET("/users/{userName}/repos")
-    fun getRepositoriesByName(@Path("userName") userName: String, @Query("page") page: Int): Observable<MutableList<Repository>>
-
-    /**
-     * @param userName 用户名
-     * @param page 页码
-     * @returnt Following列表数据
-     * */
-    @GET("/users/{userName}/following")
-    fun getFollowingByName(@Path("userName") userName: String, @Query("page") page: Int): Observable<MutableList<Following>>
-
-    /**
      * 泵站信息
      *
      * */
     @POST("/api/pumproom/detail")
     fun getPumpRoomByName(): Observable<GenResult<PumpControlStations>>
+
     /**
-     * 设备信息
+     * 水泵设备信息
      *
      * */
-    @POST("/api/device/getall")
-    fun getDevice(): Observable<GenResult<MutableList<DeviceItem>>>
+    @POST("/api/Device/GetWaterPump")
+    fun getWaterPumpByFarmId(@Query("farmId")farmId: String): Observable<GenResult<MutableList<WaterPump>>>
 
     /**
      * 阀门开关
@@ -148,15 +110,6 @@ interface IUserHttpProtocol {
      * */
     @POST("/api/Device/GetCoordinates")
     fun getCoordinates(): Observable<GenResult<MutableList<DeviceCoordinates>>>
-
-    /***
-     * 获取水泵信息
-     *
-     * */
-    @POST("/api/Device/GetWaterPump")
-    fun getWaterPumpByFarmId(@Query("farmId")farmId: String):Observable<GenResult<MutableList<WaterPumpStation>>>
-
-
 
 
 

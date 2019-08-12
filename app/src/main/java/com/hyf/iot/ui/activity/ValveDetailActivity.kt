@@ -96,7 +96,7 @@ class ValveDetailActivity : BaseMvpActivity<DeviceDetailContract.IPresenter>(), 
         if(deviceItem.illuminationSensor != null){
             tv_sun_exposure?.text = "${deviceItem.illuminationSensor.illumination}Lux"
         }
-//        tv_device_name?.text = "${deviceItem.name}:"
+//        tv_device_name?.text = "${valveControlDevices.name}:"
         tv_title.text = deviceItem.name
         tv_device_name.visibility = View.GONE
         tv_device_no.text = deviceItem.number

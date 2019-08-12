@@ -28,9 +28,8 @@ import java.util.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
-class HomeFragment: BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(),DeviceCoordinatesContract.IView {
+class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), DeviceCoordinatesContract.IView {
 
-    private val deviceList: ArrayList<DeviceCoordinates> = ArrayList()
     //百度
     private var mBaiduMap: BaiduMap? = null
     private var ooA: MarkerOptions? = null
@@ -41,8 +40,8 @@ class HomeFragment: BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(),Devi
     private var heatmap: HeatMap? = null
 
     private var isDestroy: Boolean = false
-    private var locationLat : Double = 0.0
-    private var locationLng : Double = 0.0
+    private var locationLat: Double = 0.0
+    private var locationLng: Double = 0.0
 
     private var mData = ArrayList<String>()
     private var selectPosition = 0
@@ -60,20 +59,8 @@ class HomeFragment: BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(),Devi
     }
 
     override fun showPage(data: MutableList<DeviceCoordinates>) {
-        deviceList.addAll(data)
-        for(latlng in data){
-            initmaker( LatLng(latlng.latitude,latlng.longitude),"0",0)
-        }
-
-        mBaiduMap!!.setOnMarkerClickListener { marker ->
-            for (i in markerlist.indices) {
-                if (marker == markerlist[i]) {
-                    val bundle = Bundle()
-                    bundle.putString("id", deviceList[i].id)  //设备ID
-                    activity?.newIntent<ValveDetailActivity>(bundle)
-                }
-            }
-            true
+        for (item in data) {
+            initmaker(LatLng(item.latitude, item.longitude), "0", 0, item)
         }
     }
 
@@ -100,7 +87,7 @@ class HomeFragment: BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(),Devi
         }
     }
 
-    private fun mapAction(){
+    private fun mapAction() {
         mMapView.showZoomControls(true)
         mBaiduMap = mMapView!!.map
         mBaiduMap!!.setMapStatus(MapStatusUpdateFactory.zoomTo(12f))
@@ -109,7 +96,7 @@ class HomeFragment: BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(),Devi
         mData.add("日照强度")
         mData.add("空气温度")
         mData.add("空气湿度")
-        tvMapHead.setOnClickListener{
+        tvMapHead.setOnClickListener {
             SpinnerUtils(activity!!,
                     tvMapHead,
                     mData,
@@ -119,7 +106,7 @@ class HomeFragment: BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(),Devi
                             tvMapHead.text = mData[selectPosition]
                             addHeatMap()
                         }
-                    },selectPosition).showPopupWindow()
+                    }, selectPosition).showPopupWindow()
         }
         initbaidu() //init为定位方法
     }
@@ -144,12 +131,12 @@ class HomeFragment: BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(),Devi
                 super.run()
                 val data = ArrayList<LatLng>()
                 //获取随机数据 半径0.6
-                for (i in 0 .. 800) {
-                    if(locationLat > 0 && locationLng > 0){
-                        data.add(getRandomLatLng(LatLng(locationLat,locationLng),0.60))
+                for (i in 0..800) {
+                    if (locationLat > 0 && locationLng > 0) {
+                        data.add(getRandomLatLng(LatLng(locationLat, locationLng), 0.60))
                     }
                 }
-                if(data.size > 0 && data.isNotEmpty()){
+                if (data.size > 0 && data.isNotEmpty()) {
                     heatmap = HeatMap.Builder().data(data).build()
                     h.sendEmptyMessage(0)
                 }
@@ -162,7 +149,7 @@ class HomeFragment: BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(),Devi
      *
      * @param isShow
      */
-    private fun setBaiduHeatMap(isShow : Boolean) {
+    private fun setBaiduHeatMap(isShow: Boolean) {
         mBaiduMap!!.isBaiduHeatMapEnabled = isShow
     }
 
@@ -170,7 +157,7 @@ class HomeFragment: BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(),Devi
     @Suppress("DEPRECATION")
     private fun initbaidu() {
         mBaiduMap!!.setOnMapLoadedCallback {
-            mMapView.setZoomControlsPosition(Point(20, UIUtils.getScreenHeight(context!!)/2))
+            mMapView.setZoomControlsPosition(Point(20, UIUtils.getScreenHeight(context!!) / 2))
         }
         // 开启定位图层
         mBaiduMap!!.isMyLocationEnabled = true
@@ -185,27 +172,37 @@ class HomeFragment: BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(),Devi
         mLocClient!!.locOption = option
         mLocClient!!.start()
         mBaiduMap!!.setOnMapTouchListener(MyMapTouchListener())
-
+        mBaiduMap!!.setOnMarkerClickListener { marker ->
+            val bundleMarker = marker!!.extraInfo
+            val item = bundleMarker.getParcelable<DeviceCoordinates>("item")
+            val bundle = Bundle()
+            bundle.putString("id", item.id)  //设备ID
+            activity?.newIntent<ValveDetailActivity>(bundle)
+            true
+        }
     }
 
 
-    private fun initmaker(point: LatLng, status: String, cover_type_id: Int) {
+    private fun initmaker(point: LatLng, status: String, cover_type_id: Int, item: DeviceCoordinates) {
         val bdA: BitmapDescriptor = when (cover_type_id) {
             0 -> when (status) {
                 "0" -> BitmapDescriptorFactory
-                    .fromResource(R.drawable.main_icon_device)
+                        .fromResource(R.drawable.main_icon_device)
                 "1" -> BitmapDescriptorFactory
-                    .fromResource(R.drawable.main_icon_device_offline)
+                        .fromResource(R.drawable.main_icon_device_offline)
                 else -> BitmapDescriptorFactory
-                    .fromResource(R.drawable.main_icon_device)
+                        .fromResource(R.drawable.main_icon_device)
             }
             else -> BitmapDescriptorFactory
-                .fromResource(R.drawable.main_icon_device)
+                    .fromResource(R.drawable.main_icon_device)
         }
         ooA = MarkerOptions().position(point).icon(bdA)
 //            .zIndex(9)
-            .draggable(true)
+                .draggable(true)
         val mMarkerA = mBaiduMap!!.addOverlay(ooA)
+        val mBundle = Bundle()
+        mBundle.putParcelable("item", item)
+        mMarkerA.extraInfo = mBundle
         markerlist.add(mMarkerA as Marker)
         mBaiduMap!!.setMapStatus(MapStatusUpdateFactory.zoomTo(12f))
     }
@@ -227,22 +224,22 @@ class HomeFragment: BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(),Devi
         mMapView!!.onPause()
     }
 
-     override fun onResume() {
+    override fun onResume() {
         super.onResume()
         // activity 恢复时同时恢复地图控件
         mMapView!!.onResume()
     }
 
-     override fun onDestroy() {
+    override fun onDestroy() {
         super.onDestroy()
         isDestroy = true
-         when {
-             mLocClient != null -> // 退出时销毁定位
-                 mLocClient!!.stop()
-             mBaiduMap != null -> // 关闭定位图层
-                 mBaiduMap!!.isMyLocationEnabled = false
-             mMapView != null -> mMapView!!.onDestroy()
-         }
+        when {
+            mLocClient != null -> // 退出时销毁定位
+                mLocClient!!.stop()
+            mBaiduMap != null -> // 关闭定位图层
+                mBaiduMap!!.isMyLocationEnabled = false
+            mMapView != null -> mMapView!!.onDestroy()
+        }
     }
 
     /**
@@ -257,17 +254,17 @@ class HomeFragment: BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(),Devi
             }
 
             val locData = MyLocationData.Builder()
-                .accuracy(location.radius)
-                // 此处设置开发者获取到的方向信息，顺时针0-360
-                .direction(100f).latitude(location.latitude)
-                .longitude(location.longitude).build()
+                    .accuracy(location.radius)
+                    // 此处设置开发者获取到的方向信息，顺时针0-360
+                    .direction(100f).latitude(location.latitude)
+                    .longitude(location.longitude).build()
             mBaiduMap!!.setMyLocationData(locData)
             //     Log.e("TAG", "lat_lng----->" +location.getLatitude()+"--------"+location.getLongitude());
             if (isFirstLoc) {
                 isFirstLoc = false
                 val ll = LatLng(
-                    location.latitude,
-                    location.longitude
+                        location.latitude,
+                        location.longitude
                 )
                 locationLat = location.latitude
                 locationLng = location.longitude
@@ -286,7 +283,7 @@ class HomeFragment: BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(),Devi
         }
     }
 
-    fun getRandomLatLng(point: LatLng,circle: Double): LatLng {
+    fun getRandomLatLng(point: LatLng, circle: Double): LatLng {
         val random = Random()
         val cirx = point.latitude
         val ciry = point.longitude

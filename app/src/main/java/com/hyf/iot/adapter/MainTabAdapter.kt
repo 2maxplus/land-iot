@@ -11,9 +11,6 @@ import com.hyf.iot.domain.TabBean
 import com.hyf.iot.widget.TabGroupView
 import com.hyf.iot.widget.findViewByIdEx
 
-/**
- * Created by L on 2017/7/12.
- */
 class MainTabAdapter(private val mContext: Context, val mData: List<TabBean>) : TabGroupView.TabAdapter {
 
     override fun getCount() = mData.size
