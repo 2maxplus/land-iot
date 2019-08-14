@@ -1,21 +1,21 @@
 package com.hyf.iot.contract
 
-import com.hyf.iot.domain.pumb.PumpRoom
+import com.hyf.iot.domain.device.MoistureStationMassif
 import com.ljb.kt.contract.IPresenterContract
 import com.ljb.kt.contract.IViewContract
 
 /**
  *
  */
-interface PumpRoomContract {
+interface MoitureStationContract {
 
     interface IView:  IViewContract{
-        fun showPage(data: PumpRoom)
+        fun showPage(data: MutableList<MoistureStationMassif>)
         fun errorPage(msg: String?)
     }
 
     interface IPresenter : IPresenterContract{
-        fun getPumpInfo(farmId: String)
+        fun getMoistureMassifListByFarmId(farmId: String)
     }
 
 }

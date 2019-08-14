@@ -12,6 +12,7 @@
         android:padding="10dp">
 
         <TextView
+            android:id="@+id/tv_frequency_name"
             style="@style/text_base_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,18 +30,21 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_current1"
                     style="@style/text_base_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="电流A: --" />
 
                 <TextView
+                    android:id="@+id/tv_current2"
                     style="@style/text_base_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="电流B: --" />
 
                 <TextView
+                    android:id="@+id/tv_current3"
                     style="@style/text_base_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -54,18 +58,21 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_voltage1"
                     style="@style/text_base_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="电压A: --" />
 
                 <TextView
+                    android:id="@+id/tv_voltage2"
                     style="@style/text_base_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="电压B: --" />
 
                 <TextView
+                    android:id="@+id/tv_voltage3"
                     style="@style/text_base_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -75,6 +82,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tv_total_power"
             style="@style/text_base_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

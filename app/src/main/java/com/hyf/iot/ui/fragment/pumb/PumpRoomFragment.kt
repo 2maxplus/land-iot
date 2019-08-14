@@ -4,10 +4,11 @@ import android.content.Intent
 import android.view.View
 import com.hyf.iot.R
 import com.hyf.iot.ui.activity.LoginActivity
-import com.hyf.iot.adapter.home.BengFragmentAdapter
+import com.hyf.iot.adapter.home.PumpRoomFragmentAdapter
+import com.hyf.iot.common.LoginUser
 import com.hyf.iot.common.fragment.BaseMvpFragment
 import com.hyf.iot.contract.PumpRoomContract
-import com.hyf.iot.domain.pumb.PumpControlStations
+import com.hyf.iot.domain.pumb.PumpRoom
 import com.hyf.iot.presenter.PumpRoomPresenter
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
@@ -30,7 +31,7 @@ class PumpRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomC
 
     override fun getLayoutId(): Int = R.layout.pump_room_layout
 
-    private val mAdapter by lazy { BengFragmentAdapter(childFragmentManager, mutableListOf()) }
+    private val mAdapter by lazy { PumpRoomFragmentAdapter(childFragmentManager, mutableListOf()) }
 
 
     override fun initView() {
@@ -43,8 +44,8 @@ class PumpRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomC
         refresh_layout.apply {
             setColorSchemeResources(R.color.colorBlue)
             setOnRefreshListener {
-                getPresenter().getPumpInfo()
-                activity?.sendBroadcast(Intent(PumpItemFragment.INTENT_ACTION_REFRESH))
+                initData()
+                activity?.sendBroadcast(Intent(FrequencyConverterFragment.INTENT_ACTION_REFRESH))
             }
         }
         viewPager.apply {
@@ -54,29 +55,30 @@ class PumpRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomC
     }
 
     override fun initData() {
-        getPresenter().getPumpInfo()
+        getPresenter().getPumpInfo(LoginUser.farmId)
     }
 
     private fun onReload() {
         page_layout.setPage(PageStateLayout.PageState.STATE_LOADING)
-        getPresenter().getPumpInfo()
+        initData()
     }
 
-    override fun showPage(data: PumpControlStations) {
-        tv_title.text = data.name
+    override fun showPage(data: PumpRoom) {
+        tv_title.text = data.pumpRoomInfo.name
 
         refresh_layout.isRefreshing = false
-        if (data == null) {
+        if (data == null || data.pumpRoomInfo == null) {
             page_layout.setPage(PageStateLayout.PageState.STATE_EMPTY)
         } else {
             page_layout.setPage(PageStateLayout.PageState.STATE_SUCCEED)
             mAdapter.fragmenList.clear()
-            mAdapter.fragmenList.addAll(data.pumpControlStations)
+            mAdapter.fragmenList.addAll(data.frequencyConverterCabinetInfos)
             mAdapter.notifyDataSetChanged()
         }
     }
 
     override fun errorPage(msg: String?) {
+        activity?.showToast(msg!!)
         page_layout.setPage(PageStateLayout.PageState.STATE_ERROR)
     }
 

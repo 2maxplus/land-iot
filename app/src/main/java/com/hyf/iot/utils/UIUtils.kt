@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.View
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 
 
@@ -141,5 +142,14 @@ object UIUtils {
         view.measure(widthMeasureSpec, heightMeasureSpec)
         return view.measuredHeight
     }
-
+    /**
+     * 隐藏软键盘
+     * @param context :上下文
+     * @param view    :一般为EditText
+     */
+    fun hideKeyboard(view: View) {
+        val manager = view.context
+                .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        manager!!.hideSoftInputFromWindow(view.windowToken, 0)
+    }
 }

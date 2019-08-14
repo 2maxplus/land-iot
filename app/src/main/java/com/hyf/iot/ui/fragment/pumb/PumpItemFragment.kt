@@ -1,21 +1,14 @@
 package com.hyf.iot.ui.fragment.pumb
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.LinearLayout
 import com.hyf.iot.R
 import com.hyf.iot.adapter.home.DeviceListAdapter
 import com.hyf.iot.adapter.home.ValveListAdapter
-import com.hyf.iot.common.LoginUser
-import com.hyf.iot.common.fragment.BaseMvpFragment
-import com.hyf.iot.contract.PumpItemContract
+import com.hyf.iot.common.fragment.BaseFragment
 import com.hyf.iot.domain.device.FaKongBean
 import com.hyf.iot.domain.device.WaterPump
-import com.hyf.iot.presenter.PumpItemPresenter
 import com.hyf.iot.widget.MyLinearLayoutManager
 import com.hyf.iot.widget.RecycleViewDivider
 import com.hyf.iot.widget.dialog.MyDialog
@@ -23,28 +16,10 @@ import kotlinx.android.synthetic.main.layout_recycler_view.*
 import kotlinx.android.synthetic.main.pump_item_layout.*
 
 
-class PumpItemFragment: BaseMvpFragment<PumpItemContract.IPresenter>(),PumpItemContract.IView {
-
-    companion object {
-        const val INTENT_ACTION_REFRESH = "com.action.refresh"
-    }
-
-    override fun onTokenExpired(msg: String) {
-    }
+class PumpItemFragment: BaseFragment() {
 
     private val mAdapter by lazy { DeviceListAdapter(activity!!, mutableListOf()) }
 
-    override fun registerPresenter() = PumpItemPresenter::class.java
-
-    override fun showPage(data: MutableList<WaterPump>) {
-        mAdapter.list.clear()
-        if(data.isNotEmpty() && data.size > 0)
-        mAdapter.list.addAll(data[0].valveControlDevices)
-        mAdapter.notifyDataSetChanged()
-    }
-
-    override fun errorPage(msg: String?) {
-    }
     private lateinit var dialogs: MyDialog
     private var content = ""
     private var bengOpenCount = 0  // 阀门已经打开数量
@@ -112,30 +87,14 @@ class PumpItemFragment: BaseMvpFragment<PumpItemContract.IPresenter>(),PumpItemC
     }
 
     override fun initData() {
-        LoginUser.farmId = "CE4412AB-A62A-446E-8021-235A572FE35B"
-        getPresenter().getPumpItemInfo(LoginUser.farmId)
+        val waterPump = arguments!!.getParcelable<WaterPump>("data") ?: return
+                mAdapter.list.clear()
+        if(waterPump != null)
+            mAdapter.list.addAll(waterPump.valveControlDevices)
+        mAdapter.notifyDataSetChanged()
     }
 
-    lateinit var receiveBroadCast: ReceiveBroadCast
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        receiveBroadCast = ReceiveBroadCast()
-        val intentFilter = IntentFilter(INTENT_ACTION_REFRESH)
-        activity?.registerReceiver(receiveBroadCast,intentFilter)
-    }
 
-    override fun onDetach() {
-        super.onDetach()
-        if(receiveBroadCast != null){
-            activity?.unregisterReceiver(receiveBroadCast)
-        }
-    }
-
-    inner class ReceiveBroadCast : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            this@PumpItemFragment.initData()
-        }
-    }
 
 }
 

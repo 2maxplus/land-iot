@@ -60,7 +60,8 @@ class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceItem>) :
         holder.deviceName?.text = "${item.name}:"
         holder.deviceNo?.text = item.number
 
-        holder.signalView?.setSignalValue(3)
+        holder.signalView?.setSignalValue(item.signalIntensityProportion)
+
         holder.deviceState?.text = item.stateString
         when(item.state){
             0,1 -> {
@@ -89,7 +90,7 @@ class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceItem>) :
             false
         }
 
-        mAdapter = ValveListAdapter(this@DeviceListAdapter.context, item.valves)
+        mAdapter = ValveListAdapter(this@DeviceListAdapter.context, item.valves!!)
         mAdapter!!.setGetOunts(getCounts)
         holder.recyclerView.apply {
             this!!.layoutManager = GridLayoutManager(context, 2)

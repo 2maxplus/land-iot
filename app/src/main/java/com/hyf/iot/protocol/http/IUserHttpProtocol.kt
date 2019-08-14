@@ -1,12 +1,13 @@
 package com.hyf.iot.protocol.http
 
-import com.hyf.iot.domain.*
+import com.hyf.iot.domain.DeviceCoordinates
 import com.hyf.iot.domain.base.GenResult
 import com.hyf.iot.domain.base.OperateData
 import com.hyf.iot.domain.device.DeviceItem
+import com.hyf.iot.domain.device.MoistureStationMassif
 import com.hyf.iot.domain.device.ValveUseTime
 import com.hyf.iot.domain.device.WaterPump
-import com.hyf.iot.domain.pumb.PumpControlStations
+import com.hyf.iot.domain.pumb.PumpRoom
 import com.hyf.iot.domain.user.LoginInfo
 import com.hyf.iot.domain.user.UserInfo
 import com.hyf.iot.domain.user.VerifyBean
@@ -69,19 +70,6 @@ interface IUserHttpProtocol {
     @POST("/api/Feedback/Add")
     fun feedbackAdd(@Query("content")content: String): Observable<GenResult<String>>
 
-    /**
-     * 泵站信息
-     *
-     * */
-    @POST("/api/pumproom/detail")
-    fun getPumpRoomByName(): Observable<GenResult<PumpControlStations>>
-
-    /**
-     * 水泵设备信息
-     *
-     * */
-    @POST("/api/Device/GetWaterPump")
-    fun getWaterPumpByFarmId(@Query("farmId")farmId: String): Observable<GenResult<MutableList<WaterPump>>>
 
     /**
      * 阀门开关
@@ -111,7 +99,27 @@ interface IUserHttpProtocol {
     @POST("/api/Device/GetCoordinates")
     fun getCoordinates(): Observable<GenResult<MutableList<DeviceCoordinates>>>
 
+    /***
+     * 获取泵房信息，变频柜
+     * @param farmId 农场ID
+     *
+     * */
+    @POST("/api/PumpRoom/DetailByFarmId")
+    fun getPumpRoomDetailByFarmId(@Query("farmId")farmId: String): Observable<GenResult<PumpRoom>>
+    /***
+     * 获取地块分类的设备列表
+     * @param farmId 农场ID
+     *
+     * */
+    @POST("/api/Massif/ListByFarmId")
+    fun getMoistureMassifListByFarmId(@Query("farmId")farmId: String): Observable<GenResult<MutableList<MoistureStationMassif>>>
 
+    /**
+     * 水泵设备信息
+     * @param frequencyConverterCabinetId 变频柜ID
+     * */
+    @POST("/api/Device/List_WaterPump")
+    fun getWaterPumpByFrequencyConverterId(@Query("frequencyConverterCabinetId")frequencyConverterCabinetId: String): Observable<GenResult<MutableList<WaterPump>>>
 
 
 }

@@ -5,6 +5,7 @@ import android.graphics.Point
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import com.baidu.location.BDLocation
@@ -26,6 +27,11 @@ import com.hyf.iot.widget.spinner.SpinnerChooseAdapter
 import com.hyf.iot.widget.spinner.SpinnerUtils
 import java.util.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption
+import com.baidu.mapapi.map.MapStatusUpdateFactory
+import com.baidu.mapapi.map.MapStatusUpdate
+
+
 
 
 class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), DeviceCoordinatesContract.IView {
@@ -33,7 +39,9 @@ class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), De
     //百度
     private var mBaiduMap: BaiduMap? = null
     private var ooA: MarkerOptions? = null
-    private var mLocClient: LocationClient? = null
+    private var mLocationClient: LocationClient? = null
+    /**当前地理坐标 */
+    private var mLoactionLatLng: LatLng? = null
     internal var isFirstLoc = true // 是否首次定位
     private val markerlist = ArrayList<Marker>()
     private val BAIDU_READ_PHONE_STATE = 100
@@ -85,6 +93,11 @@ class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), De
             floating_menu.close(true)
             activity?.newIntent<MassifActivity>()
         }
+        //重定位
+        iv_location.setOnClickListener {
+            Log.e("isStarted==",":"+mLocationClient!!.isStarted)
+            requestLocation()
+        }
     }
 
     private fun mapAction() {
@@ -108,7 +121,7 @@ class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), De
                         }
                     }, selectPosition).showPopupWindow()
         }
-        initbaidu() //init为定位方法
+        initMap() //init为定位方法
     }
 
     override fun initData() {
@@ -155,22 +168,25 @@ class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), De
 
 
     @Suppress("DEPRECATION")
-    private fun initbaidu() {
+    private fun initMap() {
         mBaiduMap!!.setOnMapLoadedCallback {
             mMapView.setZoomControlsPosition(Point(20, UIUtils.getScreenHeight(context!!) / 2))
         }
         // 开启定位图层
         mBaiduMap!!.isMyLocationEnabled = true
         // 定位初始化
-        mLocClient = LocationClient(context)
-        mLocClient!!.registerLocationListener(MyLocationListener())
+        mLocationClient = LocationClient(context)
+        mLocationClient!!.registerLocationListener(MyLocationListener())
         val option = LocationClientOption()
         option.locationMode = LocationClientOption.LocationMode.Hight_Accuracy//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
         option.isOpenGps = true // 打开gps
         option.setCoorType("bd09ll") // 设置坐标类型
         option.setScanSpan(0)
-        mLocClient!!.locOption = option
-        mLocClient!!.start()
+        mLocationClient!!.locOption = option
+        mLocationClient!!.start()
+        //初始化缩放比例
+        val msu = MapStatusUpdateFactory.zoomTo(17.0f)
+        mBaiduMap!!.setMapStatus(msu)
         mBaiduMap!!.setOnMapTouchListener(MyMapTouchListener())
         mBaiduMap!!.setOnMarkerClickListener { marker ->
             val bundleMarker = marker!!.extraInfo
@@ -234,8 +250,8 @@ class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), De
         super.onDestroy()
         isDestroy = true
         when {
-            mLocClient != null -> // 退出时销毁定位
-                mLocClient!!.stop()
+            mLocationClient != null -> // 退出时销毁定位
+                mLocationClient!!.stop()
             mBaiduMap != null -> // 关闭定位图层
                 mBaiduMap!!.isMyLocationEnabled = false
             mMapView != null -> mMapView!!.onDestroy()
@@ -260,21 +276,15 @@ class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), De
                     .longitude(location.longitude).build()
             mBaiduMap!!.setMyLocationData(locData)
             //     Log.e("TAG", "lat_lng----->" +location.getLatitude()+"--------"+location.getLongitude());
+            val mLantitude = location.latitude
+            val mLongtitude = location.longitude
+            mLoactionLatLng = LatLng(mLantitude, mLongtitude)
             if (isFirstLoc) {
                 isFirstLoc = false
-                val ll = LatLng(
-                        location.latitude,
-                        location.longitude
-                )
                 locationLat = location.latitude
                 locationLng = location.longitude
-                val builder = MapStatus.Builder()
-                builder.target(ll).zoom(14.0f)
-                mBaiduMap!!.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()))
+                mBaiduMap!!.animateMapStatus(MapStatusUpdateFactory.newLatLng(mLoactionLatLng))
             }
-//            for (i in 0..49) {
-//                initmaker( getRandomLatLng(LatLng(locationLat,locationLng),0.25),"0",0)
-//            }
 //            addHeatMap()
         }
 
@@ -296,6 +306,18 @@ class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), De
         val y = r * Math.cos(theta)
 
         return LatLng(cirx + x, ciry + y)
+    }
+
+
+    /**
+     * 手动请求定位的方法
+     */
+    fun requestLocation() {
+        if (mLocationClient != null && mLocationClient!!.isStarted) {
+            mLocationClient!!.requestLocation()
+            // 实现动画跳转
+            mBaiduMap!!.animateMapStatus(MapStatusUpdateFactory.newLatLng(mLoactionLatLng))
+        }
     }
 
 

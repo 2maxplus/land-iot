@@ -97,6 +97,7 @@ class ValveDetailActivity : BaseMvpActivity<DeviceDetailContract.IPresenter>(), 
             tv_sun_exposure?.text = "${deviceItem.illuminationSensor.illumination}Lux"
         }
 //        tv_device_name?.text = "${valveControlDevices.name}:"
+        signalView.setSignalValue(deviceItem.signalIntensityProportion)
         tv_title.text = deviceItem.name
         tv_device_name.visibility = View.GONE
         tv_device_no.text = deviceItem.number
@@ -116,7 +117,7 @@ class ValveDetailActivity : BaseMvpActivity<DeviceDetailContract.IPresenter>(), 
         tv_battery_percent.text =  "${(deviceItem.cellVoltageProportion * 100).toInt()}%"
         battery.power = deviceItem.cellVoltageProportion
 
-        val mAdapter = ValveListAdapter(this, deviceItem.valves)
+        val mAdapter = ValveListAdapter(this, deviceItem.valves!!)
         mAdapter.setGetOunts(object : ValveListAdapter.GetCounts {
             override fun adds() {
 

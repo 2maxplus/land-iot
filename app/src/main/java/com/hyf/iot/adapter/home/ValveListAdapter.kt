@@ -77,10 +77,10 @@ class ValveListAdapter(context: Activity?, list: ArrayList<Valve>) :
                                 }
                                 notifyDataSetChanged()
                             }, {})
-//                    .dispose()
         }
 
         holder.switchState?.setOnCheckedChangeListener { _, isChecked ->
+            if(getCounts == null) return@setOnCheckedChangeListener
             if (isChecked) {
                 getCounts.adds()
             } else {

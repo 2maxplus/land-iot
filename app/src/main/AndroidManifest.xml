@@ -65,7 +65,6 @@
             android:name="com.hyf.iot.ui.activity.WebActivity"
             android:screenOrientation="portrait" />
         <activity android:name="com.hyf.iot.ui.activity.FlashActivity" >
-
         </activity>
         <activity android:name="com.hyf.iot.ui.activity.AccountInfoActivity" />
         <activity android:name="com.hyf.iot.ui.activity.ValveDetailActivity" />
@@ -92,6 +91,10 @@
                 android:resource="@xml/provider_paths"/>
         </provider>
 
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
     </application>
 
 </manifest>

@@ -16,13 +16,9 @@ import com.ljb.kt.client.HttpFactory
 class PumpRoomPresenter : BaseRxLifePresenter<PumpRoomContract.IView>(),
         PumpRoomContract.IPresenter {
 
-    override fun getPumpInfo() {
-        getDataFromNet()
-    }
-
-    private fun getDataFromNet() {
+    override fun getPumpInfo(farmId: String) {
         HttpFactory.getProtocol(IUserHttpProtocol::class.java)
-                .getPumpRoomByName()
+                .getPumpRoomDetailByFarmId(farmId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx(

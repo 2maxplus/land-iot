@@ -33,6 +33,7 @@
             android:gravity="center_vertical|start"
             android:hint="请输入关键字"
             android:imeOptions="actionSearch"
+            android:maxLines="1"
             android:inputType="text"
             android:paddingLeft="10dp"
             android:singleLine="true"
@@ -50,18 +51,6 @@
 
     </LinearLayout>
 
-    <com.hyf.iot.widget.VpSwipeRefreshLayout
-        android:id="@+id/refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ExpandableListView
-            android:id="@+id/expandableListView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:childDivider="@color/little_gray"
-            android:divider="@color/little_gray"
-            android:dividerHeight="0.5dp" />
-    </com.hyf.iot.widget.VpSwipeRefreshLayout>
+    <include layout="@layout/layout_common_page_state" />
 
 </LinearLayout>
