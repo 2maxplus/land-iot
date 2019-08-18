@@ -159,11 +159,6 @@
         <item name="fab_label">@string/add_farm</item>
     </style>
 
-    <style name="add_land" parent="floating_buttons_small">
-        <item name="android:src">@drawable/icon_land</item>
-        <item name="fab_label">@string/add_massif</item>
-    </style>
-
     <style name="menu_style">
         <item name="menu_colorNormal">@color/colorPrimary</item>
         <item name="menu_colorPressed">@color/colorPrimaryDark</item>

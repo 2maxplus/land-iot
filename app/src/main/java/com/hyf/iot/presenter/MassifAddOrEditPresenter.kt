@@ -57,4 +57,24 @@ class MassifAddOrEditPresenter : BaseRxLifePresenter<MassifContract.IView>(),
                 ).bindRxLifeEx(RxLife.ON_DESTROY)
     }
 
+    override fun getFarmDetail(id: String) {
+        HttpFactory.getProtocol(IReposHttpProtocol::class.java)
+                .getFarmDetail(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeEx(
+                        {
+                            when(it.code){
+                                RESULT_SUCCESS -> getMvpView().showFarmDetail(it.data)
+                                214,215,216 -> {
+                                    LoginUser.token = ""
+                                    getMvpView().onTokenExpired(it.msg)
+                                }
+                                else -> getMvpView().onError(it.msg)
+                            }
+                        },
+                        { getMvpView().onError(it.message)}
+                ).bindRxLifeEx(RxLife.ON_DESTROY)
+    }
+
 }

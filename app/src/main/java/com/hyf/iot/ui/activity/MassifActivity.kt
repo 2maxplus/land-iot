@@ -1,20 +1,13 @@
 package com.hyf.iot.ui.activity
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
+import android.content.DialogInterface
 import android.graphics.Point
-import android.os.Build
-import android.support.v4.app.ActivityCompat
+import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
-import com.baidu.location.BDLocation
-import com.baidu.location.BDLocationListener
-import com.baidu.location.LocationClient
-import com.baidu.location.LocationClientOption
 import com.baidu.mapapi.map.*
 import com.baidu.mapapi.model.LatLng
 import com.hyf.iot.App
@@ -23,14 +16,15 @@ import com.hyf.iot.common.LoginUser
 import com.hyf.iot.common.activity.BaseMvpActivity
 import com.hyf.iot.contract.MassifContract
 import com.hyf.iot.domain.LatLonData
+import com.hyf.iot.domain.farm.Farm
 import com.hyf.iot.presenter.MassifAddOrEditPresenter
 import com.hyf.iot.utils.mapCeshi.MapUtils
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
+import com.hyf.iot.widget.dialog.NormalMsgDialog
 import kotlinx.android.synthetic.main.layout_common_title.*
 import kotlinx.android.synthetic.main.map_layout.*
 import kotlin.math.abs
-import android.graphics.Bitmap.createBitmap as createBitmap1
 
 /**
  * 地块
@@ -40,12 +34,16 @@ import android.graphics.Bitmap.createBitmap as createBitmap1
 class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContract.IView {
 
     private var mBaiduMap: BaiduMap? = null
-    var myListener = MyLocationListenner()
-    private var mLocClient: LocationClient? = null
-    private val BAIDU_READ_PHONE_STATE = 100
-    internal var isFirstLoc = true // 是否首次定位
-    private lateinit var bitmap: BitmapDescriptor
+    /**当前物理坐标 */
+    private var mCenterPoint: Point? = null
+    /**当前地理坐标 */
+    private var mLoactionLatLng: LatLng? = null
+    // 农场信息
+    private var farmDetail: Farm? = null
+    internal var mLatitude = 30.654008
+    internal var mLongtitude = 104.093591
 
+    private lateinit var bitmap: BitmapDescriptor
     private var pos: Int = -1 // 当前点
     private var mList: ArrayList<LatLng> = ArrayList() // 点坐标集合
     private var mMarkerList: ArrayList<LatLonData> = ArrayList()
@@ -53,6 +51,19 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
     private var id = ""  // 地块ID
 
     override fun getLayoutId(): Int = R.layout.map_layout
+
+    override fun initData() {
+        super.initData()
+        if (LoginUser.farmId.isNullOrEmpty()) {
+            val dialog = NormalMsgDialog(this).setMessage("当前无农场信息，是否先新建农场？")
+                    .setRightButtonInfo("", DialogInterface.OnClickListener { _, _ ->
+                        newIntent<FarmAddOrEditActivity>()
+                    })
+            dialog.show()
+        } else {
+            getPresenter().getFarmDetail(LoginUser.farmId)
+        }
+    }
 
     override fun initView() {
         tv_title.text = getString(R.string.add_massif)
@@ -72,15 +83,7 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
             getPresenter().massifAdd(LoginUser.farmId, massifName, area.text.toString().toFloat(), mList)
         }
         iv_back.setOnClickListener { onBack() }
-        mBaiduMap = mMapView!!.map
-        mBaiduMap!!.setMapStatus(MapStatusUpdateFactory.zoomTo(15f))
-        //检查权限
-        //判断是否为android6.0系统版本，如果是，需要动态添加权限
-        if (Build.VERSION.SDK_INT >= 23) {
-            showContacts()
-        } else {
-            initBaidu() //init为定位方法
-        }
+        initBaidu() //init为定位方法
 
         delete.setOnClickListener {
             if (pos == -1) {
@@ -138,53 +141,29 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
         finish()
     }
 
-    private fun showContacts() {
-        if (ActivityCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.READ_PHONE_STATE
-                ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            showToast("没有权限,请手动开启定位权限")
-            // 申请一个（或多个）权限，并提供用于回调返回的获取码（用户定义）
-            this.let {
-                ActivityCompat.requestPermissions(
-                        it,
-                        arrayOf(
-                                Manifest.permission.ACCESS_COARSE_LOCATION,
-                                Manifest.permission.ACCESS_FINE_LOCATION,
-                                Manifest.permission.READ_PHONE_STATE
-                        ),
-                        BAIDU_READ_PHONE_STATE
-                )
-            }
-        } else {
-            initBaidu()
-        }
+    override fun showFarmDetail(data: Farm) {
+        farmDetail = data
+        mLatitude = data.latitude
+        mLongtitude = data.longitude
+        mLoactionLatLng = LatLng(mLatitude, mLongtitude)
+        mBaiduMap!!.animateMapStatus(MapStatusUpdateFactory.newLatLng(mLoactionLatLng))
+        initMarker(mLoactionLatLng!!)
+    }
+
+    private fun initMarker(point: LatLng) {
+        val bdA: BitmapDescriptor = BitmapDescriptorFactory
+                .fromResource(R.drawable.icon_farm_loc)
+        val ooA = MarkerOptions().position(point).icon(bdA)
+        val mMarkerA = mBaiduMap!!.addOverlay(ooA)
+        val mBundle = Bundle()
+        mBundle.putParcelable("item", farmDetail)
+        mMarkerA.extraInfo = mBundle
     }
 
     @Suppress("DEPRECATION")
     private fun initBaidu() {
-        // 开启定位图层
-        mBaiduMap!!.isMyLocationEnabled = true
-        // 定位初始化
-        mLocClient = LocationClient(this)
-        mLocClient!!.registerLocationListener(myListener)
-        val option = LocationClientOption()
-        option.locationMode = LocationClientOption.LocationMode.Hight_Accuracy//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
-        option.isOpenGps = true // 打开gps
-        option.setCoorType("bd09ll") // 设置坐标类型
-        option.setScanSpan(0)
-        mLocClient!!.locOption = option
-        mLocClient!!.start()
-
+        mBaiduMap = mMapView!!.map
+        mBaiduMap!!.setMapStatus(MapStatusUpdateFactory.zoomTo(15f))
         mBaiduMap!!.setOnMapClickListener(object : BaiduMap.OnMapClickListener {
             override fun onMapClick(p0: LatLng?) {
                 if (!isArea) {
@@ -199,21 +178,13 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
         })
 
         mBaiduMap!!.setOnMarkerClickListener { marker ->
-            if (mMarkerList[0].marker == marker) {
-                if (!isArea) {
-                    if (mMarkerList.size > 2) {
-                        isArea = true
-                        pLine?.remove()
+            if (mMarkerList[0].marker == marker && !isArea && mMarkerList.size > 2) {
+                isArea = true
+                pLine?.remove()
 //                        allLineAutoAddPoint()
-                        pl = drawArea()
-                        drawPoints()
-                        area.text = MapUtils.getArea(pl) // 面积
-                    } else {
-                        setPointView(marker)
-                    }
-                } else {
-                    setPointView(marker)
-                }
+                pl = drawArea()
+                drawPoints()
+                area.text = MapUtils.getArea(pl) // 面积
             } else {
                 setPointView(marker)
             }
@@ -236,6 +207,7 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
             override fun onMapStatusChangeFinish(p0: MapStatus?) {
             }
         })
+
     }
 
     private fun setPointView(marker: Marker) {
@@ -304,7 +276,7 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
         val mPolygonOptions = PolygonOptions()
                 .points(mList)
                 .fillColor(0x551791fc) //填充颜色
-                .stroke(Stroke(6 , 0x55FF33FF)) //边框宽度和颜色
+                .stroke(Stroke(6, 0x55FF33FF)) //边框宽度和颜色
 
         return mBaiduMap!!.addOverlay(mPolygonOptions) as Polygon
     }
@@ -477,42 +449,12 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
             val marker = mBaiduMap!!.addOverlay(option) as Marker
             mMarkerList.add(LatLonData(marker, false))
         }
+        initMarker(mLoactionLatLng!!)
     }
 
     private var pLine: Polyline? = null
     private var pl: Polygon? = null
 
-
-    /**
-     * 定位SDK监听函数
-     */
-    inner class MyLocationListenner : BDLocationListener {
-
-        override fun onReceiveLocation(location: BDLocation?) {
-            // map view 销毁后不在处理新接收的位置
-            if (location == null || mMapView == null) {
-                return
-            }
-
-            val locData = MyLocationData.Builder()
-                    .accuracy(location.radius)
-                    // 此处设置开发者获取到的方向信息，顺时针0-360
-                    .direction(100f).latitude(location.latitude)
-                    .longitude(location.longitude).build()
-            mBaiduMap!!.setMyLocationData(locData)
-            if (isFirstLoc) {
-                isFirstLoc = false
-                val ll = LatLng(
-                        location.latitude,
-                        location.longitude
-                )
-                val builder = MapStatus.Builder()
-                builder.target(ll).zoom(17.0f)
-                mBaiduMap!!.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()))
-            }
-        }
-
-    }
 
     override fun onPause() {
         super.onPause()
@@ -529,8 +471,6 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
     override fun onDestroy() {
         super.onDestroy()
         when {
-            mLocClient != null -> // 退出时销毁定位
-                mLocClient!!.stop()
             mBaiduMap != null -> // 关闭定位图层
                 mBaiduMap!!.isMyLocationEnabled = false
             mMapView != null -> mMapView!!.onDestroy()

@@ -23,10 +23,12 @@ class UserPresenter : BaseRxLifePresenter<UserContract.IView>(),
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx({
-                    when(it.code){
+                    when (it.code) {
                         RESULT_SUCCESS -> getMvpView().showPortrait(HTTP_API_DOMAIN + it.data)
-                        214,215,216 ->{LoginUser.token = ""
-                            getMvpView().onTokenExpired(it.msg)}
+                        214, 215, 216 -> {
+                            LoginUser.token = ""
+                            getMvpView().onTokenExpired(it.msg)
+                        }
                         else -> getMvpView().onError(it.msg)
                     }
                 })
@@ -43,7 +45,7 @@ class UserPresenter : BaseRxLifePresenter<UserContract.IView>(),
                 .subscribeEx({
                     if (it.code == RESULT_SUCCESS) {
                         getMvpView().portraitModifySuccess(HTTP_API_DOMAIN + it.data)
-                    }else{
+                    } else {
                         getMvpView().onError(it.msg)
                     }
                 })
@@ -56,10 +58,12 @@ class UserPresenter : BaseRxLifePresenter<UserContract.IView>(),
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx({
-                    when(it.code){
+                    when (it.code) {
                         RESULT_SUCCESS -> getMvpView().showUserInfo(it.data)
-                            214,215,216 ->{LoginUser.token = ""
-                            getMvpView().onTokenExpired(it.msg)}
+                        214, 215, 216 -> {
+                            LoginUser.token = ""
+                            getMvpView().onTokenExpired(it.msg)
+                        }
                         else -> getMvpView().onError(it.msg)
                     }
                 })
@@ -76,10 +80,10 @@ class UserPresenter : BaseRxLifePresenter<UserContract.IView>(),
                     if (it.code == RESULT_SUCCESS) {
                         LoginUser.token = ""
                         getMvpView().logoutSuccess()
-                    }else{
+                    } else {
                         getMvpView().onError(it.msg)
                     }
-                },{getMvpView().onError(it.message)})
+                }, { getMvpView().onError(it.message) })
                 .bindRxLifeEx(RxLife.ON_DESTROY)
     }
 

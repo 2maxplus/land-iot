@@ -1,12 +1,9 @@
 package com.hyf.iot.common
 
-import android.provider.BaseColumns
-
 /**
  * 常量池
  */
 object Constant {
-
 
     /**
      *  SharedPreferences常量池

@@ -40,9 +40,11 @@ class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(
             setContentView(View.inflate(activity, R.layout.layout_expandable_listview, null))
             setOnPageErrorClickListener { onReload() }
         }
+
         refresh_layout.apply {
             setColorSchemeResources(R.color.colorBlue)
             setOnRefreshListener {
+//                postDelayed({ isRefreshing = true }, 2000)
                 initData()
             }
         }
@@ -81,11 +83,6 @@ class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(
 //            }
 //        })
 
-        refresh_layout.apply {
-            setColorSchemeResources(R.color.colorBlue)
-            setOnRefreshListener { postDelayed({ isRefreshing = false }, 2000) }
-        }
-
     }
 
     override fun initData() {
@@ -100,12 +97,12 @@ class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(
 
     override fun registerPresenter() = MoiturePresenter::class.java
 
-    private fun doSearch(){
+    private fun doSearch() {
         val searchText = editText.text.toString()
-        val tool = FSearchTool(datas,"massifName")
+        val tool = FSearchTool(datas, "massifName")
         mAdapter.list.clear()
         mAdapter.list.addAll(tool.searchTasks(searchText) as MutableList<MoistureStationMassif>)
-        if(mAdapter.list.size > 0){
+        if (mAdapter.list.size > 0) {
             mAdapter.notifyDataSetChanged()
             expandableListView.setSelectedGroup(0)
             expandableListView.expandGroup(0)
@@ -119,6 +116,7 @@ class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(
 
     override fun showPage(data: MutableList<MoistureStationMassif>) {
         refresh_layout.isRefreshing = false
+        datas.clear()
         datas.addAll(data)
         if (data == null || data.size == 0) {
             page_layout.setPage(PageStateLayout.PageState.STATE_EMPTY)

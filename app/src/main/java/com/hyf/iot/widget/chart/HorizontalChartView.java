@@ -202,7 +202,8 @@ public class HorizontalChartView extends View {
         for (int i = 0; i < line_num; i++) {
             canvas.save();
             ratio_num = (i + 1) + "";
-            //底部百分比数字
+            if((i+1)  % 4 == 0)
+            //底部数字
             canvas.drawText(ratio_num, lift_width + i * line_width, height - 10, paint_font);
             //网络线
             canvas.drawLine(lift_width + i * line_width, 0, lift_width + i * line_width, line_length, paint);
@@ -217,30 +218,6 @@ public class HorizontalChartView extends View {
 
         //获取月份文字信息
         Paint.FontMetrics fm1 = paint_font2.getFontMetrics();
-
-//        for (int i = 4; i >= 0; i--) {
-//            canvas.drawText(sdf.format(getBeforeOrAfterDate(new Date(), -(i + 1))), lift_width - 10,
-//                    ((line_length / 5)) * (i + 1) + (fm1.bottom - fm1.top) / 2 - i * 10 - line_length / 5 / 2, paint_font2);
-//
-//            for (int j = list.size() - 1; j >= 0; j--) {
-//                for (int n = 0; n < list.get(j).size(); n++) {
-//                    canvas.save();
-//                    canvas.drawRect(line_width * (list.get(j).get(n).getStart() - 1) + lift_width,
-//                            interval_height * (i * 4 + j + 3f) - (interval_height + plan_height / 2) + fm1.bottom + 50 * i,
-//                            line_width * (list.get(j).get(n).getEnd() - 1) + lift_width,
-//                            interval_height * (i * 4 + j + 3f) - (interval_height + plan_height / 2) + plan_height + fm1.bottom + 50 * i,
-//                            paints.get(j));
-//
-//                    canvas.drawText(list.get(j).get(n).getTitls(),
-//                            (line_width * (list.get(j).get(n).getEnd() - list.get(j).get(n).getStart() - 2)) / 2 + line_width * (list.get(j).get(n).getStart()) + lift_width,
-//                            interval_height * (i * 4 + j + 3f) - interval_height + (fm1.bottom - fm1.top) / 2 + 50 * i, paint_content);
-//                    canvas.restore();
-//                }
-//            }
-//
-//        }
-
-
         for (int i = mData.size() - 1; i >= 0; i--) {
             canvas.drawText(String.valueOf(mData.get(i).getDate()), lift_width - 10,
                     line_length / 5 * (i + 1) + (fm1.bottom - fm1.top) / 2 - i * 10 - line_length / 5 / 2, paint_font2);

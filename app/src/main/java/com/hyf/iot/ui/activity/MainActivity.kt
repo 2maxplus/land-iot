@@ -23,7 +23,7 @@ class MainActivity : FragmentActivity() {
     private var mFirstDownBack: Long = 0L
     private var mCurIndex: Int = 0
 
-    private val mFragments = listOf<Fragment>(
+    private val mFragments = listOf(
             HomeFragment(),
             PumpRoomFragment(),
             ValveControlFragment(),

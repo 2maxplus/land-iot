@@ -1,13 +1,17 @@
 package com.hyf.iot.ui.fragment.main
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Point
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.widget.TextView
 import com.baidu.location.BDLocation
 import com.baidu.location.BDLocationListener
 import com.baidu.location.LocationClient
@@ -30,8 +34,9 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption
 import com.baidu.mapapi.map.MapStatusUpdateFactory
 import com.baidu.mapapi.map.MapStatusUpdate
-
-
+import com.hyf.iot.common.Constant
+import com.hyf.iot.common.Constant.RequestKey.ON_SUCCESS
+import com.hyf.iot.domain.farm.Farm
 
 
 class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), DeviceCoordinatesContract.IView {
@@ -85,6 +90,11 @@ class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), De
         floating_menu.hideMenuButton(false)
         floating_menu.setClosedOnTouchOutside(true)
         mUiHandler.postDelayed({ floating_menu.showMenuButton(true) }, 400)
+        fab_btn_switch_farm.setOnClickListener {
+            floating_menu.close(true)
+            val intent = Intent(context, FarmListActivity::class.java)
+            startActivityForResult(intent, ON_SUCCESS)
+        }
         fab_btn_add_farm.setOnClickListener {
             floating_menu.close(true)
             activity?.newIntent<FarmAddOrEditActivity>()
@@ -95,7 +105,7 @@ class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), De
         }
         //重定位
         iv_location.setOnClickListener {
-            Log.e("isStarted==",":"+mLocationClient!!.isStarted)
+            Log.e("isStarted==", ":" + mLocationClient!!.isStarted)
             requestLocation()
         }
     }
@@ -190,10 +200,38 @@ class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), De
         mBaiduMap!!.setOnMapTouchListener(MyMapTouchListener())
         mBaiduMap!!.setOnMarkerClickListener { marker ->
             val bundleMarker = marker!!.extraInfo
-            val item = bundleMarker.getParcelable<DeviceCoordinates>("item")
-            val bundle = Bundle()
-            bundle.putString("id", item.id)  //设备ID
-            activity?.newIntent<ValveDetailActivity>(bundle)
+            val type = bundleMarker.getInt("type")
+            when(type){
+                1 -> {  //设备信息
+                    val item = bundleMarker.getParcelable<DeviceCoordinates>("item")
+                    val bundle = Bundle()
+                    bundle.putString("id", item.id)  //设备ID
+                    activity?.newIntent<ValveDetailActivity>(bundle)
+                }
+                2 -> {  //农场信息
+                    val item = bundleMarker.getParcelable<Farm>("item")
+                    val latLng = LatLng(item.latitude, item.longitude)
+                    val view = LayoutInflater.from(context).inflate(R.layout.item_popwindow, null)
+                    val tvTitle = view.findViewById<TextView>(R.id.tv_title)
+                    val tvAddress = view.findViewById<TextView>(R.id.tv_address)
+                    val tvLinkman = view.findViewById<TextView>(R.id.tv_linkman)
+                    val tvPhone = view.findViewById<TextView>(R.id.tv_phone)
+                    tvTitle.text = item.name
+                    tvAddress.text = item.address
+                    tvLinkman.text = item.linkMan
+                    tvPhone.text = item.linkPhone
+                    val offset = UIUtils.dip2px(activity!!, -25f)
+                    view.setOnClickListener {
+                        val bundle = Bundle()
+                        bundle.putString(Constant.KEY_PARAM_ID, item.id)
+                        activity?.newIntent<FarmDetailActivity>(ON_SUCCESS,bundle)
+                        mBaiduMap!!.hideInfoWindow()
+                    }
+                    val mInfoWindow = InfoWindow(view, latLng, offset)
+                    mBaiduMap!!.showInfoWindow(mInfoWindow)
+                }
+            }
+
             true
         }
     }
@@ -217,6 +255,7 @@ class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), De
                 .draggable(true)
         val mMarkerA = mBaiduMap!!.addOverlay(ooA)
         val mBundle = Bundle()
+        mBundle.putInt("type",1)
         mBundle.putParcelable("item", item)
         mMarkerA.extraInfo = mBundle
         markerlist.add(mMarkerA as Marker)
@@ -320,6 +359,31 @@ class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), De
         }
     }
 
+
+    private fun initMarker(point: LatLng, data: Farm) {
+        val bdA: BitmapDescriptor = BitmapDescriptorFactory
+                .fromResource(R.drawable.icon_farm_loc)
+        val ooA = MarkerOptions().position(point).icon(bdA)
+        val mMarkerA = mBaiduMap!!.addOverlay(ooA)
+        val mBundle = Bundle()
+        mBundle.putInt("type",2)
+        mBundle.putParcelable("item", data)
+        mMarkerA.extraInfo = mBundle
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                ON_SUCCESS -> {
+                    val farm = data!!.getParcelableExtra<Farm>(Constant.KEY_PARAM_1)
+                    val mLatLng = LatLng(farm.latitude, farm.longitude)
+                    mBaiduMap!!.animateMapStatus(MapStatusUpdateFactory.newLatLng(mLatLng))
+                    initMarker(mLatLng, farm)
+                }
+            }
+        }
+    }
 
 }
 

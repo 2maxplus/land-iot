@@ -28,7 +28,7 @@ class ValveListAdapter(context: Activity?, list: ArrayList<Valve>) :
         this.mData = list
     }
 
-    fun setGetOunts(getCounts: ValveListAdapter.GetCounts) {
+    fun setGetOunts(getCounts: GetCounts) {
         this.getCounts = getCounts
     }
 

@@ -53,12 +53,16 @@ class FarmAdapter(context: Activity?, list: MutableList<Farm>) : RecyclerView.Ad
     override fun onBindViewHolder(holder: ViewHolders, position: Int) {
         val item = mData[position]
         holder.tvFarmName?.text = item.name
+        holder.tvFarmAddress?.text = item.address
+        holder.tvFarmLinkMan?.text = item.linkMan
+        holder.tvFarmLinkPhone?.text = item.linkPhone
+        holder.checkbox?.visibility = View.VISIBLE
         holder.checkbox?.isChecked = map[position]!!
         holder.checkbox?.setOnClickListener {
             map[position] = !map[position]!!
             notifyDataSetChanged()
             singleSet(position)
-            mCallback.click(it, item.id!!)
+            mCallback.click(it, item)
         }
         holder.itemView.setOnClickListener {
             val bundle = Bundle()
@@ -74,10 +78,13 @@ class FarmAdapter(context: Activity?, list: MutableList<Farm>) : RecyclerView.Ad
     class ViewHolders(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val checkbox by lazy { itemView?.findViewByIdEx<CheckBox>(R.id.checkbox) }
         val tvFarmName by lazy { itemView?.findViewByIdEx<TextView>(R.id.tv_farm_name) }
+        val tvFarmAddress by lazy { itemView?.findViewByIdEx<TextView>(R.id.tv_farm_address) }
+        val tvFarmLinkMan by lazy { itemView?.findViewByIdEx<TextView>(R.id.tv_farm_linkman) }
+        val tvFarmLinkPhone by lazy { itemView?.findViewByIdEx<TextView>(R.id.tv_farm_linkphone) }
     }
 
     interface Callback {
-        fun click(v: View, id: String)
+        fun click(v: View, item: Farm)
     }
 
     /**

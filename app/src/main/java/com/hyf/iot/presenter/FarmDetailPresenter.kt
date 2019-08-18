@@ -13,7 +13,7 @@ import com.ljb.kt.client.HttpFactory
 /**
  * 农场新建与更新
  */
-class FarmDetailPresenter : BaseRxLifePresenter<FarmDetailContract.IView>(),
+open class FarmDetailPresenter : BaseRxLifePresenter<FarmDetailContract.IView>(),
         FarmDetailContract.IPresenter {
     override fun getMassifList(farmId: String) {
         HttpFactory.getProtocol(IReposHttpProtocol::class.java)

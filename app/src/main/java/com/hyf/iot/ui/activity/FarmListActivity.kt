@@ -1,12 +1,14 @@
 package com.hyf.iot.ui.activity
 
 import android.content.Intent
+import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.hyf.iot.App
 import com.hyf.iot.R
 import com.hyf.iot.adapter.rv.FarmAdapter
+import com.hyf.iot.common.Constant.KEY_PARAM_1
 import com.hyf.iot.common.Constant.RequestKey.ON_SUCCESS
 import com.hyf.iot.common.LoginUser
 import com.hyf.iot.common.activity.BaseMvpActivity
@@ -15,8 +17,8 @@ import com.hyf.iot.domain.farm.Farm
 import com.hyf.iot.presenter.FarmListPresenter
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
+import com.hyf.iot.widget.ItemDecoration
 import com.hyf.iot.widget.PageStateLayout
-import com.hyf.iot.widget.RecycleViewDivider
 import com.hyf.iot.widget.dialog.LoadingDialog
 import kotlinx.android.synthetic.main.layout_common_page_state.*
 import kotlinx.android.synthetic.main.layout_common_title.*
@@ -28,15 +30,6 @@ import kotlinx.android.synthetic.main.layout_recycler_view.*
 
 class FarmListActivity : BaseMvpActivity<FarmListContract.IPresenter>(), FarmListContract.IView {
 
-//    companion object {
-//        fun startActivity(context: Activity?, title: String = "") {
-//            val bundle = Bundle()
-//            bundle.putString(WebActivity.KEY_TITLE, title)
-//            val intent = Intent(context, FarmListActivity::class.java)
-//            intent.putExtra("bundle", bundle)
-//            context?.startActivityForResult(intent, Constant.RequestKey.ON_SUCCESS)
-//        }
-//    }
 
     private val mAdapter by lazy { FarmAdapter(this, arrayListOf()) }
 
@@ -59,15 +52,14 @@ class FarmListActivity : BaseMvpActivity<FarmListContract.IPresenter>(), FarmLis
         recycler_view.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = mAdapter
-            addItemDecoration(RecycleViewDivider(
-                    context, LinearLayoutManager.VERTICAL
-            ))
+            addItemDecoration(ItemDecoration(2))
         }
 
         mAdapter.setCallback(object : FarmAdapter.Callback {
-            override fun click(v: View, id: String) {
+            override fun click(v: View, item: Farm) {
                 LoginUser.farmId = mAdapter.getCheckedId()
-                setResult(FragmentActivity.RESULT_OK)
+                intent.putExtra(KEY_PARAM_1,item)
+                setResult(FragmentActivity.RESULT_OK,intent)
                 finish()
 //                val dialog = NormalMsgDialog(this@BindingListActivity).setMessage("确认切换当前农场？")
 //                        .setRightButtonInfo("", DialogInterface.OnClickListener{ _, _ ->

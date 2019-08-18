@@ -69,6 +69,7 @@
     <string name="hint_input_code">请输入验证码</string>
     <string name="hint_input_pwd">请输入密码</string>
 
+    <string name="switch_farm">切换农场</string>
     <string name="add_farm">新建农场</string>
     <string name="edit_farm">农场编辑</string>
     <string name="add_massif">新建地块</string>

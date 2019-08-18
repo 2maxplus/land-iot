@@ -36,7 +36,11 @@ class PumpRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomC
 
     override fun initView() {
         iv_back.visibility = View.GONE
-
+        tv_operate.visibility = View.VISIBLE
+        tv_operate.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.icon_refresh,0,0,0)
+        tv_operate.setOnClickListener {
+            onReload()
+        }
         page_layout.apply {
             setContentView(View.inflate(activity, R.layout.layout_common_viewpager, null))
             setOnPageErrorClickListener { onReload() }
@@ -81,5 +85,7 @@ class PumpRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomC
         activity?.showToast(msg!!)
         page_layout.setPage(PageStateLayout.PageState.STATE_ERROR)
     }
+
+
 
 }

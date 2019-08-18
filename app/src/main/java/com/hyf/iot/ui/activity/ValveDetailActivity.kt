@@ -21,7 +21,7 @@ import com.hyf.iot.presenter.DeviceDetailPresenter
 import com.hyf.iot.utils.TimeUtils
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
-import kotlinx.android.synthetic.main.fakong_datails_layout.*
+import kotlinx.android.synthetic.main.activity_valve_detail.*
 import kotlinx.android.synthetic.main.layout_common_title.*
 import kotlinx.android.synthetic.main.layout_recycler_view.*
 import kotlinx.android.synthetic.main.shebai_list_item.*
@@ -40,7 +40,7 @@ class ValveDetailActivity : BaseMvpActivity<DeviceDetailContract.IPresenter>(), 
 
     private val arrColor = arrayListOf(R.color.plan1, R.color.plan2, R.color.plan3, R.color.plan4)
 
-    override fun getLayoutId(): Int = R.layout.fakong_datails_layout
+    override fun getLayoutId(): Int = R.layout.activity_valve_detail
 
     override fun init(savedInstanceState: Bundle?) {
         super.init(savedInstanceState)

@@ -9,13 +9,13 @@ import com.ljb.kt.contract.IViewContract
  */
 interface MassifContract {
 
-    interface IView : IViewContract{
+    interface IView : FarmDetailByIdContract.IView{
         fun onError(errorMsg: String?)
         fun addSuccess()
         fun editSuccess()
     }
 
-    interface IPresenter : IPresenterContract{
+    interface IPresenter : FarmDetailByIdContract.IPresenter{
         fun massifAdd(farmId: String, name: String,size: Float,massifCoordinates: ArrayList<LatLng>)
         fun massifEdit(farmId: String, name: String,size: Float,massifCoordinates: ArrayList<LatLng>,id:String)
     }

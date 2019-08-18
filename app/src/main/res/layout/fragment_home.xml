@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.baidu.mapapi.map.MapView
         android:id="@+id/mMapView"
@@ -50,16 +51,27 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:padding="10dp">
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_btn_switch_farm"
+            style="@style/floating_buttons_small"
+            app:fab_label="@string/switch_farm"
+            android:src="@drawable/icon_switch_farm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_btn_add_farm"
-            style="@style/add_farm"
+            style="@style/floating_buttons_small"
+            app:fab_label="@string/add_farm"
+            android:src="@drawable/icon_farm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_btn_add_land"
-            style="@style/add_land"
+            style="@style/floating_buttons_small"
+            app:fab_label="@string/add_massif"
+            android:src="@drawable/icon_land"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

@@ -18,6 +18,7 @@ import com.hyf.iot.utils.newIntent
 import com.hyf.iot.widget.BatteryView
 import android.view.MotionEvent
 import android.widget.TableRow
+import com.hyf.iot.widget.ItemDecoration
 import com.hyf.iot.widget.SignalView
 
 
@@ -94,6 +95,7 @@ class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceItem>) :
         mAdapter!!.setGetOunts(getCounts)
         holder.recyclerView.apply {
             this!!.layoutManager = GridLayoutManager(context, 2)
+//            addItemDecoration(ItemDecoration(2))
             adapter = mAdapter
         }
     }
