@@ -16,9 +16,9 @@ import com.ljb.kt.client.HttpFactory
 class PumpItemPresenter : BaseRxLifePresenter<PumpItemContract.IView>(),
         PumpItemContract.IPresenter {
 
-    override fun getPumpItemInfo(farmId: String) {
+    override fun getPumpItemInfo(id: String) {
         HttpFactory.getProtocol(IUserHttpProtocol::class.java)
-                .getWaterPumpByFrequencyConverterId(farmId)
+                .getWaterPumpByFrequencyConverterId(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx(

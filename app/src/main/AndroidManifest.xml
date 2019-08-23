@@ -41,7 +41,10 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="FsfV7PAA37YYkIHk4awvjvUwwgzjHETs" />
@@ -91,10 +94,7 @@
                 android:resource="@xml/provider_paths"/>
         </provider>
 
-        <service
-            android:name="com.baidu.location.f"
-            android:enabled="true"
-            android:process=":remote" />
+
     </application>
 
 </manifest>

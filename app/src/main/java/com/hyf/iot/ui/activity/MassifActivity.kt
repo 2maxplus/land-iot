@@ -2,7 +2,7 @@ package com.hyf.iot.ui.activity
 
 import android.annotation.SuppressLint
 import android.content.DialogInterface
-import android.graphics.Point
+import android.graphics.*
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -18,12 +18,14 @@ import com.hyf.iot.contract.MassifContract
 import com.hyf.iot.domain.LatLonData
 import com.hyf.iot.domain.farm.Farm
 import com.hyf.iot.presenter.MassifAddOrEditPresenter
+import com.hyf.iot.utils.mapCeshi.CombinationOverlay
 import com.hyf.iot.utils.mapCeshi.MapUtils
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
 import com.hyf.iot.widget.dialog.NormalMsgDialog
 import kotlinx.android.synthetic.main.layout_common_title.*
 import kotlinx.android.synthetic.main.map_layout.*
+import kotlinx.android.synthetic.main.map_layout.mMapView
 import kotlin.math.abs
 
 /**
@@ -42,6 +44,8 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
     private var farmDetail: Farm? = null
     internal var mLatitude = 30.654008
     internal var mLongtitude = 104.093591
+
+    private var combinationOverlay: CombinationOverlay? = null// 当前选中的覆盖物
 
     private lateinit var bitmap: BitmapDescriptor
     private var pos: Int = -1 // 当前点
@@ -83,7 +87,8 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
             getPresenter().massifAdd(LoginUser.farmId, massifName, area.text.toString().toFloat(), mList)
         }
         iv_back.setOnClickListener { onBack() }
-        initBaidu() //init为定位方法
+        combinationOverlay = CombinationOverlay(mMapView!!)
+        initBaiduMap() //init为定位方法
 
         delete.setOnClickListener {
             if (pos == -1) {
@@ -98,7 +103,7 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
                 } else {
                     pl?.remove()
                     pLine?.remove()
-                    drawLineor()
+                    drawLine()
                     isArea = false
                 }
                 pos = if (mMarkerList.size > 0) {
@@ -161,17 +166,16 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
     }
 
     @Suppress("DEPRECATION")
-    private fun initBaidu() {
+    private fun initBaiduMap() {
         mBaiduMap = mMapView!!.map
         mBaiduMap!!.setMapStatus(MapStatusUpdateFactory.zoomTo(15f))
         mBaiduMap!!.setOnMapClickListener(object : BaiduMap.OnMapClickListener {
             override fun onMapClick(p0: LatLng?) {
                 if (!isArea) {
                     drawPoint(p0)
-                    drawLineor()
+                    drawLine()
                 }
             }
-
             override fun onMapPoiClick(p0: MapPoi?): Boolean {
                 return true
             }
@@ -181,7 +185,7 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
             if (mMarkerList[0].marker == marker && !isArea && mMarkerList.size > 2) {
                 isArea = true
                 pLine?.remove()
-//                        allLineAutoAddPoint()
+//                combinationOverlay!!.initZiyuan(mList)
                 pl = drawArea()
                 drawPoints()
                 area.text = MapUtils.getArea(pl) // 面积
@@ -220,26 +224,6 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
         addPointView(point.x, point.y)
     }
 
-    private fun allLineAutoAddPoint() {
-        val nList = ArrayList<LatLng>()
-        for (i in 0 until mList.size) {
-            if (i == mList.size - 1) {
-                val l = mList[mList.size - 1]
-                val r = mList[0]
-                val m = getMidPoint(l, r)
-                nList.add(m)
-            } else {
-                val l = mList[i]
-                val r = mList[i + 1]
-                val m = getMidPoint(l, r)
-                nList.add(m)
-            }
-        }
-
-        for (i in mList.size - 1 downTo 0) {
-            mList.add(i + 1, nList[i])
-        }
-    }
 
     private fun twoLineAutoAddPoint() {
         if (isArea) {
@@ -256,8 +240,8 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
                 } else {
                     mList[pos + 1]
                 }
-                val latLngL = getMidPoint(latLng0, latLng1)
-                val latLngR = getMidPoint(latLng1, latLng2)
+                val latLngL = combinationOverlay!!.getMidPoint(latLng0, latLng1)
+                val latLngR = combinationOverlay!!.getMidPoint(latLng1, latLng2)
                 mList.add(pos + 1, latLngR)
                 mList.add(pos, latLngL)
 
@@ -277,8 +261,40 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
                 .points(mList)
                 .fillColor(0x551791fc) //填充颜色
                 .stroke(Stroke(6, 0x55FF33FF)) //边框宽度和颜色
-
+        convertViewToBitmap(toScreenPoints()!!)
         return mBaiduMap!!.addOverlay(mPolygonOptions) as Polygon
+    }
+
+
+    private fun convertViewToBitmap(points: ArrayList<Point>): Bitmap {
+        var paint: Paint = Paint()
+        //设置一个笔刷大小是5的黄色的画笔
+        paint.color = Color.YELLOW
+        paint.isAntiAlias = true
+        paint.style = Paint.Style.FILL
+        paint.strokeWidth = 5f
+        val path = Path()
+        path.moveTo(points[0].x.toFloat(), points[0].y.toFloat())
+        for (i in 1 until points.size) {
+            path.lineTo(points[i].x.toFloat(), points[i].y.toFloat())
+        }
+        path.close() // 封闭
+        val bitmap = Bitmap.createBitmap(mMapView.width, mMapView.height,
+                Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        canvas.drawPath(path, paint)
+        bitview.setImageBitmap(bitmap)
+        return bitmap
+    }
+
+
+    private fun toScreenPoints(): ArrayList<Point>?{
+        if (mList.size == 0) return null
+        val points = arrayListOf<Point>()
+        for (i in 0 until mList.size) {
+            points.add(mBaiduMap!!.projection.toScreenLocation(mList[i]))
+        }
+        return points
     }
 
     private fun addMarker(latLng: LatLng): Marker {
@@ -287,21 +303,6 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
                 .icon(bitmap)
                 .anchor(0.5f, 0.5f)
         return mBaiduMap!!.addOverlay(option) as Marker
-    }
-
-    private fun getMidPoint(latLng0: LatLng, latLng1: LatLng): LatLng {
-        val dx = if (latLng0.latitude - latLng1.latitude > 0) {
-            abs(latLng0.latitude - latLng1.latitude) / 2 + latLng1.latitude
-        } else {
-            abs(latLng0.latitude - latLng1.latitude) / 2 + latLng0.latitude
-        }
-
-        val dy = if (latLng0.longitude - latLng1.longitude > 0) {
-            abs(latLng0.longitude - latLng1.longitude) / 2 + latLng1.longitude
-        } else {
-            abs(latLng0.longitude - latLng1.longitude) / 2 + latLng0.longitude
-        }
-        return LatLng(dx, dy)
     }
 
     private var pointView: ImageView? = null
@@ -344,6 +345,7 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
                         endX = event.rawX
                         endY = event.rawY
                         if (abs(endX - startX) < 5 && abs(endY - startY) < 5) false
+//                        convertViewToBitmap(toScreenPoints()!!)
                     }
                 }
                 true
@@ -354,46 +356,6 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
         pointView?.visibility = View.VISIBLE
     }
 
-    private var lPos: Int = -1
-    private var rPos: Int = -1
-
-    private fun updateMidPoint(pos: Int) {
-        val latLng0 = when (pos) {
-            0 -> {
-                lPos = mList.size - 1
-                mList[mList.size - 2]
-            }
-            1 -> {
-                lPos = 0
-                mList[mList.size - 1]
-            }
-            else -> {
-                lPos = pos - 1
-                mList[pos - 2]
-            }
-        }
-        val latLng1 = when (pos) {
-            mList.size - 1 -> {
-                rPos = 0
-                mList[1]
-            }
-            mList.size - 2 -> {
-                rPos = mList.size - 1
-                mList[0]
-            }
-            else -> {
-                rPos = pos + 1
-                mList[pos + 2]
-            }
-        }
-        val latL = getMidPoint(latLng0, mList[pos])
-        val latR = getMidPoint(latLng1, mList[pos])
-        mMarkerList[lPos].marker.position = latL
-        mMarkerList[rPos].marker.position = latR
-        mList[lPos] = latL
-        mList[rPos] = latR
-    }
-
     private fun drawPoint(p0: LatLng?) {
         bitmap = BitmapDescriptorFactory
                 .fromResource(R.drawable.icon_dot_anchor)
@@ -401,7 +363,6 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
                 .position(p0)
                 .icon(bitmap)
                 .anchor(0.5f, 0.5f)
-
         val marker = mBaiduMap!!.addOverlay(option) as Marker
         mMarkerList.add(LatLonData(marker, false))
         if (p0 != null) {
@@ -411,8 +372,6 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
     }
 
     private fun drawPoints() {
-//        val bitmap = BitmapDescriptorFactory
-//                .fromResource(R.drawable.icon_dot_prepare)
         mMarkerList.forEach {
             it.marker.remove()
         }
@@ -428,7 +387,7 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
         }
     }
 
-    private fun drawLineor() {
+    private fun drawLine() {
         mBaiduMap!!.clear()
         mMarkerList.clear()
         if (mList.size >= 2) {

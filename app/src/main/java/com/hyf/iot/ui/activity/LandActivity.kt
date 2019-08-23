@@ -62,7 +62,7 @@ class LandActivity : BaseActivity() {
         list!!.add(llB)
         list!!.add(llC)
 
-        val combinationOverlay = CombinationOverlay(mMapView!!, list)
+        val combinationOverlay = CombinationOverlay(mMapView!!)  // list
         combinationOverlayList!!.add(combinationOverlay)
 
         val southwest = LatLng(39.92235, 116.380338)

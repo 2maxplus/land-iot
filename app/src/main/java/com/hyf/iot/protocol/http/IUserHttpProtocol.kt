@@ -40,7 +40,7 @@ interface IUserHttpProtocol {
     /**
      * @return  获取用户详情
      * */
-    @POST("/api/Account/Get")
+    @POST("/api/Account/GetCurrent")
     fun getUserInfo(): Observable<GenResult<UserInfo>>
     /**
      * @return  修改用户头像

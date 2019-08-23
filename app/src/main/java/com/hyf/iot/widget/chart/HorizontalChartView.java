@@ -268,4 +268,5 @@ public class HorizontalChartView extends View {
                 f, context.getResources().getDisplayMetrics());
     }
 
+
 }

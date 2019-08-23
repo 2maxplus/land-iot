@@ -190,8 +190,8 @@ class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), De
         val option = LocationClientOption()
         option.locationMode = LocationClientOption.LocationMode.Hight_Accuracy//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
         option.isOpenGps = true // 打开gps
-        option.setCoorType("bd09ll") // 设置坐标类型
-        option.setScanSpan(0)
+        option.coorType = "bd09ll"  // 设置坐标类型
+        option.scanSpan = 5000
         mLocationClient!!.locOption = option
         mLocationClient!!.start()
         //初始化缩放比例

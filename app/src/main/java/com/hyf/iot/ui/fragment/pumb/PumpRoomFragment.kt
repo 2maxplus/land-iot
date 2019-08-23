@@ -48,8 +48,7 @@ class PumpRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomC
         refresh_layout.apply {
             setColorSchemeResources(R.color.colorBlue)
             setOnRefreshListener {
-                initData()
-                activity?.sendBroadcast(Intent(FrequencyConverterFragment.INTENT_ACTION_REFRESH))
+                onReload()
             }
         }
         viewPager.apply {
@@ -65,6 +64,7 @@ class PumpRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomC
     private fun onReload() {
         page_layout.setPage(PageStateLayout.PageState.STATE_LOADING)
         initData()
+//        activity?.sendBroadcast(Intent(FrequencyConverterFragment.INTENT_ACTION_REFRESH))
     }
 
     override fun showPage(data: PumpRoom) {
@@ -79,6 +79,8 @@ class PumpRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomC
             mAdapter.fragmenList.addAll(data.frequencyConverterCabinetInfos)
             mAdapter.notifyDataSetChanged()
         }
+        if(childFragmentManager.fragments.size > 0)
+        ((childFragmentManager.fragments[viewPager.currentItem]) as FrequencyConverterFragment).initData()
     }
 
     override fun errorPage(msg: String?) {

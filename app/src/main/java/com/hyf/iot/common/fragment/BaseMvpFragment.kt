@@ -31,6 +31,6 @@ abstract class BaseMvpFragment<out P : IPresenterContract> : MvpFragment<P>() {
     protected open fun init(savedInstanceState: Bundle?) {}
     protected abstract fun getLayoutId(): Int
     protected open fun initView() {}
-    protected open fun initData() {}
+    public open fun initData() {}
 
 }

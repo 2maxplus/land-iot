@@ -16,7 +16,6 @@ import com.hyf.iot.widget.dialog.MyDialog
 import kotlinx.android.synthetic.main.layout_recycler_view.*
 import kotlinx.android.synthetic.main.pump_item_layout.*
 
-
 class PumpItemFragment : BaseFragment() {
 
     private val mAdapter by lazy { DeviceListAdapter(activity!!, mutableListOf()) }
@@ -24,20 +23,19 @@ class PumpItemFragment : BaseFragment() {
     private lateinit var dialogs: MyDialog
     private var content = ""
     private var bengOpenCount = 0  // 阀门已经打开数量
+
     private var lastOffset = 0
     private var lastPosition = 0
 
     override fun getLayoutId(): Int = R.layout.pump_item_layout
 
     override fun initView() {
-
         val linearLayoutManager = MyLinearLayoutManager(activity!!, LinearLayout.VERTICAL, false)
         linearLayoutManager.setScrollEnabled(false)
         mAdapter.setGetOunts(object : ValveListAdapter.GetCounts {
             override fun adds() {
                 bengOpenCount++
             }
-
             override fun subs() {
                 bengOpenCount--
             }
@@ -94,19 +92,19 @@ class PumpItemFragment : BaseFragment() {
                 }
                 dialogs.dismiss()
             })
-            dialogs?.show()
+            dialogs.show()
         }
 
     }
 
     override fun initData() {
+        super.initData()
         val waterPump = arguments!!.getParcelable<WaterPump>("data") ?: return
         mAdapter.list.clear()
         if (waterPump != null)
             mAdapter.list.addAll(waterPump.valveControlDevices)
-        scrollToPosition()
         mAdapter.notifyDataSetChanged()
-
+        scrollToPosition()
     }
 
     /**
@@ -128,11 +126,25 @@ class PumpItemFragment : BaseFragment() {
      * 让RecyclerView滚动到指定位置
      */
     private fun scrollToPosition() {
-        if (recycler_view.getLayoutManager() != null && lastPosition >= 0) {
-            (recycler_view.getLayoutManager() as LinearLayoutManager).scrollToPositionWithOffset(lastPosition, lastOffset)
+        if (recycler_view.layoutManager != null && lastPosition >= 0) {
+            (recycler_view.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(lastPosition, lastOffset)
         }
     }
 
+    fun setLastOff( lastOffset: Int){
+        this.lastOffset = lastOffset
+    }
+    fun setLastPosition(lastPosition: Int){
+        this.lastPosition = lastPosition
+    }
+
+    fun getLastOffset(): Int{
+        return lastOffset
+    }
+
+    fun getLastPosition(): Int{
+        return lastPosition
+    }
 
 }
 

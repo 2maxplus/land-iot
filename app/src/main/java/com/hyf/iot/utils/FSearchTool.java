@@ -14,7 +14,6 @@ public class FSearchTool {
     public FSearchTool(List<? extends Object> objects, String... fields) throws Exception {
         super();
         init(objects, fields);
-
     }
 
     private void init(List<? extends Object> objs, String... fields) throws Exception {

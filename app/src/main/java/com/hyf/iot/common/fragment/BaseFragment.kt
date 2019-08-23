@@ -40,5 +40,5 @@ abstract class BaseFragment : Fragment() {
     protected open fun init(savedInstanceState: Bundle?) {}
     protected abstract fun getLayoutId(): Int
     protected open fun initView() {}
-    protected open fun initData() {}
+    public open fun initData() {}
 }

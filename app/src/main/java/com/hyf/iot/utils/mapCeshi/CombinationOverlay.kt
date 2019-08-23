@@ -5,40 +5,47 @@ import com.baidu.mapapi.map.*
 
 import com.baidu.mapapi.model.LatLng
 import com.hyf.iot.R
+import com.hyf.iot.domain.LatLonData
 import com.hyf.iot.utils.mapCeshi.MapUtils.getLatLngByOffset
 
 import java.util.ArrayList
 import com.hyf.iot.domain.MyLatLng
+import kotlin.math.abs
 
 /**
  * CombinationOverlay  组合覆盖 一个代表一个组
  */
 
-class CombinationOverlay(private val mMapView: MapView, private var latLngList: MutableList<LatLng>?) {
+class CombinationOverlay(private val mMapView: MapView) {
     private val mBaiduMap: BaiduMap
     private val polygonOptions = PolygonOptions()
     private var lineListList: MutableList<MutableList<LatLng>>? = null
+    private var mMarkerList: ArrayList<LatLonData> = ArrayList()
     private var polygonOverlay: Polygon? = null
     private var markerList: MutableList<Marker>? = null
     private var polylineList: MutableList<Polyline>? = null
     private var tempPolygon: Polygon? = null
     private var bdA = BitmapDescriptorFactory
             .fromResource(R.drawable.icon_dot_anchor)
-    private val stroke = Stroke(3, -0x55ff0100)
+    private var latLngList: MutableList<LatLng>? = null
+    private var pLine: Polyline? = null
+    private var pl: Polygon? = null
+
+    private val stroke = Stroke(6, 0x55FF33FF)
 
     init {
-        if (latLngList!!.size < 3) {
-            throw IllegalArgumentException("点数小于3，无法构成多边形")
-        }
+//        if (latLngList!!.size < 3) {
+//            throw IllegalArgumentException("点数小于3，无法构成多边形")
+//        }
         mBaiduMap = mMapView.map
-        initZiyuan()
+//        initZiyuan()
     }
 
-    private fun initZiyuan() {
-
+    fun initZiyuan(latLngList: MutableList<LatLng>?) {
+        this.latLngList = latLngList
         polygonOptions.points(latLngList!!)
         polygonOptions.stroke(stroke)
-        polygonOptions.fillColor(-0x79010101)
+        polygonOptions.fillColor(0x551791fc)
         polygonOverlay = mBaiduMap.addOverlay(polygonOptions) as Polygon
         polygonOverlay
         markerList = ArrayList()
@@ -54,7 +61,7 @@ class CombinationOverlay(private val mMapView: MapView, private var latLngList: 
                 latLngLineList.add(latLngList!![0])
             }
             lineListList!!.add(latLngLineList)
-            val polylineOptions = PolylineOptions().points(latLngLineList).color(-0x55000100).focus(true).width(10)
+            val polylineOptions = PolylineOptions().points(latLngLineList).color(0x55FF33FF).focus(true).width(6)
             val polyline = mBaiduMap.addOverlay(polylineOptions) as Polyline
             polylineList!!.add(polyline)
         }
@@ -163,7 +170,7 @@ class CombinationOverlay(private val mMapView: MapView, private var latLngList: 
         val latLng = MapUtils.getCenterOfLines(mMapView, polyline.points)  //得到中心点
         latLngList!!.add(positon + 1, latLng)
         removeCombinationOverlay()
-        initZiyuan()
+//        initZiyuan()
     }
 
     /**
@@ -180,11 +187,10 @@ class CombinationOverlay(private val mMapView: MapView, private var latLngList: 
         } else {
             latLngList!!.removeAt(positon)
             removeCombinationOverlay()
-            initZiyuan()
+//            initZiyuan()
         }
         mBaiduMap.hideInfoWindow()
     }
-
 
     /**
      * 移除覆盖物
@@ -205,5 +211,43 @@ class CombinationOverlay(private val mMapView: MapView, private var latLngList: 
 
     }
 
+    fun getMidPoint(latLng0: LatLng, latLng1: LatLng): LatLng {
+        val dx = if (latLng0.latitude - latLng1.latitude > 0) {
+            abs(latLng0.latitude - latLng1.latitude) / 2 + latLng1.latitude
+        } else {
+            abs(latLng0.latitude - latLng1.latitude) / 2 + latLng0.latitude
+        }
+
+        val dy = if (latLng0.longitude - latLng1.longitude > 0) {
+            abs(latLng0.longitude - latLng1.longitude) / 2 + latLng1.longitude
+        } else {
+            abs(latLng0.longitude - latLng1.longitude) / 2 + latLng0.longitude
+        }
+        return LatLng(dx, dy)
+    }
+
+    fun drawLine() {
+        mBaiduMap.clear()
+        mMarkerList.clear()
+        if (latLngList!!.size >= 2) {
+            //在地图上绘制折线
+            //mPloyline 折线对象
+            val mOverlayOptions = PolylineOptions()
+                    .width(6)
+                    .color(0x55FF33FF)
+                    .points(latLngList)
+            pLine = mBaiduMap.addOverlay(mOverlayOptions) as Polyline
+        }
+
+        latLngList!!.forEach {
+            val option: MarkerOptions = MarkerOptions()
+                    .position(it)
+                    .icon(bdA)
+                    .anchor(0.5f, 0.5f)
+            val marker = mBaiduMap.addOverlay(option) as Marker
+            mMarkerList.add(LatLonData(marker, false))
+        }
+//        initMarker(mLoactionLatLng!!)
+    }
 
 }

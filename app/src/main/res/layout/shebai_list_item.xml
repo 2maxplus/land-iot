@@ -48,8 +48,7 @@
             style="@style/text_base_style"
             android:layout_toLeftOf="@+id/tv_battery_percent"
             android:drawablePadding="@dimen/margin_5"
-            android:layout_marginStart="@dimen/margin_20"
-            android:text="在线"/>
+            android:layout_marginStart="@dimen/margin_20"/>
 
         <com.hyf.iot.widget.SignalView
             android:id="@+id/signalView"

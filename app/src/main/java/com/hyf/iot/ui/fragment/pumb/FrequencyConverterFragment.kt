@@ -9,7 +9,7 @@ import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.LinearLayout
 import com.hyf.iot.R
-import com.hyf.iot.adapter.home.BengChildFragmentAdapter
+import com.hyf.iot.adapter.home.PumpItemFragmentAdapter
 import com.hyf.iot.common.fragment.BaseMvpFragment
 import com.hyf.iot.contract.PumpItemContract
 import com.hyf.iot.domain.device.WaterPump
@@ -19,6 +19,10 @@ import com.hyf.iot.utils.showToast
 import kotlinx.android.synthetic.main.frequency_converter_layout.*
 
 class FrequencyConverterFragment: BaseMvpFragment<PumpItemContract.IPresenter>(), PumpItemContract.IView  {
+
+    private var lastOffset = 0
+    private var lastPosition = 0
+
     companion object {
         const val INTENT_ACTION_REFRESH = "com.action.refresh"
     }
@@ -26,7 +30,7 @@ class FrequencyConverterFragment: BaseMvpFragment<PumpItemContract.IPresenter>()
     override fun onTokenExpired(msg: String) {
     }
 
-    private val mAdapter by lazy { BengChildFragmentAdapter(childFragmentManager, mutableListOf()) }
+    private val mAdapter by lazy { PumpItemFragmentAdapter(childFragmentManager, mutableListOf()) }
 
     override fun getLayoutId(): Int  = R.layout.frequency_converter_layout
 
@@ -56,9 +60,12 @@ class FrequencyConverterFragment: BaseMvpFragment<PumpItemContract.IPresenter>()
         tv_voltage2.text = "电压B: ${frequencyConverterCabinet.voltageB} V"
         tv_voltage3.text = "电压C: ${frequencyConverterCabinet.voltageC} V"
         tv_total_power.text = "总输出功率: ${frequencyConverterCabinet.totalOutputPower} W"
+        if(childFragmentManager.fragments.size > 0) {
+            lastOffset = ((childFragmentManager.fragments[viewPager.currentItem]) as PumpItemFragment).getLastOffset()
+            lastPosition = ((childFragmentManager.fragments[viewPager.currentItem]) as PumpItemFragment).getLastPosition()
+        }
         getPresenter().getPumpItemInfo(frequencyConverterCabinet.id)
     }
-
 
     override fun registerPresenter() = PumpItemPresenter::class.java
 
@@ -68,6 +75,12 @@ class FrequencyConverterFragment: BaseMvpFragment<PumpItemContract.IPresenter>()
             tabLayout.visibility = View.GONE
         mAdapter.fragmentList.addAll(data)
         mAdapter.notifyDataSetChanged()
+        if(childFragmentManager.fragments.size > 0) {
+            ((childFragmentManager.fragments[viewPager.currentItem]) as PumpItemFragment).initData()
+//            ((childFragmentManager.fragments[viewPager.currentItem]) as PumpItemFragment).setLastOff(lastOffset)
+//            ((childFragmentManager.fragments[viewPager.currentItem]) as PumpItemFragment).setLastPosition(lastPosition)
+        }
+//        activity?.sendBroadcast(Intent(PumpItemFragment.INTENT_ITEM_ACTION_REFRESH))
     }
 
     override fun errorPage(msg: String?) {
