@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.hyf.iot.R
-import com.hyf.iot.domain.device.PlanBean
+import com.hyf.iot.domain.devices.PlanBean
 import java.util.*
 
 class PlanListAdapter(context: Activity?, id:Int, list : ArrayList<PlanBean>) : RecyclerView.Adapter<PlanListAdapter.ViewHolders>() {

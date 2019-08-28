@@ -6,7 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import com.hyf.iot.R
 import com.hyf.iot.adapter.home.PlanListAdapter
 import com.hyf.iot.common.fragment.BaseFragment
-import com.hyf.iot.domain.device.PlanBean
+import com.hyf.iot.domain.devices.PlanBean
 import kotlinx.android.synthetic.main.layout_refresh_recycler_view.*
 import kotlinx.android.synthetic.main.layout_verticaltab_recycleview.*
 import q.rorbin.verticaltablayout.VerticalTabLayout

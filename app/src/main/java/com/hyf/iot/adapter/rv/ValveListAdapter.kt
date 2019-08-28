@@ -1,4 +1,4 @@
-package com.hyf.iot.adapter.home
+package com.hyf.iot.adapter.rv
 
 import android.app.Activity
 import android.support.v7.widget.RecyclerView
@@ -9,17 +9,17 @@ import android.widget.Switch
 import android.widget.TextView
 import com.hyf.iot.R
 import com.hyf.iot.common.ex.subscribeEx
-import com.hyf.iot.domain.devices.Valve
+import com.hyf.iot.domain.device.SensorValveInfo
 import com.hyf.iot.protocol.http.IUserHttpProtocol
 import com.hyf.iot.utils.showToast
+import com.ljb.kt.client.HttpFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import com.ljb.kt.client.HttpFactory
 
-class ValveListAdapter(context: Activity?, list: ArrayList<Valve>) :
+class ValveListAdapter(context: Activity?, list: ArrayList<SensorValveInfo>) :
         RecyclerView.Adapter<ValveListAdapter.ViewHolders>() {
     private var context: Activity? = null
-    private var mData: ArrayList<Valve>
+    private var mData: ArrayList<SensorValveInfo>
     private lateinit var getCounts: GetCounts
     private var valvesCount: Int = 0
 

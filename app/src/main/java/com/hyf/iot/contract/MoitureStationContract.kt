@@ -1,6 +1,6 @@
 package com.hyf.iot.contract
 
-import com.hyf.iot.domain.device.MoistureStationMassif
+import com.hyf.iot.domain.devices.MoistureStationMassif
 import com.ljb.kt.contract.IPresenterContract
 import com.ljb.kt.contract.IViewContract
 

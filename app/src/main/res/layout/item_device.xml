@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/white"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_5"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_device_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="设备号: "
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_device_no"
+            style="@style/text_base_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="middle"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:singleLine="true"
+            android:text="78ASFVMN254320PL"
+            android:textColor="@color/text_blue" />
+
+        <TextView
+            android:id="@+id/tv_state"
+            style="@style/text_base_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_20"
+            android:drawableStart="@drawable/green_oval"
+            android:drawablePadding="@dimen/margin_5" />
+
+        <com.hyf.iot.widget.SignalView
+            android:id="@+id/signalView"
+            android:layout_width="20dp"
+            android:layout_height="15dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp" />
+
+        <TextView
+            android:id="@+id/tv_battery_percent"
+            style="@style/text_base_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_20"
+            android:textSize="12sp" />
+
+        <com.hyf.iot.widget.BatteryView
+            android:id="@+id/battery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:battery_view_height="25"
+            app:battery_view_width="50" />
+
+    </LinearLayout>
+    <View style="@style/h_view_style"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_sensor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:background="@color/white" />
+
+    <include
+        layout="@layout/layout_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="@color/little_gray" />
+
+</LinearLayout>

@@ -3,9 +3,9 @@ package com.hyf.iot.protocol.http
 import com.hyf.iot.domain.DeviceCoordinates
 import com.hyf.iot.domain.base.GenResult
 import com.hyf.iot.domain.base.OperateData
-import com.hyf.iot.domain.device.DeviceItem
-import com.hyf.iot.domain.device.MoistureStationMassif
-import com.hyf.iot.domain.device.ValveUseTime
+import com.hyf.iot.domain.device.DeviceInfo
+import com.hyf.iot.domain.devices.MoistureStationMassif
+import com.hyf.iot.domain.devices.ValveUseTime
 import com.hyf.iot.domain.device.WaterPump
 import com.hyf.iot.domain.pumb.PumpRoom
 import com.hyf.iot.domain.user.LoginInfo
@@ -90,7 +90,7 @@ interface IUserHttpProtocol {
      *
      * */
     @POST("/api/device/get")
-    fun getDeviceDetailById(@Query("id")deviceId: String): Observable<GenResult<DeviceItem>>
+    fun getDeviceDetailById(@Query("id")deviceId: String): Observable<GenResult<DeviceInfo>>
 
     /***
      * 获取设备经纬度

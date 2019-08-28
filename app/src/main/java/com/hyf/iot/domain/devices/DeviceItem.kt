@@ -1,4 +1,4 @@
-package com.hyf.iot.domain.device
+package com.hyf.iot.domain.devices
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

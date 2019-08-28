@@ -1,4 +1,4 @@
-package com.hyf.iot.domain.device
+package com.hyf.iot.domain.devices
 
 data class ValveUseTime(
         val date: Int,

@@ -10,21 +10,21 @@ import android.widget.LinearLayout
 import com.hyf.iot.App
 import com.hyf.iot.R
 import com.hyf.iot.adapter.LegendAdapter
-import com.hyf.iot.adapter.home.DeviceSoilSensorAdapter
-import com.hyf.iot.adapter.home.ValveListAdapter
+import com.hyf.iot.adapter.rv.DeviceSensorAdapter
+import com.hyf.iot.adapter.rv.ValveListAdapter
 import com.hyf.iot.common.activity.BaseMvpActivity
 import com.hyf.iot.contract.DeviceDetailContract
 import com.hyf.iot.domain.LegendBean
-import com.hyf.iot.domain.device.DeviceItem
-import com.hyf.iot.domain.device.ValveUseTime
+import com.hyf.iot.domain.device.DeviceInfo
+import com.hyf.iot.domain.devices.ValveUseTime
 import com.hyf.iot.presenter.DeviceDetailPresenter
 import com.hyf.iot.utils.TimeUtils
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
 import kotlinx.android.synthetic.main.activity_valve_detail.*
+import kotlinx.android.synthetic.main.item_device.*
 import kotlinx.android.synthetic.main.layout_common_title.*
 import kotlinx.android.synthetic.main.layout_recycler_view.*
-import kotlinx.android.synthetic.main.shebai_list_item.*
 
 class ValveDetailActivity : BaseMvpActivity<DeviceDetailContract.IPresenter>(), DeviceDetailContract.IView {
     override fun onTokenExpired(msg: String) {
@@ -54,11 +54,10 @@ class ValveDetailActivity : BaseMvpActivity<DeviceDetailContract.IPresenter>(), 
     override fun showPage(data: MutableList<ValveUseTime>) {
         for (itemDate in data) {
             for (itemUseTime in itemDate.useTime) {
-
                 for (item in itemUseTime.startEnds) {
                     val diff = TimeUtils.dateDiff(item.start, item.end)
                     item.interval = diff.toString()
-                    Log.e("diff",diff)
+                    Log.e("diff", diff)
                     val startH = TimeUtils.getHour(item.start).toFloat()
                     val startM = TimeUtils.getMin(item.start).toFloat()
                     item.start = (startH + (startM.div(60))).toString()
@@ -74,70 +73,61 @@ class ValveDetailActivity : BaseMvpActivity<DeviceDetailContract.IPresenter>(), 
 
     override fun errorPage(msg: String?) {
         showToast(msg!!)
-        if(id.isBlank())
-        info1.visibility = View.VISIBLE
     }
 
     @SuppressLint("SetTextI18n")
-    override fun showDetailPage(deviceItem: DeviceItem) {
-        if(deviceItem.airSensor != null){
-            tv_air_temperature?.text = "${deviceItem.airSensor.airTemperature}°C"
-            tv_air_humidity?.text = "${deviceItem.airSensor.airMoisture}%"
-        }
-        if(!deviceItem.soilSensors.isNullOrEmpty()) {
-            val sAdapter = DeviceSoilSensorAdapter(this,deviceItem.soilSensors)
-            recycler_view_soil.apply {
-                this!!.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL,false)
+    override fun showDetailPage(deviceItem: DeviceInfo) {
+        if (!deviceItem.sensor_OtherInfos.isNullOrEmpty()) {
+            val sAdapter = DeviceSensorAdapter(this, deviceItem.sensor_OtherInfos)
+            recycler_view_sensor.apply {
+                this!!.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
                 adapter = sAdapter
             }
-        }else{
-            info1.visibility = View.VISIBLE
         }
-        if(deviceItem.illuminationSensor != null){
-            tv_sun_exposure?.text = "${deviceItem.illuminationSensor.illumination}Lux"
-        }
-//        tv_device_name?.text = "${valveControlDevices.name}:"
-        signalView.setSignalValue(deviceItem.signalIntensityProportion)
+//        tv_device_name?.text = "${deviceInfos.name}:"
+        if (deviceItem.sensor_SignalInfo != null)
+            signalView.setSignalValue(deviceItem.sensor_SignalInfo.value)
         tv_title.text = deviceItem.name
         tv_device_name.visibility = View.GONE
         tv_device_no.text = deviceItem.number
 
         tv_state.text = deviceItem.stateString
-        when(deviceItem.state){
-            0,1 -> {
-                tv_state.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.gray_oval,0,0,0)
+        when (deviceItem.state) {
+            0, 1 -> {
+                tv_state.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.gray_oval, 0, 0, 0)
             }
             2 -> {
-                tv_state.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.green_oval,0,0,0)
+                tv_state.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.green_oval, 0, 0, 0)
             }
             3 -> {
-                tv_state.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.red_oval,0,0,0)
+                tv_state.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.red_oval, 0, 0, 0)
             }
         }
-        tv_battery_percent.text =  "${(deviceItem.cellVoltageProportion * 100).toInt()}%"
-        battery.power = deviceItem.cellVoltageProportion
-
-        val mAdapter = ValveListAdapter(this, deviceItem.valves!!)
-        mAdapter.setGetOunts(object : ValveListAdapter.GetCounts {
-            override fun adds() {
-
-            }
-            override fun subs() {
-
-            }
-        })
-        recycler_view.apply {
-            layoutManager = GridLayoutManager(this@ValveDetailActivity, 2)
-            adapter = mAdapter
+        if(deviceItem.sensor_VoltageInfo != null) {
+            tv_battery_percent.text = "${(deviceItem.sensor_VoltageInfo.value).toInt()}%"
+            battery.power = deviceItem.sensor_VoltageInfo.value / 100
         }
+        if (deviceItem.sensor_ValveInfos != null) {
+            val mAdapter = ValveListAdapter(this, deviceItem.sensor_ValveInfos)
+            mAdapter.setGetOunts(object : ValveListAdapter.GetCounts {
+                override fun adds() {
+                }
+                override fun subs() {
+                }
+            })
+            recycler_view.apply {
+                layoutManager = GridLayoutManager(this@ValveDetailActivity, 2)
+                adapter = mAdapter
+            }
 
-        val legendList = ArrayList<LegendBean>()
-        for (i in 0 until deviceItem.valves.size) {
-            legendList.add(LegendBean(arrColor[i], deviceItem.valves[i].name))
-        }
-        legend_recycler_view.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
-            adapter = LegendAdapter(this@ValveDetailActivity, legendList)
+            val legendList = ArrayList<LegendBean>()
+            for (i in 0 until deviceItem.sensor_ValveInfos.size) {
+                legendList.add(LegendBean(arrColor[i], deviceItem.sensor_ValveInfos[i].name))
+            }
+            legend_recycler_view.apply {
+                layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
+                adapter = LegendAdapter(this@ValveDetailActivity, legendList)
+            }
         }
     }
 

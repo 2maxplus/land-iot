@@ -15,8 +15,8 @@ import android.widget.LinearLayout
 import android.widget.TableRow
 import android.widget.TextView
 import com.hyf.iot.R
-import com.hyf.iot.domain.device.DeviceItem
-import com.hyf.iot.domain.device.MoistureStationMassif
+import com.hyf.iot.domain.devices.DeviceItem
+import com.hyf.iot.domain.devices.MoistureStationMassif
 import com.hyf.iot.ui.activity.ValveDetailActivity
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.widget.BatteryView
@@ -87,7 +87,6 @@ class ValvesExpandableListViewAdapter( context: Activity?, var list: MutableList
             parent: ViewGroup
     ): View {
         var convertView = convertView
-
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.shebai_list_item, null)
         }
@@ -102,7 +101,7 @@ class ValvesExpandableListViewAdapter( context: Activity?, var list: MutableList
         val deviceName = convertView.findViewById<TextView>(R.id.tv_device_name)
         val deviceNo = convertView.findViewById<TextView>(R.id.tv_device_no)
         val recyclerView = convertView.findViewById<RecyclerView>(R.id.recycler_view)
-        val recyclerViewSoil = convertView.findViewById<RecyclerView>(R.id.recycler_view_soil)
+        val recyclerViewSoil = convertView.findViewById<RecyclerView>(R.id.recycler_view_sensor)
         val info1 = convertView.findViewById<TableRow>(R.id.info1)
 
         val item = getChild(groupPosition,childPosition)

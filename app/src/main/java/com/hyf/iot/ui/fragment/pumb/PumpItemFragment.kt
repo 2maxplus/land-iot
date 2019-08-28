@@ -5,10 +5,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.LinearLayout
 import com.hyf.iot.R
-import com.hyf.iot.adapter.home.DeviceListAdapter
-import com.hyf.iot.adapter.home.ValveListAdapter
+import com.hyf.iot.adapter.rv.DeviceListAdapter
+import com.hyf.iot.adapter.rv.ValveListAdapter
 import com.hyf.iot.common.fragment.BaseFragment
-import com.hyf.iot.domain.device.FaKongBean
+import com.hyf.iot.domain.devices.FaKongBean
 import com.hyf.iot.domain.device.WaterPump
 import com.hyf.iot.widget.MyLinearLayoutManager
 import com.hyf.iot.widget.RecycleViewDivider
@@ -101,8 +101,8 @@ class PumpItemFragment : BaseFragment() {
         super.initData()
         val waterPump = arguments!!.getParcelable<WaterPump>("data") ?: return
         mAdapter.list.clear()
-        if (waterPump != null)
-            mAdapter.list.addAll(waterPump.valveControlDevices)
+        if (waterPump.deviceInfos != null && waterPump.deviceInfos.size > 0)
+            mAdapter.list.addAll(waterPump.deviceInfos)
         mAdapter.notifyDataSetChanged()
         scrollToPosition()
     }

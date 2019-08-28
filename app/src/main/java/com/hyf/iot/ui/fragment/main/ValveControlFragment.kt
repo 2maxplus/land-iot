@@ -2,21 +2,17 @@ package com.hyf.iot.ui.fragment.main
 
 import android.app.Activity
 import android.content.Intent
-import android.view.KeyEvent
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import com.hyf.iot.R
 import com.hyf.iot.adapter.home.ValvesExpandableListViewAdapter
 import com.hyf.iot.common.LoginUser
 import com.hyf.iot.common.fragment.BaseMvpFragment
 import com.hyf.iot.contract.MoitureStationContract
-import com.hyf.iot.domain.device.MoistureStationMassif
+import com.hyf.iot.domain.devices.MoistureStationMassif
 import com.hyf.iot.presenter.MoiturePresenter
 import com.hyf.iot.ui.activity.LoginActivity
 import com.hyf.iot.ui.activity.ScanActivity
 import com.hyf.iot.utils.FSearchTool
-import com.hyf.iot.utils.UIUtils
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
 import com.hyf.iot.widget.PageStateLayout

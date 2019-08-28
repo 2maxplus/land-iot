@@ -47,8 +47,9 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
 
     private var combinationOverlay: CombinationOverlay? = null// 当前选中的覆盖物
 
-    private lateinit var bitmap: BitmapDescriptor
-    private var pos: Int = -1 // 当前点
+    private var bitmap: BitmapDescriptor = BitmapDescriptorFactory
+    .fromResource(R.drawable.icon_dot_anchor)
+    private var currentPosition: Int = -1 // 当前点
     private var mList: ArrayList<LatLng> = ArrayList() // 点坐标集合
     private var mMarkerList: ArrayList<LatLonData> = ArrayList()
     private var isArea: Boolean = false
@@ -91,12 +92,12 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
         initBaiduMap() //init为定位方法
 
         delete.setOnClickListener {
-            if (pos == -1) {
+            if (currentPosition == -1) {
                 Toast.makeText(this, "当前无选中点", Toast.LENGTH_SHORT).show()
             } else {
-                mMarkerList[pos].marker.remove()
-                mMarkerList.removeAt(pos)
-                mList.removeAt(pos)
+                mMarkerList[currentPosition].marker.remove()
+                mMarkerList.removeAt(currentPosition)
+                mList.removeAt(currentPosition)
                 if (mList.size >= 3) {
                     pl?.points = mList
                     pLine?.points = mList
@@ -106,7 +107,7 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
                     drawLine()
                     isArea = false
                 }
-                pos = if (mMarkerList.size > 0) {
+                currentPosition = if (mMarkerList.size > 0) {
                     mMarkerList.size - 1
                 } else {
                     -1
@@ -172,8 +173,8 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
         mBaiduMap!!.setOnMapClickListener(object : BaiduMap.OnMapClickListener {
             override fun onMapClick(p0: LatLng?) {
                 if (!isArea) {
-                    drawPoint(p0)
-                    drawLine()
+                    combinationOverlay!!.drawPoint(p0)
+                    combinationOverlay!!.drawLine()
                 }
             }
             override fun onMapPoiClick(p0: MapPoi?): Boolean {
@@ -182,12 +183,12 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
         })
 
         mBaiduMap!!.setOnMarkerClickListener { marker ->
+            mMarkerList = combinationOverlay!!.getLatLngMarkerList()!!
             if (mMarkerList[0].marker == marker && !isArea && mMarkerList.size > 2) {
                 isArea = true
                 pLine?.remove()
-//                combinationOverlay!!.initZiyuan(mList)
-                pl = drawArea()
-                drawPoints()
+                pl = combinationOverlay!!.drawArea()
+                combinationOverlay!!.drawPoints()
                 area.text = MapUtils.getArea(pl) // 面积
             } else {
                 setPointView(marker)
@@ -207,17 +208,16 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
                     pointView?.visibility = View.GONE
                 }
             }
-
             override fun onMapStatusChangeFinish(p0: MapStatus?) {
             }
         })
-
     }
 
     private fun setPointView(marker: Marker) {
+        mMarkerList = combinationOverlay!!.getLatLngMarkerList()!!
         for (i in mMarkerList.indices) {
             if (marker == mMarkerList[i].marker) {
-                pos = i
+                currentPosition = i
             }
         }
         val point = mBaiduMap!!.projection.toScreenLocation(marker.position)
@@ -226,34 +226,38 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
 
 
     private fun twoLineAutoAddPoint() {
+        mList = combinationOverlay!!.getLatLngList()!! as ArrayList<LatLng>
+        mMarkerList = combinationOverlay!!.getLatLngMarkerList()!!
         if (isArea) {
-            if (mMarkerList[pos].isAddPoint) return
-            if (pos != -1) {
-                val latLng0 = if (pos == 0) {
+            if (mMarkerList[currentPosition].isAddPoint) return
+            if (currentPosition != -1) {
+                val latLng0 = if (currentPosition == 0) {
                     mList[mList.size - 1]
                 } else {
-                    mList[pos - 1]
+                    mList[currentPosition - 1]
                 }
-                val latLng1 = mList[pos]
-                val latLng2 = if (pos == mList.size - 1) {
+                val latLng1 = mList[currentPosition]
+                val latLng2 = if (currentPosition == mList.size - 1) {
                     mList[0]
                 } else {
-                    mList[pos + 1]
+                    mList[currentPosition + 1]
                 }
                 val latLngL = combinationOverlay!!.getMidPoint(latLng0, latLng1)
                 val latLngR = combinationOverlay!!.getMidPoint(latLng1, latLng2)
-                mList.add(pos + 1, latLngR)
-                mList.add(pos, latLngL)
+                mList.add(currentPosition + 1, latLngR)
+                mList.add(currentPosition, latLngL)
 
-                mMarkerList.add(pos + 1, LatLonData(addMarker(latLngR), false))
-                mMarkerList.add(pos, LatLonData(addMarker(latLngL), false))
+                mMarkerList.add(currentPosition + 1, LatLonData(addMarker(latLngR), false))
+                mMarkerList.add(currentPosition, LatLonData(addMarker(latLngL), false))
                 pl?.remove()
-                pl = drawArea()
-                drawPoints()
-                pos += 1
-                mMarkerList[pos].isAddPoint = true
+                pl = combinationOverlay!!.drawArea()
+                combinationOverlay!!.drawPoints()
+                currentPosition += 1
+                mMarkerList[currentPosition].isAddPoint = true
             }
         }
+        combinationOverlay!!.setLatLngList(mList)
+        combinationOverlay!!.setLatLngMarkerList(mMarkerList)
     }
 
     private fun drawArea(): Polygon {
@@ -308,6 +312,7 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
     private var pointView: ImageView? = null
     @SuppressLint("ClickableViewAccessibility")
     private fun addPointView(x: Int, y: Int) {
+        mList = combinationOverlay!!.getLatLngList() as ArrayList<LatLng>
         if (pointView == null) {
             pointView = ImageView(this)
             pointView?.setImageResource(R.drawable.icon_arrow_drag)
@@ -332,8 +337,8 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
                         val point = Point(v.x.toInt(), v.y.toInt())
                         addPointView(v.x.toInt(), v.y.toInt())
                         val latLng: LatLng = mBaiduMap!!.projection.fromScreenLocation(point)
-                        mMarkerList[pos].marker.position = latLng
-                        mList[pos] = latLng
+                        mMarkerList[currentPosition].marker.position = latLng
+                        mList[currentPosition] = latLng
                         pl?.points = mList
                         startX = event.rawX
                         startY = event.rawY
@@ -351,6 +356,8 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
                 true
             }
         }
+        combinationOverlay!!.setLatLngList(mList)
+        combinationOverlay!!.setLatLngMarkerList(mMarkerList)
         pointView?.x = x.toFloat()
         pointView?.y = y.toFloat()
         pointView?.visibility = View.VISIBLE
@@ -367,7 +374,7 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
         mMarkerList.add(LatLonData(marker, false))
         if (p0 != null) {
             mList.add(p0)
-            pos = mList.size - 1
+            currentPosition = mList.size - 1
         }
     }
 

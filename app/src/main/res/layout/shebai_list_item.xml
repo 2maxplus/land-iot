@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:custom="http://schemas.android.com/tools"
     android:layout_gravity="center_horizontal"
     android:background="@color/white"
     android:descendantFocusability="blocksDescendants"
@@ -200,7 +199,7 @@
                 android:layout_weight="2"
                 android:orientation="vertical">
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_view_soil"
+                    android:id="@+id/recycler_view_sensor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white" />

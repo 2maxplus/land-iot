@@ -13,12 +13,11 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.hyf.iot.R
 import com.hyf.iot.ui.activity.ValveDetailActivity
-import com.hyf.iot.domain.device.DeviceItem
+import com.hyf.iot.domain.devices.DeviceItem
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.widget.BatteryView
 import android.view.MotionEvent
 import android.widget.TableRow
-import com.hyf.iot.widget.ItemDecoration
 import com.hyf.iot.widget.SignalView
 
 
@@ -115,7 +114,7 @@ class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceItem>) :
         val deviceName = itemview?.findViewById<TextView>(R.id.tv_device_name)
         val deviceNo = itemview?.findViewById<TextView>(R.id.tv_device_no)
         val recyclerView = itemview?.findViewById<RecyclerView>(R.id.recycler_view)
-        val recyclerViewSoil = itemview?.findViewById<RecyclerView>(R.id.recycler_view_soil)
+        val recyclerViewSoil = itemview?.findViewById<RecyclerView>(R.id.recycler_view_sensor)
         val info1 = itemview?.findViewById<TableRow>(R.id.info1)
 
     }

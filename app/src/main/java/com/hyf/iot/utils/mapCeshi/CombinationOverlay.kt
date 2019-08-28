@@ -21,15 +21,16 @@ class CombinationOverlay(private val mMapView: MapView) {
     private val polygonOptions = PolygonOptions()
     private var lineListList: MutableList<MutableList<LatLng>>? = null
     private var mMarkerList: ArrayList<LatLonData> = ArrayList()
+
     private var polygonOverlay: Polygon? = null
     private var markerList: MutableList<Marker>? = null
     private var polylineList: MutableList<Polyline>? = null
     private var tempPolygon: Polygon? = null
     private var bdA = BitmapDescriptorFactory
             .fromResource(R.drawable.icon_dot_anchor)
-    private var latLngList: MutableList<LatLng>? = null
-    private var pLine: Polyline? = null
-    private var pl: Polygon? = null
+    private var latLngList: MutableList<LatLng> = mutableListOf()
+    private var polyline1: Polyline? = null
+    private var polygon: Polygon? = null
 
     private val stroke = Stroke(6, 0x55FF33FF)
 
@@ -42,12 +43,13 @@ class CombinationOverlay(private val mMapView: MapView) {
     }
 
     fun initZiyuan(latLngList: MutableList<LatLng>?) {
-        this.latLngList = latLngList
+        if (latLngList != null) {
+            this.latLngList = latLngList
+        }
         polygonOptions.points(latLngList!!)
         polygonOptions.stroke(stroke)
         polygonOptions.fillColor(0x551791fc)
         polygonOverlay = mBaiduMap.addOverlay(polygonOptions) as Polygon
-        polygonOverlay
         markerList = ArrayList()
 
         lineListList = ArrayList()
@@ -71,7 +73,14 @@ class CombinationOverlay(private val mMapView: MapView) {
             val marker = mBaiduMap.addOverlay(markerOptions) as Marker
             markerList!!.add(marker)
         }
+    }
 
+    fun getLatLngMarkerList(): ArrayList<LatLonData>? {
+        return mMarkerList
+    }
+
+    fun setLatLngMarkerList(mMarkerList: ArrayList<LatLonData>) {
+        this.mMarkerList = mMarkerList
     }
 
     fun getMarkerList(): List<Marker>? {
@@ -92,6 +101,10 @@ class CombinationOverlay(private val mMapView: MapView) {
 
     fun getLatLngList(): List<LatLng>? {
         return latLngList
+    }
+
+    fun setLatLngList(latLngList: MutableList<LatLng>) {
+        this.latLngList = latLngList
     }
 
     /**
@@ -137,7 +150,7 @@ class CombinationOverlay(private val mMapView: MapView) {
      * @param offsety
      */
     fun updateOverlayByPolygon(offsetx: Float, offsety: Float)  {
-        latLngList = getLatLngByOffset(mMapView, latLngList!!, offsetx, offsety)
+        latLngList = getLatLngByOffset(mMapView, latLngList!!, offsetx, offsety)!!
         polygonOverlay!!.points = latLngList!!
         for (i in markerList!!.indices) {
             markerList!![i].position = latLngList!![i]
@@ -195,7 +208,7 @@ class CombinationOverlay(private val mMapView: MapView) {
     /**
      * 移除覆盖物
      */
-    fun removeCombinationOverlay() {
+    private fun removeCombinationOverlay() {
         polygonOverlay!!.remove()
 
         for (i in markerList!!.indices) {
@@ -226,6 +239,57 @@ class CombinationOverlay(private val mMapView: MapView) {
         return LatLng(dx, dy)
     }
 
+    fun drawArea(): Polygon {
+        if(polygonOverlay != null){
+            polygonOverlay!!.remove()
+        }
+        if(polyline1 != null){
+            polyline1!!.remove()
+        }
+        val mPolygonOptions = PolygonOptions()
+                .points(latLngList)
+                .fillColor(0x551791fc) //填充颜色
+                .stroke(Stroke(6, 0x55FF33FF)) //边框宽度和颜色
+//        convertViewToBitmap(toScreenPoints()!!)
+        polygonOverlay = mBaiduMap.addOverlay(mPolygonOptions) as Polygon
+        return polygonOverlay as Polygon
+    }
+
+
+    fun drawPoint(p0: LatLng?) {
+        val option: MarkerOptions = MarkerOptions()
+                .position(p0)
+                .icon(bdA)
+                .anchor(0.5f, 0.5f)
+        val marker = mBaiduMap.addOverlay(option) as Marker
+        mMarkerList.add(LatLonData(marker, false))
+        if (p0 != null) {
+            latLngList.add(p0)
+//            pos = latLngList!!.size - 1
+        }
+    }
+
+    fun drawPoints() {
+        mMarkerList.forEach {
+            it.marker.remove()
+        }
+        mMarkerList.clear()
+        //线段中间加小锚点
+        latLngList.forEach {
+            val option: MarkerOptions = MarkerOptions()
+                    .position(it)
+                    .icon(bdA)
+                    .anchor(0.5f, 0.5f)
+            val marker = mBaiduMap.addOverlay(option) as Marker
+            mMarkerList.add(LatLonData(marker, false))
+        }
+    }
+
+
+    /**
+     *  画线
+     *
+     * */
     fun drawLine() {
         mBaiduMap.clear()
         mMarkerList.clear()
@@ -236,10 +300,10 @@ class CombinationOverlay(private val mMapView: MapView) {
                     .width(6)
                     .color(0x55FF33FF)
                     .points(latLngList)
-            pLine = mBaiduMap.addOverlay(mOverlayOptions) as Polyline
+            polyline1 = mBaiduMap.addOverlay(mOverlayOptions) as Polyline
         }
 
-        latLngList!!.forEach {
+        latLngList.forEach {
             val option: MarkerOptions = MarkerOptions()
                     .position(it)
                     .icon(bdA)

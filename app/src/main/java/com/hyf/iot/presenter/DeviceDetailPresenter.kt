@@ -5,7 +5,7 @@ import com.hyf.iot.common.RESULT_SUCCESS
 import com.hyf.iot.common.ex.subscribeEx
 import com.hyf.iot.contract.DeviceDetailContract
 import com.hyf.iot.domain.base.GenResult
-import com.hyf.iot.domain.device.ValveUseTime
+import com.hyf.iot.domain.devices.ValveUseTime
 import com.hyf.iot.presenter.base.BaseRxLifePresenter
 import com.hyf.iot.protocol.http.IUserHttpProtocol
 import io.reactivex.android.schedulers.AndroidSchedulers

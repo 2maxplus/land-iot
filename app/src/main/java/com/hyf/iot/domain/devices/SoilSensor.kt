@@ -1,18 +1,16 @@
-package com.hyf.iot.domain.device
+package com.hyf.iot.domain.devices
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Valve(
+data class SoilSensor(
         val created: String,
         val deviceId: String,
         val deviceNo: String,
         val id: String,
         val isDeleted: Boolean,
-        val name: String,
-        val serialNumber: Int,
-        var state: Int,
-        val type: Int,
+        val soilMoisture: Float,
+        val soilTemperature: Float,
         val updated: String
-): Parcelable
+) : Parcelable
