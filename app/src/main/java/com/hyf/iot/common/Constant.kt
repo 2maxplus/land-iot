@@ -30,6 +30,7 @@ object Constant {
         val ON_SUCCESS = 10000
         val REQUEST_CHOOSE = 10002
         val REQUEST_PERMISSION = 10001
+        val REQUEST_GPS_CODE = 10010
     }
 
 

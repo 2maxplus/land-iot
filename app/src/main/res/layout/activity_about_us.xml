@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_page"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_common_title" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_version_text"
+                style="@style/text_base_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_20"
+                android:drawableTop="@drawable/ic_launcher"
+                android:drawablePadding="@dimen/margin_8"
+                android:gravity="center"
+                android:text="当前版本  1.0.1" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/colorWhite"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_version_update"
+                    style="@style/my_item_text_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/version_check" />
+
+                <View
+                    style="@style/h_view_style"
+                    android:layout_marginLeft="10dp" />
+
+                <TextView
+                    android:id="@+id/tv_telephone"
+                    style="@style/my_item_text_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    android:text="@string/service_telephone_number" />
+
+                <View
+                    style="@style/h_view_style"
+                    android:layout_marginLeft="10dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="@string/publish_text"
+        android:textColor="@color/color666"
+        android:textSize="12sp" />
+
+</LinearLayout>

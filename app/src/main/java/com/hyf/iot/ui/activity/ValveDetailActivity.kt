@@ -10,13 +10,13 @@ import android.widget.LinearLayout
 import com.hyf.iot.App
 import com.hyf.iot.R
 import com.hyf.iot.adapter.LegendAdapter
-import com.hyf.iot.adapter.rv.DeviceSensorAdapter
-import com.hyf.iot.adapter.rv.ValveListAdapter
+import com.hyf.iot.adapter.device.DeviceSensorAdapter
+import com.hyf.iot.adapter.device.ValveListAdapter
 import com.hyf.iot.common.activity.BaseMvpActivity
 import com.hyf.iot.contract.DeviceDetailContract
 import com.hyf.iot.domain.LegendBean
 import com.hyf.iot.domain.device.DeviceInfo
-import com.hyf.iot.domain.devices.ValveUseTime
+import com.hyf.iot.domain.device.ValveUseTime
 import com.hyf.iot.presenter.DeviceDetailPresenter
 import com.hyf.iot.utils.TimeUtils
 import com.hyf.iot.utils.newIntent

@@ -11,7 +11,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 
-import com.hyf.iot.domain.devices.FaKongBean;
+import com.hyf.iot.domain.device.FaKongBean;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

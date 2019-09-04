@@ -1,4 +1,4 @@
-package com.hyf.iot.adapter.home
+package com.hyf.iot.adapter.device
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -12,20 +12,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import android.widget.LinearLayout
-import android.widget.TableRow
 import android.widget.TextView
 import com.hyf.iot.R
-import com.hyf.iot.domain.devices.DeviceItem
-import com.hyf.iot.domain.devices.MoistureStationMassif
+import com.hyf.iot.domain.device.DeviceInfo
+import com.hyf.iot.domain.device.MoistureStationMassif
 import com.hyf.iot.ui.activity.ValveDetailActivity
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.widget.BatteryView
 import com.hyf.iot.widget.SignalView
 
-class ValvesExpandableListViewAdapter( context: Activity?, var list: MutableList<MoistureStationMassif>) : BaseExpandableListAdapter() {
+class ValvesExpandableListViewAdapter(context: Activity?, var list: MutableList<MoistureStationMassif>) : BaseExpandableListAdapter() {
     private var context: Activity? = null
     private var valvesData: MutableList<MoistureStationMassif>
-    private var mAdapter : ValveListAdapter? = null
+    private var mAdapter: ValveListAdapter? = null
 
     init {
         this.context = context
@@ -48,7 +47,7 @@ class ValvesExpandableListViewAdapter( context: Activity?, var list: MutableList
     }
 
     //返回二级列表中的单个item（返回的是对象）
-    override fun getChild(groupPosition: Int, childPosition: Int): DeviceItem {
+    override fun getChild(groupPosition: Int, childPosition: Int): DeviceInfo {
         return valvesData[groupPosition].valveControlDevices!![childPosition]
     }
 
@@ -68,7 +67,6 @@ class ValvesExpandableListViewAdapter( context: Activity?, var list: MutableList
     //【重要】填充一级列表
     override fun getGroupView(groupPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
-
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_group, null)
         }
@@ -88,62 +86,52 @@ class ValvesExpandableListViewAdapter( context: Activity?, var list: MutableList
     ): View {
         var convertView = convertView
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.shebai_list_item, null)
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_device, null)
         }
 
-        val airTemperature = convertView!!.findViewById<TextView>(R.id.tv_air_temperature)
-        val airHumidity = convertView.findViewById<TextView>(R.id.tv_air_humidity)
-        val deviceState = convertView.findViewById<TextView>(R.id.tv_state)
+        val deviceState = convertView!!.findViewById<TextView>(R.id.tv_state)
         val signalView = convertView.findViewById<SignalView>(R.id.signalView)
         val batteryPercent = convertView.findViewById<TextView>(R.id.tv_battery_percent)
         val battery = convertView.findViewById<BatteryView>(R.id.battery)
-        val sunExposure = convertView.findViewById<TextView>(R.id.tv_sun_exposure)
         val deviceName = convertView.findViewById<TextView>(R.id.tv_device_name)
         val deviceNo = convertView.findViewById<TextView>(R.id.tv_device_no)
         val recyclerView = convertView.findViewById<RecyclerView>(R.id.recycler_view)
         val recyclerViewSoil = convertView.findViewById<RecyclerView>(R.id.recycler_view_sensor)
-        val info1 = convertView.findViewById<TableRow>(R.id.info1)
 
-        val item = getChild(groupPosition,childPosition)
-        if(item.airSensor != null){
-            airTemperature?.text = "${item.airSensor.airTemperature}°C"
-            airHumidity?.text = "${item.airSensor.airMoisture}%"
-        }
-        if(!item.soilSensors.isNullOrEmpty()){
-            val sAdapter = DeviceSoilSensorAdapter(context,item.soilSensors)
+        val item = getChild(groupPosition, childPosition)
+
+        if (!item.sensor_OtherInfos.isNullOrEmpty()) {
+            val sAdapter = DeviceSensorAdapter(context, item.sensor_OtherInfos)
             recyclerViewSoil.apply {
-                this!!.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL,false)
+                this!!.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
                 adapter = sAdapter
             }
-        }else{
-            info1?.visibility = View.VISIBLE
         }
-        if(item.illuminationSensor != null){
-            sunExposure?.text = "${item.illuminationSensor.illumination}Lux"
-        }
+
         deviceName?.text = "${item.name}:"
         deviceNo?.text = item.number
-
-        signalView?.setSignalValue(item.signalIntensityProportion)
+        if (item.sensor_SignalInfo != null)
+            signalView?.setSignalValue(item.sensor_SignalInfo.value)
 
         deviceState?.text = item.stateString
-        when(item.state){
-            0,1 -> {
-                deviceState?.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.gray_oval,0,0,0)
+        when (item.state) {
+            0, 1 -> {
+                deviceState?.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.gray_oval, 0, 0, 0)
             }
             2 -> {
-                deviceState?.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.green_oval,0,0,0)
+                deviceState?.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.green_oval, 0, 0, 0)
             }
             3 -> {
-                deviceState?.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.red_oval,0,0,0)
+                deviceState?.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.red_oval, 0, 0, 0)
             }
         }
-        batteryPercent?.text =  "${(item.cellVoltageProportion * 100).toInt()}%"
-        battery?.power = item.cellVoltageProportion
-
+        if (item.sensor_VoltageInfo != null) {
+            batteryPercent?.text = "${(item.sensor_VoltageInfo.value).toInt()}%"
+            battery?.power = item.sensor_VoltageInfo.value / 100
+        }
         convertView.setOnClickListener {
             val bundle = Bundle()
-            bundle.putString("id",item.id)
+            bundle.putString("id", item.id)
             context?.newIntent<ValveDetailActivity>(bundle)
         }
         recyclerViewSoil?.setOnTouchListener { _, event ->
@@ -152,18 +140,20 @@ class ValvesExpandableListViewAdapter( context: Activity?, var list: MutableList
             }
             false
         }
-        mAdapter = ValveListAdapter(this@ValvesExpandableListViewAdapter.context, item.valves!!)
-        mAdapter!!.setGetOunts(object : ValveListAdapter.GetCounts {
-            override fun adds() {
-            }
-            override fun subs() {
-            }
-        })
-        recyclerView.apply {
-            this!!.layoutManager = GridLayoutManager(context, 2)
-            adapter = mAdapter
-        }
+        if (item.sensor_ValveInfos != null) {
+            mAdapter = ValveListAdapter(this@ValvesExpandableListViewAdapter.context, item.sensor_ValveInfos)
+            mAdapter!!.setGetOunts(object : ValveListAdapter.GetCounts {
+                override fun adds() {
+                }
 
+                override fun subs() {
+                }
+            })
+            recyclerView.apply {
+                this!!.layoutManager = GridLayoutManager(context, 2)
+                adapter = mAdapter
+            }
+        }
         return convertView
     }
 

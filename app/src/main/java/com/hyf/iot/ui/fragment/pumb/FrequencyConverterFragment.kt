@@ -60,10 +60,10 @@ class FrequencyConverterFragment: BaseMvpFragment<PumpItemContract.IPresenter>()
         tv_voltage2.text = "电压B: ${frequencyConverterCabinet.voltageB} V"
         tv_voltage3.text = "电压C: ${frequencyConverterCabinet.voltageC} V"
         tv_total_power.text = "总输出功率: ${frequencyConverterCabinet.totalOutputPower} W"
-        if(childFragmentManager.fragments.size > 0) {
-            lastOffset = ((childFragmentManager.fragments[viewPager.currentItem]) as PumpItemFragment).getLastOffset()
-            lastPosition = ((childFragmentManager.fragments[viewPager.currentItem]) as PumpItemFragment).getLastPosition()
-        }
+//        if(childFragmentManager.fragments.size > 0) {
+//            lastOffset = ((childFragmentManager.fragments[viewPager.currentItem]) as PumpItemFragment).getLastOffset()
+//            lastPosition = ((childFragmentManager.fragments[viewPager.currentItem]) as PumpItemFragment).getLastPosition()
+//        }
         getPresenter().getPumpItemInfo(frequencyConverterCabinet.id)
     }
 

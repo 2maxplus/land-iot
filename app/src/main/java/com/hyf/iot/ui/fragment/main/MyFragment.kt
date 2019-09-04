@@ -36,7 +36,7 @@ class MyFragment: BaseMvpFragment<MyContract.IPresenter>(), MyContract.IView {
         tv_account.setOnClickListener { activity?.newIntent<AccountInfoActivity>() }
         tv_help_feedback.setOnClickListener { activity?.newIntent<FeedbackActivity>() }
         tv_farm.setOnClickListener { activity?.newIntent<FarmListActivity>() }
-        tv_about_us.setOnClickListener { MessageActivity.startActivity(context!!, "关于我们","关于我们") }
+        tv_about_us.setOnClickListener { activity?.newIntent<AboutUsActivity>() }
         tv_message.setOnClickListener { MessageActivity.startActivity(context!!, "我的消息","我的消息") }
     }
 

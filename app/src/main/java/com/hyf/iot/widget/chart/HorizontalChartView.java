@@ -12,8 +12,8 @@ import android.util.TypedValue;
 import android.view.View;
 
 import com.hyf.iot.R;
-import com.hyf.iot.domain.devices.FaKongBean;
-import com.hyf.iot.domain.devices.ValveUseTime;
+import com.hyf.iot.domain.device.FaKongBean;
+import com.hyf.iot.domain.device.ValveUseTime;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

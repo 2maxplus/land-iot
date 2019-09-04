@@ -9,8 +9,8 @@ import android.text.TextUtils
 import android.widget.Toast
 import com.hyf.iot.R
 
-object PhoneUtils {
 
+object PhoneUtils {
 
     fun callPhone(context: Context?, phone: String?) {
         if (TextUtils.isEmpty(phone) || context == null) return
@@ -29,5 +29,6 @@ object PhoneUtils {
         cm.primaryClip = ClipData.newPlainText(null, text)
         if (showToast) Toast.makeText(context, R.string.copy_success, Toast.LENGTH_SHORT).show()
     }
+
 
 }

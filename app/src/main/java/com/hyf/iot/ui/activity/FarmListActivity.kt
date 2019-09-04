@@ -1,13 +1,12 @@
 package com.hyf.iot.ui.activity
 
 import android.content.Intent
-import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.hyf.iot.App
 import com.hyf.iot.R
-import com.hyf.iot.adapter.rv.FarmAdapter
+import com.hyf.iot.adapter.farm.FarmAdapter
 import com.hyf.iot.common.Constant.KEY_PARAM_1
 import com.hyf.iot.common.Constant.RequestKey.ON_SUCCESS
 import com.hyf.iot.common.LoginUser

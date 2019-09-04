@@ -10,9 +10,13 @@ import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
 import com.hyf.iot.common.HttpDomain.HTTP_API_DOMAIN
 import com.hyf.iot.common.LoginUser
+import com.hyf.iot.protocol.http.OKHttpUpdateHttpService
 import com.hyf.iot.utils.SPUtils
+import com.hyf.iot.utils.showToast
 import com.squareup.leakcanary.LeakCanary
 import com.ljb.kt.HttpConfig
+import com.xuexiang.xupdate.XUpdate
+import com.xuexiang.xupdate.utils.UpdateUtils
 import java.util.HashSet
 
 class App : Application() {
@@ -38,6 +42,7 @@ class App : Application() {
         SPUtils.init(this)
         closeAndroidPDialog()
         initNet()
+        initXUpdate()
         registerActivity()
     }
 
@@ -48,6 +53,20 @@ class App : Application() {
         }
         Log.i("token=====",LoginUser.token)
         HttpConfig.init(HTTP_API_DOMAIN, headerMap, null, true)
+    }
+
+    fun initXUpdate(){
+        XUpdate.get()
+                .isWifiOnly(true)     //默认设置只在wifi下检查版本更新
+                .isGet(false)          //默认设置使用get请求检查版本
+//                .isAutoMode(true)    //默认设置非自动模式，可根据具体使用配置
+                .param("VersionCode", UpdateUtils.getVersionCode(this)) //设置默认公共请求参数
+                .param("AppKey", packageName)
+                .setOnUpdateFailureListener { //设置版本更新出错的监听
+//                    showToast(it.toString())
+                }
+                .setIUpdateHttpService(OKHttpUpdateHttpService()) //这个必须设置！实现网络请求功能。
+                .init(this)   //这个必须初始化
     }
 
     private fun registerActivity(){

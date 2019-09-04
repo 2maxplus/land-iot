@@ -175,6 +175,7 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
                 if (!isArea) {
                     combinationOverlay!!.drawPoint(p0)
                     combinationOverlay!!.drawLine()
+                    initMarker(mLoactionLatLng!!)
                 }
             }
             override fun onMapPoiClick(p0: MapPoi?): Boolean {

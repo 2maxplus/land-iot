@@ -1,15 +1,14 @@
 package com.hyf.iot.ui.fragment.pumb
 
-import android.content.Intent
 import android.view.View
 import com.hyf.iot.R
-import com.hyf.iot.ui.activity.LoginActivity
 import com.hyf.iot.adapter.home.PumpRoomFragmentAdapter
 import com.hyf.iot.common.LoginUser
 import com.hyf.iot.common.fragment.BaseMvpFragment
 import com.hyf.iot.contract.PumpRoomContract
 import com.hyf.iot.domain.pumb.PumpRoom
 import com.hyf.iot.presenter.PumpRoomPresenter
+import com.hyf.iot.ui.activity.LoginActivity
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
 import com.hyf.iot.widget.PageStateLayout
@@ -17,9 +16,7 @@ import kotlinx.android.synthetic.main.layout_common_page_state.*
 import kotlinx.android.synthetic.main.layout_common_title.*
 import kotlinx.android.synthetic.main.layout_common_viewpager.*
 
-
 class PumpRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomContract.IView{
-
 
     override fun onTokenExpired(msg: String) {
         activity?.showToast(msg)

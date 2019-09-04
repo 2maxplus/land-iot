@@ -1,7 +1,7 @@
 package com.hyf.iot.contract
 
 import com.hyf.iot.domain.device.DeviceInfo
-import com.hyf.iot.domain.devices.ValveUseTime
+import com.hyf.iot.domain.device.ValveUseTime
 import com.ljb.kt.contract.IPresenterContract
 import com.ljb.kt.contract.IViewContract
 

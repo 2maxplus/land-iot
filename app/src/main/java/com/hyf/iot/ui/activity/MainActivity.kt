@@ -1,23 +1,24 @@
 package com.hyf.iot.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.widget.Toast
 import com.hyf.iot.App
 import com.hyf.iot.R
-import com.hyf.iot.domain.TabBean
 import com.hyf.iot.adapter.MainTabAdapter
-import com.hyf.iot.ui.fragment.main.ValveControlFragment
-import com.hyf.iot.ui.fragment.main.MyFragment
-import com.hyf.iot.ui.fragment.pumb.PumpRoomFragment
+import com.hyf.iot.common.Constant
+import com.hyf.iot.common.HTTP_API_DOWNLOAD_RELEASE
+import com.hyf.iot.domain.TabBean
+import com.hyf.iot.protocol.http.CustomUpdateParser
 import com.hyf.iot.ui.fragment.main.HomeFragment
+import com.hyf.iot.ui.fragment.main.MyFragment
 import com.hyf.iot.ui.fragment.main.PlanFragment
+import com.hyf.iot.ui.fragment.main.ValveControlFragment
+import com.hyf.iot.ui.fragment.pumb.PumpRoomFragment
+import com.xuexiang.xupdate.XUpdate
 import kotlinx.android.synthetic.main.activity_main.*
 
-/**
- * Created by L on 2017/7/14.
- */
 class MainActivity : FragmentActivity() {
 
     private var mFirstDownBack: Long = 0L
@@ -48,6 +49,12 @@ class MainActivity : FragmentActivity() {
         tgv_group.setOnItemClickListener { openTabFragment(it) }
         tgv_group.setAdapter(MainTabAdapter(this, mTabList))
         openTabFragment(savedInstanceState?.getInt("index") ?: 0)
+        XUpdate.newBuild(this)
+                .topResId(R.drawable.xupdate_bg_app_top)
+                .themeColor(resources.getColor(R.color.colorPrimary))
+                .updateUrl(HTTP_API_DOWNLOAD_RELEASE)
+                .updateParser(CustomUpdateParser()) //设置自定义的版本更新解析器
+                .update()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -73,9 +80,20 @@ class MainActivity : FragmentActivity() {
             Toast.makeText(this, R.string.exit_go_out, Toast.LENGTH_SHORT).show()
             mFirstDownBack = System.currentTimeMillis()
             return
-        }else{
+        } else {
             App.instance.exitApp()
         }
         super.onBackPressed()
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            Constant.RequestKey.REQUEST_GPS_CODE -> {
+                (mFragments[0] as HomeFragment).requestLocation()
+            }
+        }
+
+    }
+
 }

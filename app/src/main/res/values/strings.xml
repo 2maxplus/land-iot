@@ -62,6 +62,7 @@
 
     <string name="hint_edit_feedback">请输入您的意见</string>
 
+    <string name="setting">设置</string>
     <string name="confirm">确认</string>
     <string name="cancel">取消</string>
     <string name="finish">完成</string>
@@ -77,5 +78,8 @@
     <string name="farm_detail">农场详情</string>
     <string name="create_completion">创建完成</string>
     <string name="update_completion">编辑完成</string>
+
+    <string name="version_check">版本检查</string>
+    <string name="service_telephone_number">客服电话：400-028-0000</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package com.hyf.iot.adapter.home
+package com.hyf.iot.adapter.device
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -8,13 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.hyf.iot.R
-import com.hyf.iot.domain.devices.SoilSensor
+import com.hyf.iot.domain.device.SensorOtherInfo
 import java.util.*
 
-class DeviceSoilSensorAdapter(context: Activity?, list : ArrayList<SoilSensor>) : RecyclerView.Adapter<DeviceSoilSensorAdapter.ViewHolders>() {
+class DeviceSensorAdapter(context: Activity?, list : ArrayList<SensorOtherInfo>) : RecyclerView.Adapter<DeviceSensorAdapter.ViewHolders>() {
     private var context: Activity? = null
-    private var layoutId:Int = R.layout.soil_sensor_item
-    private var mData: ArrayList<SoilSensor>
+    private var layoutId:Int = R.layout.item_device_sensor
+    private var mData: ArrayList<SensorOtherInfo>
 
     init {
         this.context = context
@@ -26,17 +26,16 @@ class DeviceSoilSensorAdapter(context: Activity?, list : ArrayList<SoilSensor>) 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolders, position: Int) {
         val item = mData[position]
-        holder.teperature?.text = "${item.soilTemperature}°C"
-        holder.moisture?.text = "${item.soilMoisture}%"
+        holder.title?.text = item.name // "${item.soilTemperature}°C"
+        holder.value?.text = "${item.value} ${item.unit}"
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolders =
-        ViewHolders(LayoutInflater.from(context).inflate(layoutId, parent, false))
-
+            ViewHolders(LayoutInflater.from(context).inflate(layoutId, parent, false))
 
     class ViewHolders(itemview: View?) : RecyclerView.ViewHolder(itemview!!) {
-        val teperature = itemview?.findViewById<TextView>(R.id.tv_soil_temperature)
-        val moisture = itemview?.findViewById<TextView>(R.id.tv_soil_moisture)
+        val title = itemview?.findViewById<TextView>(R.id.tv_title)
+        val value = itemview?.findViewById<TextView>(R.id.tv_value)
     }
 
 }

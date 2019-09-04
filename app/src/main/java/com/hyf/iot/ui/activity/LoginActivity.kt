@@ -26,9 +26,12 @@ import kotlinx.android.synthetic.main.activity_login.*
 import android.graphics.drawable.Drawable
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.hyf.iot.common.HTTP_API_DOWNLOAD_RELEASE
 import com.hyf.iot.contract.FarmListContract
 import com.hyf.iot.domain.farm.Farm
 import com.hyf.iot.presenter.FarmListPresenter
+import com.hyf.iot.protocol.http.CustomUpdateParser
+import com.xuexiang.xupdate.XUpdate
 
 
 /**
@@ -95,13 +98,10 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
             override fun afterTextChanged(s: Editable?) {
                 btn_login.isEnabled = s!!.isNotEmpty()
             }
-
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
-
         })
 
         if (Build.VERSION.SDK_INT >= 23) {

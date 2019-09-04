@@ -165,6 +165,18 @@
         <item name="menu_labels_singleLine">true</item>
     </style>
 
+    <style name="item_text_style" parent="@style/text_base_style">
+        <item name="android:padding">15dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="my_item_text_style" parent="@style/item_text_style">
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:drawablePadding">12dp</item>
+        <item name="android:drawableRight">@drawable/arr_right</item>
+    </style>
+
 
 
 </resources>

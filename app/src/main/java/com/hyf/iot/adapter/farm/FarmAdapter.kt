@@ -1,4 +1,4 @@
-package com.hyf.iot.adapter.rv
+package com.hyf.iot.adapter.farm
 
 import android.annotation.SuppressLint
 import android.app.Activity

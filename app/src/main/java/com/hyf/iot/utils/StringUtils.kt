@@ -1,5 +1,8 @@
 package com.hyf.iot.utils
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import java.util.regex.Pattern
 import android.text.TextUtils
 import android.widget.EditText
@@ -141,4 +144,18 @@ object StringUtils {
         }
         return Math.round(len).toInt()
     }
+
+
+    /**
+     * 拨打电话（跳转到拨号界面，用户手动点击拨打）
+     *
+     * @param phoneNum 电话号码
+     */
+    fun callPhone(activity: Activity, phoneNum: String) {
+        val intent = Intent(Intent.ACTION_CALL)
+        val data = Uri.parse("tel:$phoneNum")
+        intent.data = data
+        activity.startActivity(intent)
+    }
+
 }

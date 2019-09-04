@@ -106,6 +106,7 @@ object HttpClient {
      * */
     fun execute(request: Request): Response = mHttpClient.newCall(request).execute()
 
+
     /**
      * 异步
      * */

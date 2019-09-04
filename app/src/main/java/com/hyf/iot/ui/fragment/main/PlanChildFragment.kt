@@ -6,7 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import com.hyf.iot.R
 import com.hyf.iot.adapter.home.PlanListAdapter
 import com.hyf.iot.common.fragment.BaseFragment
-import com.hyf.iot.domain.devices.PlanBean
+import com.hyf.iot.domain.device.PlanBean
 import kotlinx.android.synthetic.main.layout_refresh_recycler_view.*
 import kotlinx.android.synthetic.main.layout_verticaltab_recycleview.*
 import q.rorbin.verticaltablayout.VerticalTabLayout
@@ -40,26 +40,26 @@ class PlanChildFragment(position : Int): BaseFragment() {
 
         list = ArrayList()
 
-        val  planBean = PlanBean("1-10\n07:21","泵0xffuy162 开   阀门3   开",type)
+        val  planBean = PlanBean("1-10\n07:21", "泵0xffuy162 开   阀门3   开", type)
         list.add(planBean)
 
-        val  planBean1 = PlanBean("2-11\n09:21","泵0xffuy162 开   阀门3   开",type)
+        val  planBean1 = PlanBean("2-11\n09:21", "泵0xffuy162 开   阀门3   开", type)
         list.add(planBean1)
 
-        val  planBean2 = PlanBean("3-10\n11:21","泵0xffuy162 开   阀门3   开",type)
+        val  planBean2 = PlanBean("3-10\n11:21", "泵0xffuy162 开   阀门3   开", type)
         list.add(planBean2)
 
-        val  planBean3 = PlanBean("5-21\n02:21","泵0xffuy122 开   阀门4   开",type)
+        val  planBean3 = PlanBean("5-21\n02:21", "泵0xffuy122 开   阀门4   开", type)
         list.add(planBean3)
 
-        val  planBean4 = PlanBean("6-13\n14:21","泵0xffuy112 关   阀门5   关",type)
+        val  planBean4 = PlanBean("6-13\n14:21", "泵0xffuy112 关   阀门5   关", type)
         list.add(planBean4)
 
-        val  planBean5 = PlanBean("8-10\n18:21","泵0xffuy192 关   阀门6   关",type)
+        val  planBean5 = PlanBean("8-10\n18:21", "泵0xffuy192 关   阀门6   关", type)
         list.add(planBean5)
 
         for(i in 0..30){
-            val  planBean = PlanBean("1-10\n07:21","泵0xffuy162 开   阀门3   开",type)
+            val  planBean = PlanBean("1-10\n07:21", "泵0xffuy162 开   阀门3   开", type)
             list.add(planBean)
         }
 

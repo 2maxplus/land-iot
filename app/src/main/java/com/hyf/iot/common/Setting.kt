@@ -8,6 +8,7 @@ import com.hyf.iot.utils.SPUtils
 const val DEBUG = false
 const val HTTP_API_DOMAIN_DEBUG = "http://192.168.0.140:8030"
 const val HTTP_API_DOMAIN_RELEASE = "http://yun.land-iot.com:6060"
+const val HTTP_API_DOWNLOAD_RELEASE = "${HTTP_API_DOMAIN_RELEASE}/api/Package/Newest?type=0"
 
 object HttpDomain{
     val HTTP_API_DOMAIN = if(DEBUG) HTTP_API_DOMAIN_DEBUG else HTTP_API_DOMAIN_RELEASE

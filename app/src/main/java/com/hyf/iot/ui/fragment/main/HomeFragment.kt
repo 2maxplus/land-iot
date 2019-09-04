@@ -24,9 +24,6 @@ import com.hyf.iot.contract.DeviceCoordinatesContract
 import com.hyf.iot.domain.DeviceCoordinates
 import com.hyf.iot.presenter.DeviceCoordinatesPresenter
 import com.hyf.iot.ui.activity.*
-import com.hyf.iot.utils.UIUtils
-import com.hyf.iot.utils.newIntent
-import com.hyf.iot.utils.showToast
 import com.hyf.iot.widget.spinner.SpinnerChooseAdapter
 import com.hyf.iot.widget.spinner.SpinnerUtils
 import java.util.*
@@ -36,7 +33,9 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory
 import com.baidu.mapapi.map.MapStatusUpdate
 import com.hyf.iot.common.Constant
 import com.hyf.iot.common.Constant.RequestKey.ON_SUCCESS
+import com.hyf.iot.common.Constant.RequestKey.REQUEST_GPS_CODE
 import com.hyf.iot.domain.farm.Farm
+import com.hyf.iot.utils.*
 
 
 class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), DeviceCoordinatesContract.IView {
@@ -111,6 +110,9 @@ class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), De
     }
 
     private fun mapAction() {
+        if(!MapLocationUtil(context!!).isOpenGPS(activity!!)){
+            MapLocationUtil(context!!).showSetGPSDialog(activity!!,REQUEST_GPS_CODE)
+        }
         mMapView.showZoomControls(true)
         mBaiduMap = mMapView!!.map
         mBaiduMap!!.setMapStatus(MapStatusUpdateFactory.zoomTo(12f))
@@ -191,7 +193,7 @@ class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), De
         option.locationMode = LocationClientOption.LocationMode.Hight_Accuracy//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
         option.isOpenGps = true // 打开gps
         option.coorType = "bd09ll"  // 设置坐标类型
-        option.scanSpan = 5000
+        option.scanSpan = 1000
         mLocationClient!!.locOption = option
         mLocationClient!!.start()
         //初始化缩放比例
@@ -320,8 +322,6 @@ class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), De
             mLoactionLatLng = LatLng(mLantitude, mLongtitude)
             if (isFirstLoc) {
                 isFirstLoc = false
-                locationLat = location.latitude
-                locationLng = location.longitude
                 mBaiduMap!!.animateMapStatus(MapStatusUpdateFactory.newLatLng(mLoactionLatLng))
             }
 //            addHeatMap()

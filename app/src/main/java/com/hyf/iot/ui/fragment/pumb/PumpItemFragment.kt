@@ -5,10 +5,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.LinearLayout
 import com.hyf.iot.R
-import com.hyf.iot.adapter.rv.DeviceListAdapter
-import com.hyf.iot.adapter.rv.ValveListAdapter
+import com.hyf.iot.adapter.device.DeviceListAdapter
+import com.hyf.iot.adapter.device.ValveListAdapter
 import com.hyf.iot.common.fragment.BaseFragment
-import com.hyf.iot.domain.devices.FaKongBean
+import com.hyf.iot.domain.device.FaKongBean
 import com.hyf.iot.domain.device.WaterPump
 import com.hyf.iot.widget.MyLinearLayoutManager
 import com.hyf.iot.widget.RecycleViewDivider
