@@ -28,7 +28,7 @@ class AboutUsActivity : BaseActivity() {
                     .topResId(R.drawable.xupdate_bg_app_top)
                     .themeColor(resources.getColor(R.color.colorPrimary))
                     .updateUrl(HTTP_API_DOWNLOAD_RELEASE)
-                    .updateParser(CustomUpdateParser()) //设置自定义的版本更新解析器
+                    .updateParser(CustomUpdateParser(true)) //设置自定义的版本更新解析器
                     .update()
         }
 

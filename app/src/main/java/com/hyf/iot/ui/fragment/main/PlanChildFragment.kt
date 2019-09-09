@@ -101,7 +101,7 @@ class PlanChildFragment(position : Int): BaseFragment() {
 
         recycler_view.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
-            adapter = PlanListAdapter(activity,R.layout.plan_list_item_layout,list)
+            adapter = PlanListAdapter(activity,list)
         }
 
         refresh_layout.apply {

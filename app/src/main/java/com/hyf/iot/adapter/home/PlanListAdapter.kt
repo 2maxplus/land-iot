@@ -11,15 +11,14 @@ import com.hyf.iot.R
 import com.hyf.iot.domain.device.PlanBean
 import java.util.*
 
-class PlanListAdapter(context: Activity?, id:Int, list : ArrayList<PlanBean>) : RecyclerView.Adapter<PlanListAdapter.ViewHolders>() {
+class PlanListAdapter(context: Activity?, list : ArrayList<PlanBean>) : RecyclerView.Adapter<PlanListAdapter.ViewHolders>() {
     private var context: Activity? = null
-    private var layoutId:Int
+    private var layoutId:Int = R.layout.plan_list_item_layout
     private var mData: ArrayList<PlanBean>
 
     init {
         this.context = context
         this.mData = list
-        layoutId = id
     }
 
     override fun getItemCount(): Int = mData.size
