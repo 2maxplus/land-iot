@@ -4,6 +4,8 @@ import com.baidu.mapapi.model.LatLng
 import com.hyf.iot.domain.base.GenResult
 import com.hyf.iot.domain.farm.Farm
 import com.hyf.iot.domain.farm.Massif
+import com.hyf.iot.domain.plan.Plan
+import com.hyf.iot.domain.plan.PlanDetail
 import io.reactivex.Observable
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -90,6 +92,22 @@ interface IReposHttpProtocol {
     @POST("/api/Massif/Delete")
     fun massifDelete(@Query("id") id: String): Observable<GenResult<String>>
 
+    /**
+     * 计划列表
+     * @param state  不传为全部
+     * 0:未执行,
+     * 1:在执行,
+     * 2:已暂停,
+     * 3:已执行,
+     * */
+    @POST("/api/IrrigatePlan/List")
+    fun getIrrigatePlanList(@Query("farmId") farmId: String,@Query("state") state: String): Observable<GenResult<MutableList<Plan>>>
+    /**
+     * 计划zu列表
+     * @param id  plan id
+     * */
+    @POST("/api/IrrigatePlan/Detail")
+    fun getIrrigatePlanDetail(@Query("id") id: String): Observable<GenResult<PlanDetail>>
 
 
 }

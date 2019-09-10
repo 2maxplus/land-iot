@@ -13,7 +13,7 @@ import com.hyf.iot.domain.TabBean
 import com.hyf.iot.protocol.http.CustomUpdateParser
 import com.hyf.iot.ui.fragment.main.HomeFragment
 import com.hyf.iot.ui.fragment.main.MyFragment
-import com.hyf.iot.ui.fragment.main.PlanFragment
+import com.hyf.iot.ui.fragment.plan.PlanFragment
 import com.hyf.iot.ui.fragment.main.ValveControlFragment
 import com.hyf.iot.ui.fragment.pumb.PumpRoomFragment
 import com.xuexiang.xupdate.XUpdate

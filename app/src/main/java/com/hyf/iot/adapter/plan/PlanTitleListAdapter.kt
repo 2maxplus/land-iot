@@ -1,4 +1,4 @@
-package com.hyf.iot.adapter.home
+package com.hyf.iot.adapter.plan
 
 import android.app.Activity
 import android.support.v7.widget.RecyclerView
@@ -33,7 +33,7 @@ class PlanTitleListAdapter(context: Activity?, id:Int, list : ArrayList<String>)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolders =
-        ViewHolders(LayoutInflater.from(context).inflate(layoutId, parent, false))
+            ViewHolders(LayoutInflater.from(context).inflate(layoutId, parent, false))
 
 
     class ViewHolders(itemview: View?) : RecyclerView.ViewHolder(itemview!!) {

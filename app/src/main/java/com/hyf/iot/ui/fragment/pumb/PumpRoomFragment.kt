@@ -30,7 +30,6 @@ class PumpRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomC
 
     private val mAdapter by lazy { PumpRoomFragmentAdapter(childFragmentManager, mutableListOf()) }
 
-
     override fun initView() {
         iv_back.visibility = View.GONE
         tv_operate.visibility = View.VISIBLE

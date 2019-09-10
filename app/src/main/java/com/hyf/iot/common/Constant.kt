@@ -19,6 +19,7 @@ object Constant {
     }
 
     const val KEY_PARAM_ID = "id"
+    const val KEY_PARAM_STATE = "state"
     const val KEY_PARAM_LAT = "lat"
     const val KEY_PARAM_LONG = "long"
     const val KEY_PARAM_ADDRESS = "address"
