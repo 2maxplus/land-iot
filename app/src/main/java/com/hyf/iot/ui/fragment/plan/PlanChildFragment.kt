@@ -56,7 +56,7 @@ class PlanChildFragment : BaseMvpFragment<PlanListContract.IPresenter>(), PlanLi
 
     override fun initData() {
         val state = arguments!!.getString(Constant.KEY_PARAM_STATE)
-        getPresenter().getPlanList("A19CA6B1-3625-4034-BBC6-DAF07838E605", state!!)  //LoginUser.farmId
+        getPresenter().getPlanList(LoginUser.farmId, state!!)  //LoginUser.farmId
     }
 
     override fun onTokenExpired(msg: String) {

@@ -24,12 +24,10 @@ class PlanListAdapter(context: Activity?, list : ArrayList<IrrigatePlanGroupCont
 
     override fun onBindViewHolder(holder: ViewHolders, position: Int) {
         val item = mData[position]
-        if (position == mData.size-1){
-            holder.line2?.visibility = View.INVISIBLE
-        }
 
-//        holder.time?.text = item.time
-        holder.content?.text = item.deviceName +"   "+ item.sensorName
+        val time = item.updated.replace(" ","\n")
+        holder.time?.text = time
+        holder.content?.text = item.deviceName + item.deviceStateString+"   "+ item.sensorName + item.sensorStateString
 
 //        when(mData[position].type){
 //            1-> {
@@ -58,10 +56,7 @@ class PlanListAdapter(context: Activity?, list : ArrayList<IrrigatePlanGroupCont
 
     class ViewHolders(itemview: View?) : RecyclerView.ViewHolder(itemview!!) {
         val time = itemview?.findViewById<TextView>(R.id.time)
-        val line1 = itemview?.findViewById<View>(R.id.line1)
-        val line2 = itemview?.findViewById<View>(R.id.line2)
         val content = itemview?.findViewById<TextView>(R.id.content)
-        val switchs = itemview?.findViewById<TextView>(R.id.switchs)
     }
 
 }
