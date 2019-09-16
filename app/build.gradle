@@ -100,6 +100,8 @@ dependencies {
     implementation 'com.github.xuexiangjys:XUpdate:1.0.8'
     //网络请求的实现一
     implementation 'com.qianwen:okhttp-utils:3.8.0'
+
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
 }
 repositories {
     mavenCentral()

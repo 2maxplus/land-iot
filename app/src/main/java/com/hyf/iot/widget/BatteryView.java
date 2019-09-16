@@ -64,8 +64,8 @@ public class BatteryView extends View {
 		batteryPaint.setColor(Color.BLACK);
 		batteryPaint.setAntiAlias(true);
 		batteryPaint.setStyle(Paint.Style.FILL);
- 
- 
+
+
 		batteryHearPaint = new Paint();
 		batteryHearPaint.setColor(Color.BLACK);
 		batteryPaint.setAntiAlias(true);

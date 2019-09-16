@@ -13,6 +13,7 @@ import android.support.v4.view.ViewCompat
  * com.hyf.intelligence.kotlin.widget.VpSwipeRefreshLayout
  * 解决SwipeRefreshLayout和ViewPager滑动冲突
  */
+@Suppress("DEPRECATION")
 class VpSwipeRefreshLayout(context: Context, attrs: AttributeSet) : SwipeRefreshLayout(context, attrs) {
 
     private var startY: Float = 0.toFloat()
@@ -62,5 +63,9 @@ class VpSwipeRefreshLayout(context: Context, attrs: AttributeSet) : SwipeRefresh
                     .top < target.paddingTop)
         } else
             ViewCompat.canScrollVertically(target, -1)
+    }
+
+    override fun requestDisallowInterceptTouchEvent(b: Boolean) {
+        super.requestDisallowInterceptTouchEvent(b)
     }
 }

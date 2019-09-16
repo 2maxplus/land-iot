@@ -1,5 +1,6 @@
 package com.hyf.iot.ui.fragment.pumb
 
+import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -36,6 +37,7 @@ class PumpItemFragment : BaseFragment() {
             override fun adds() {
                 bengOpenCount++
             }
+
             override fun subs() {
                 bengOpenCount--
             }
@@ -55,6 +57,11 @@ class PumpItemFragment : BaseFragment() {
                     }
                 }
             })
+        }
+        scrollView.apply {
+            setOnScrollChangeListener { _: NestedScrollView?, _: Int, _: Int, _: Int, _: Int ->
+                (parentFragment!!.parentFragment as PumpRoomFragment).getonScroll(scrollView.scrollY <= 0)
+            }
         }
 
         val bean1 = FaKongBean("54m³", 3f, 9f)
@@ -122,6 +129,7 @@ class PumpItemFragment : BaseFragment() {
         }
     }
 
+
     /**
      * 让RecyclerView滚动到指定位置
      */
@@ -131,18 +139,19 @@ class PumpItemFragment : BaseFragment() {
         }
     }
 
-    fun setLastOff( lastOffset: Int){
+    fun setLastOff(lastOffset: Int) {
         this.lastOffset = lastOffset
     }
-    fun setLastPosition(lastPosition: Int){
+
+    fun setLastPosition(lastPosition: Int) {
         this.lastPosition = lastPosition
     }
 
-    fun getLastOffset(): Int{
+    fun getLastOffset(): Int {
         return lastOffset
     }
 
-    fun getLastPosition(): Int{
+    fun getLastPosition(): Int {
         return lastPosition
     }
 

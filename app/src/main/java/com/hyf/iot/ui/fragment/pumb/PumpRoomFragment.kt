@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.layout_common_page_state.*
 import kotlinx.android.synthetic.main.layout_common_title.*
 import kotlinx.android.synthetic.main.layout_common_viewpager.*
 
-class PumpRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomContract.IView{
+class PumpRoomFragment : BaseMvpFragment<PumpRoomContract.IPresenter>(), PumpRoomContract.IView {
 
     override fun onTokenExpired(msg: String) {
         activity?.showToast(msg)
@@ -33,7 +33,7 @@ class PumpRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomC
     override fun initView() {
         iv_back.visibility = View.GONE
         tv_operate.visibility = View.VISIBLE
-        tv_operate.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.icon_refresh,0,0,0)
+        tv_operate.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.icon_refresh, 0, 0, 0)
         tv_operate.setOnClickListener {
             onReload()
         }
@@ -65,7 +65,7 @@ class PumpRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomC
 
     override fun showPage(data: PumpRoom) {
         tv_title.text = data.pumpRoomInfo.name
-
+//        refresh_layout.finishRefresh()
         refresh_layout.isRefreshing = false
         if (data == null || data.pumpRoomInfo == null) {
             page_layout.setPage(PageStateLayout.PageState.STATE_EMPTY)
@@ -75,8 +75,8 @@ class PumpRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomC
             mAdapter.fragmenList.addAll(data.frequencyConverterCabinetInfos)
             mAdapter.notifyDataSetChanged()
         }
-        if(childFragmentManager.fragments.size > 0)
-        ((childFragmentManager.fragments[viewPager.currentItem]) as FrequencyConverterFragment).initData()
+        if (childFragmentManager.fragments.size > 0)
+            ((childFragmentManager.fragments[viewPager.currentItem]) as FrequencyConverterFragment).initData()
     }
 
     override fun errorPage(msg: String?) {
@@ -84,6 +84,7 @@ class PumpRoomFragment: BaseMvpFragment<PumpRoomContract.IPresenter>(),PumpRoomC
         page_layout.setPage(PageStateLayout.PageState.STATE_ERROR)
     }
 
-
-
+    fun getonScroll(enable: Boolean) {
+        refresh_layout.isEnabled = enable
+    }
 }
