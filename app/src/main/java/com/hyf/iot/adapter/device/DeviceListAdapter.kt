@@ -20,6 +20,7 @@ import com.hyf.iot.widget.SignalView
 
 
 class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceInfo>) : RecyclerView.Adapter<DeviceListAdapter.ViewHolders>() {
+
     private var context: Activity? = null
     private var layoutId: Int = R.layout.item_device
     private var mData: MutableList<DeviceInfo>

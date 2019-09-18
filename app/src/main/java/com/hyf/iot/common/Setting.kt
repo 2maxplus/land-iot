@@ -14,6 +14,16 @@ object HttpDomain{
     val HTTP_API_DOMAIN = if(DEBUG) HTTP_API_DOMAIN_DEBUG else HTTP_API_DOMAIN_RELEASE
 }
 
+object CP{
+    var lastPosition: Int
+        get() = SPUtils.getInt(Constant.SPConstant.CUR_LAST_POSITION)
+        set(value) = SPUtils.putInt(Constant.SPConstant.CUR_LAST_POSITION, value)
+
+    var lastOffset: Int
+        get() = SPUtils.getInt(Constant.SPConstant.CUR_LAST_OFFSET)
+        set(value) = SPUtils.putInt(Constant.SPConstant.CUR_LAST_OFFSET, value)
+}
+
 /** Log */
 val LOG_DEBUG = BuildConfig.DEBUG
 const val RESULT_SUCCESS = 0
@@ -32,6 +42,8 @@ class LoginUser {
         var farmId: String
             get() = SPUtils.getString(Constant.SPConstant.CUR_FARM_ID)
             set(value) = SPUtils.putString(Constant.SPConstant.CUR_FARM_ID, value)
+
+
     }
 }
 

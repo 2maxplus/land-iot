@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import com.baidu.mapapi.map.*
@@ -82,13 +83,16 @@ class FarmDetailActivity : BaseMvpActivity<FarmDetailContract.IPresenter>(), Far
             val bundle = Bundle()
             bundle.putParcelable(KEY_PARAM_1, data)
             newIntent<FarmAddOrEditActivity>(ON_SUCCESS, bundle)
-        }
 
+        }
+//        val header = LayoutInflater.from(this).inflate(R.layout.layout_common_title, null)
+        //            mMassifAdapter.setHeaderView(header)
         recycler_view.apply {
             layoutManager = LinearLayoutManager(this@FarmDetailActivity, LinearLayout.VERTICAL, false)
 //            addItemDecoration(ItemDecoration(2))
             addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL))
             mMassifAdapter.isShowLoadMore(false)
+
             adapter = mMassifAdapter
         }
         //地图初始化

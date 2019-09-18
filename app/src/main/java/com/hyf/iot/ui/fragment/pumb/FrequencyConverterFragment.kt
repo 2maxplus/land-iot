@@ -60,10 +60,6 @@ class FrequencyConverterFragment: BaseMvpFragment<PumpItemContract.IPresenter>()
         tv_voltage2.text = "电压B: ${frequencyConverterCabinet.voltageB} V"
         tv_voltage3.text = "电压C: ${frequencyConverterCabinet.voltageC} V"
         tv_total_power.text = "总输出功率: ${frequencyConverterCabinet.totalOutputPower} W"
-//        if(childFragmentManager.fragments.size > 0) {
-//            lastOffset = ((childFragmentManager.fragments[viewPager.currentItem]) as PumpItemFragment).getLastOffset()
-//            lastPosition = ((childFragmentManager.fragments[viewPager.currentItem]) as PumpItemFragment).getLastPosition()
-//        }
         getPresenter().getPumpItemInfo(frequencyConverterCabinet.id)
     }
 
@@ -71,14 +67,14 @@ class FrequencyConverterFragment: BaseMvpFragment<PumpItemContract.IPresenter>()
 
     override fun showPage(data: MutableList<WaterPump>) {
         mAdapter.fragmentList.clear()
-        if (data.size <= 1)
-            tabLayout.visibility = View.GONE
+        if(tabLayout != null){
+            if (data.size <= 1)
+                tabLayout.visibility = View.GONE
+        }
         mAdapter.fragmentList.addAll(data)
         mAdapter.notifyDataSetChanged()
         if(childFragmentManager.fragments.size > 0) {
             ((childFragmentManager.fragments[viewPager.currentItem]) as PumpItemFragment).initData()
-//            ((childFragmentManager.fragments[viewPager.currentItem]) as PumpItemFragment).setLastOff(lastOffset)
-//            ((childFragmentManager.fragments[viewPager.currentItem]) as PumpItemFragment).setLastPosition(lastPosition)
         }
 //        activity?.sendBroadcast(Intent(PumpItemFragment.INTENT_ITEM_ACTION_REFRESH))
     }

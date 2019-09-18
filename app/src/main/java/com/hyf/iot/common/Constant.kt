@@ -12,6 +12,8 @@ object Constant {
         val CUR_USER_NAME = "user_name"
         val CUR_TOKEN = "token"
         val CUR_FARM_ID = "farm_id"
+        val CUR_LAST_POSITION = "lastPosition"
+        val CUR_LAST_OFFSET = "lastOffset"
     }
 
     object WEB {

@@ -1,90 +1,86 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scrollView"
+<?xml version="1.0" encoding="utf-8"?><!--<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:id="@+id/scrollView"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:fillViewport="true"--><!--android:descendantFocusability="blocksDescendants"--><!--android:orientation="vertical">-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:descendantFocusability="blocksDescendants"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_waterPumpName"
+                style="@style/text_base_style"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:text="泵1:" />
 
-                <TextView
-                    android:id="@+id/tv_waterPumpName"
-                    style="@style/text_base_style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="泵1:" />
+            <TextView
+                android:id="@+id/tv_pipePressure"
+                style="@style/text_base_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="管道压力: 11MPa" />
 
-                <TextView
-                    android:id="@+id/tv_pipePressure"
-                    style="@style/text_base_style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="管道压力: 11MPa" />
-
-                <Switch
-                    android:id="@+id/switchs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:button="@null"
-                    android:switchMinWidth="60dp"
-                    android:thumb="@null"
-                    android:track="@drawable/track" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/tv_totalFlow"
-                    style="@style/text_base_style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:text="累计流量: 100m³" />
-
-                <TextView
-                    android:id="@+id/tv_flowRate"
-                    style="@style/text_base_style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="瞬时流量: 100m³" />
-            </LinearLayout>
+            <Switch
+                android:id="@+id/switchs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:button="@null"
+                android:switchMinWidth="60dp"
+                android:thumb="@null"
+                android:track="@drawable/track" />
 
         </LinearLayout>
 
-        <com.hyf.iot.widget.chart.HorizontalChartViewFlow
-            android:id="@+id/horizontalChartView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="wrap_content">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:background="@color/bg_page" />
+            <TextView
+                android:id="@+id/tv_totalFlow"
+                style="@style/text_base_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:text="累计流量: 100m³" />
 
-        <include
-            layout="@layout/layout_recycler_view" />
+            <TextView
+                android:id="@+id/tv_flowRate"
+                style="@style/text_base_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="瞬时流量: 100m³" />
+        </LinearLayout>
 
     </LinearLayout>
 
+    <com.hyf.iot.widget.chart.HorizontalChartViewFlow
+        android:id="@+id/horizontalChartView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
 
-</android.support.v4.widget.NestedScrollView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/bg_page" />
+
+    <include
+        layout="@layout/layout_recycler_view"
+        android:visibility="gone" />
+
+</LinearLayout>
+
+
+    <!--</android.support.v4.widget.NestedScrollView>-->
