@@ -7,10 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Switch
 import android.widget.TextView
+import com.hyf.iot.App
 import com.hyf.iot.R
+import com.hyf.iot.common.LoginUser
+import com.hyf.iot.common.RESULT_SUCCESS
 import com.hyf.iot.common.ex.subscribeEx
 import com.hyf.iot.domain.device.SensorValveInfo
 import com.hyf.iot.protocol.http.IUserHttpProtocol
+import com.hyf.iot.ui.activity.LoginActivity
+import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
 import com.ljb.kt.client.HttpFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -48,7 +53,7 @@ class ValveListAdapter(context: Activity?, list: ArrayList<SensorValveInfo>) :
                 holder.switchOn?.isChecked = true
                 holder.switchOff?.isChecked = false
                 holder.tvOperateTip?.text = "开"
-                holder.tvOperateTip?.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,0,0)
+                holder.tvOperateTip?.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
                 valvesCount++
             }
             1, 3 -> {  //正在启动
@@ -58,9 +63,9 @@ class ValveListAdapter(context: Activity?, list: ArrayList<SensorValveInfo>) :
                 holder.switchOff?.isChecked = false
                 holder.tvOperateTip?.text = "运行中"
                 if (1 == valve.state) { //执行关
-                    holder.tvOperateTip?.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,0,R.drawable.arrow_right)
+                    holder.tvOperateTip?.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, R.drawable.arrow_right)
                 } else if (3 == valve.state) {  //执行开
-                    holder.tvOperateTip?.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,0,R.drawable.arrow_left)
+                    holder.tvOperateTip?.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, R.drawable.arrow_left)
                 }
             }
             0, 2 ->  //关闭
@@ -70,15 +75,15 @@ class ValveListAdapter(context: Activity?, list: ArrayList<SensorValveInfo>) :
                 holder.switchOn?.isChecked = false
                 holder.switchOff?.isChecked = true
                 holder.tvOperateTip?.text = "关"
-                holder.tvOperateTip?.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,0,0)
+                holder.tvOperateTip?.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
                 valvesCount--
             }
         }
 
-        holder.switchOn?.setOnClickListener { valveOperate(valve,"open") }
-        holder.switchOff?.setOnClickListener { valveOperate(valve,"close") }
+        holder.switchOn?.setOnClickListener { valveOperate(valve, "open") }
+        holder.switchOff?.setOnClickListener { valveOperate(valve, "close") }
         holder.switchState?.setOnClickListener {
-            valveOperate(valve,"")
+            valveOperate(valve, "")
         }
 
         holder.switchState?.setOnCheckedChangeListener { _, isChecked ->
@@ -107,7 +112,7 @@ class ValveListAdapter(context: Activity?, list: ArrayList<SensorValveInfo>) :
             ViewHolders(LayoutInflater.from(context).inflate(R.layout.valve_operate_item, parent, false))
 
 
-    private fun valveOperate(valve: SensorValveInfo,state: String) {
+    private fun valveOperate(valve: SensorValveInfo, state: String) {
         val valveState = valve.state
 //        val state = when (valveState) {
 //            2 -> "open"
@@ -122,27 +127,41 @@ class ValveListAdapter(context: Activity?, list: ArrayList<SensorValveInfo>) :
                 .setDeviceStateById(state, valve.id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map { it.data }
+//                .map { it.data }
                 .subscribeEx(
                         {
-                            if (it.success) {
-                                if (state == "open") {
-                                    valve.state = 3  //执行开
-                                }else{
-                                    valve.state = 1  //执行关
-                                }
-                                holder.switchState?.isEnabled = false
+                            when (it.code) {
+                                RESULT_SUCCESS -> {
+                                    val data = it.data
+                                    if (data.success) {
+                                        if (state == "open") {
+                                            valve.state = 3  //执行开
+                                        } else {
+                                            valve.state = 1  //执行关
+                                        }
+                                        holder.switchState?.isEnabled = false
 
-                                holder.switchOn?.isChecked = false
-                                holder.switchOff?.isChecked = false
-                                holder.tvOperateTip?.text = "运行中"
-                                if (1 == valve.state) { //执行关
-                                    holder.tvOperateTip?.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,0,R.drawable.arrow_right)
-                                } else if (3 == valve.state) {  //执行开
-                                    holder.tvOperateTip?.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,0,R.drawable.arrow_left)
+                                        holder.switchOn?.isChecked = false
+                                        holder.switchOff?.isChecked = false
+                                        holder.tvOperateTip?.text = "运行中"
+                                        if (1 == valve.state) { //执行关
+                                            holder.tvOperateTip?.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, R.drawable.arrow_right)
+                                        } else if (3 == valve.state) {  //执行开
+                                            holder.tvOperateTip?.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, R.drawable.arrow_left)
+                                        }
+                                    } else {
+                                        context?.showToast(data.message)
+                                    }
+
                                 }
-                            } else {
-                                context?.showToast(it.message)
+                                214, 215, 216 -> { //重新登陆
+                                    App.instance.removeAllActivity()
+                                    context!!.newIntent<LoginActivity>()
+                                    context!!.finish()
+                                }
+                                else -> {
+                                    context?.showToast(it.msg)
+                                }
                             }
                             notifyDataSetChanged()
                         }, {})
