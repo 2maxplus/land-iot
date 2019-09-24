@@ -14,6 +14,7 @@ object Constant {
         val CUR_FARM_ID = "farm_id"
         val CUR_LAST_POSITION = "lastPosition"
         val CUR_LAST_OFFSET = "lastOffset"
+        val CUR_ITEM = "currentItem"
     }
 
     object WEB {

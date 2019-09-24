@@ -22,6 +22,9 @@ object CP{
     var lastOffset: Int
         get() = SPUtils.getInt(Constant.SPConstant.CUR_LAST_OFFSET)
         set(value) = SPUtils.putInt(Constant.SPConstant.CUR_LAST_OFFSET, value)
+    var currentItem: Int
+        get() = SPUtils.getInt(Constant.SPConstant.CUR_ITEM)
+        set(value) = SPUtils.putInt(Constant.SPConstant.CUR_ITEM, value)
 }
 
 /** Log */

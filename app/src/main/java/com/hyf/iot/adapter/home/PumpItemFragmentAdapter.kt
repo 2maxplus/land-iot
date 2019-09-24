@@ -3,6 +3,7 @@ package com.hyf.iot.adapter.home
 import android.os.Bundle
 import android.support.v4.app.*
 import android.support.v4.view.PagerAdapter
+import com.hyf.iot.common.CP
 import com.hyf.iot.domain.device.WaterPump
 import com.hyf.iot.ui.fragment.pumb.PumpItemFragment
 
@@ -29,6 +30,8 @@ class PumpItemFragmentAdapter(private val fm: FragmentManager, var fragmentList:
     override fun getItemId(position: Int): Long {
         return System.currentTimeMillis().hashCode().toLong()
     }
+
+
 
 
 }

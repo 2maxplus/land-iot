@@ -130,7 +130,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_red_selector"
-            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/margin_50"
             android:text="@string/logout" />
     </RelativeLayout>
 

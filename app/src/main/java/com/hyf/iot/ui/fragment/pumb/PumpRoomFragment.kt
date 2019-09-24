@@ -3,6 +3,7 @@ package com.hyf.iot.ui.fragment.pumb
 import android.view.View
 import com.hyf.iot.R
 import com.hyf.iot.adapter.home.PumpRoomFragmentAdapter
+import com.hyf.iot.common.CP
 import com.hyf.iot.common.LoginUser
 import com.hyf.iot.common.fragment.BaseMvpFragment
 import com.hyf.iot.contract.PumpRoomContract
@@ -18,6 +19,7 @@ import kotlinx.android.synthetic.main.layout_common_viewpager.*
 
 class PumpRoomFragment : BaseMvpFragment<PumpRoomContract.IPresenter>(), PumpRoomContract.IView {
 
+    private var isRefresh = false
     override fun onTokenExpired(msg: String) {
         activity?.showToast(msg)
         activity?.newIntent<LoginActivity>()
@@ -58,6 +60,7 @@ class PumpRoomFragment : BaseMvpFragment<PumpRoomContract.IPresenter>(), PumpRoo
     }
 
     private fun onReload() {
+        isRefresh = true
         page_layout.setPage(PageStateLayout.PageState.STATE_LOADING)
         initData()
 //        activity?.sendBroadcast(Intent(FrequencyConverterFragment.INTENT_ACTION_REFRESH))
@@ -73,10 +76,12 @@ class PumpRoomFragment : BaseMvpFragment<PumpRoomContract.IPresenter>(), PumpRoo
             page_layout.setPage(PageStateLayout.PageState.STATE_SUCCEED)
             mAdapter.fragmenList.clear()
             mAdapter.fragmenList.addAll(data.frequencyConverterCabinetInfos)
+            mAdapter.isRefresh(isRefresh)
             mAdapter.notifyDataSetChanged()
         }
-        if (childFragmentManager.fragments.size > 0)
+        if (childFragmentManager.fragments.size > 0) {
             ((childFragmentManager.fragments[viewPager.currentItem]) as FrequencyConverterFragment).initData()
+        }
     }
 
     override fun errorPage(msg: String?) {

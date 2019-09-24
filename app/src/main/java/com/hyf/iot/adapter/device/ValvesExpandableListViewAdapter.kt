@@ -134,11 +134,8 @@ class ValvesExpandableListViewAdapter(context: Activity?, var list: MutableList<
             bundle.putString("id", item.id)
             context?.newIntent<ValveDetailActivity>(bundle)
         }
-        recyclerViewSoil?.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                convertView.performClick()  // 模拟父控件的点击
-            }
-            false
+        recyclerViewSoil.setOnTouchListener { _, event ->
+            convertView.onTouchEvent(event)
         }
         if (item.sensor_ValveInfos != null) {
             mAdapter = ValveListAdapter(this@ValvesExpandableListViewAdapter.context, item.sensor_ValveInfos)

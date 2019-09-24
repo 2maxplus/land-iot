@@ -2,7 +2,12 @@ package com.hyf.iot.ui.fragment.main
 
 import android.app.Activity
 import android.content.Intent
+import android.support.v7.widget.RecyclerView
+import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
+import android.widget.AbsListView
+import android.widget.TextView
 import com.hyf.iot.R
 import com.hyf.iot.adapter.device.ValvesExpandableListViewAdapter
 import com.hyf.iot.common.LoginUser
@@ -16,12 +21,13 @@ import com.hyf.iot.utils.FSearchTool
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
 import com.hyf.iot.widget.PageStateLayout
+import com.hyf.iot.widget.PinnedHeaderExpandableListView
 import kotlinx.android.synthetic.main.fragment_valve_control.*
 import kotlinx.android.synthetic.main.layout_common_page_state.*
 import kotlinx.android.synthetic.main.layout_expandable_listview.*
 
 
-class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(), MoitureStationContract.IView {
+class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(), MoitureStationContract.IView,PinnedHeaderExpandableListView.OnHeaderUpdateListener {
 
     private val REQUEST_SCAN_SUCCESS = 110
 
@@ -39,11 +45,10 @@ class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(
 
         refresh_layout.apply {
             setColorSchemeResources(R.color.colorBlue)
-            setOnRefreshListener {
-//                postDelayed({ isRefreshing = true }, 2000)
-                initData()
-            }
+            setOnRefreshListener { onReload() }
         }
+
+        ivRefresh.setOnClickListener { onReload() }
 
         expandableListView.apply {
             setAdapter(mAdapter)
@@ -57,6 +62,16 @@ class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(
                     }
                 }
             }
+            setOnHeaderUpdateListener(this@ValveControlFragment)
+            setOnScrollListener(object : AbsListView.OnScrollListener{
+                override fun onScroll(view: AbsListView?, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
+                }
+                override fun onScrollStateChanged(view: AbsListView?, scrollState: Int) {
+                    if (view != null) {
+                        getPositionAndOffset()
+                    }
+                }
+            })
         }
 
         ivScan.setOnClickListener {
@@ -79,6 +94,32 @@ class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(
 //            }
 //        })
 
+    }
+
+    private var lastOffset = 0
+    private var lastPosition = 0
+
+    /**
+     * 记录View当前位置
+     */
+    private fun getPositionAndOffset() {
+        //获取可视的第一个view
+        val topView = expandableListView.getChildAt(0)
+        if (topView != null) {
+            //获取与该view的顶部的偏移量
+            lastOffset = topView.top  // this.lastOffset = topView.top
+            //得到该View的数组位置
+            lastPosition = expandableListView.getPositionForView(topView)
+        }
+    }
+
+    /**
+     * 让View滚动到指定位置
+     */
+    private fun scrollToPosition() {
+        if (lastPosition >= 0) {
+            expandableListView.smoothScrollToPositionFromTop(lastPosition,lastOffset)
+        }
     }
 
     override fun initData() {
@@ -123,11 +164,27 @@ class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(
             mAdapter.notifyDataSetChanged()
             expandableListView.expandGroup(0)
         }
+        scrollToPosition()
     }
 
     override fun errorPage(msg: String?) {
         activity?.showToast(msg!!)
         page_layout.setPage(PageStateLayout.PageState.STATE_ERROR)
+    }
+
+    override fun updatePinnedHeader(headerView: View, firstVisibleGroupPos: Int) {
+        if(firstVisibleGroupPos >= 0) {
+            val firstVisibleGroup = mAdapter.getGroup(firstVisibleGroupPos)
+            val textView = headerView.findViewById<View>(R.id.tv_group) as TextView
+            textView.text = firstVisibleGroup.massifName
+        }
+    }
+
+    override fun getPinnedHeader(): View {
+        val headerView = layoutInflater.inflate(R.layout.item_group, null) as ViewGroup
+        headerView.layoutParams = AbsListView.LayoutParams(
+                AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT)
+        return headerView
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

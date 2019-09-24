@@ -1,6 +1,7 @@
 package com.hyf.iot.ui.fragment.plan
 
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewPager
 import android.view.View
 import android.widget.LinearLayout
 import com.hyf.iot.R
@@ -17,20 +18,33 @@ class PlanFragment: BaseFragment(){
 
     override fun getLayoutId(): Int = R.layout.plan_layout
 
-    override fun initView() {
-        iv_back.visibility = View.GONE
-        tv_title.text = "灌溉计划"
+    init {
         titleList = ArrayList()
         titleList.add(StateType("","全部"))
         titleList.add(StateType("1","在执行"))
         titleList.add(StateType("3","已执行"))
         titleList.add(StateType("2","已暂停"))
         titleList.add(StateType("0","未执行"))
+    }
+
+    override fun initView() {
+        iv_back.visibility = View.GONE
+        tv_title.text = "灌溉计划"
 
         planFragmentAdapter = PlanFragmentAdapter(childFragmentManager, titleList)
-
-        viewPager.adapter = planFragmentAdapter
-        viewPager.currentItem = 0
+        viewPager.apply {
+            adapter = planFragmentAdapter
+            currentItem = 0
+            addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+                override fun onPageScrollStateChanged(p0: Int) {
+                }
+                override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {
+                }
+                override fun onPageSelected(p0: Int) {
+                    ((childFragmentManager.fragments[viewPager.currentItem]) as PlanChildFragment).setOperateBtnByState(titleList[p0].state)
+                }
+            })
+        }
 
         tabLayout.setupWithViewPager(viewPager)
 //        tabLayout.tabRippleColor = ColorStateList.valueOf(resources.getColor(R.color.transparent))
@@ -42,8 +56,13 @@ class PlanFragment: BaseFragment(){
         linearLayout.showDividers = LinearLayout.SHOW_DIVIDER_MIDDLE
         linearLayout.dividerDrawable = ContextCompat.getDrawable(context!!,
             R.drawable.layout_divider_vertical)
-    }
 
+        tv_operate.visibility = View.VISIBLE
+        tv_operate.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.icon_refresh, 0, 0, 0)
+        tv_operate.setOnClickListener {
+            ((childFragmentManager.fragments[viewPager.currentItem]) as PlanChildFragment).onReload()
+        }
+    }
 
 
 

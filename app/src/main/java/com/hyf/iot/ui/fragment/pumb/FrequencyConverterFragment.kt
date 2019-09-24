@@ -6,10 +6,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewPager
 import android.view.View
 import android.widget.LinearLayout
 import com.hyf.iot.R
 import com.hyf.iot.adapter.home.PumpItemFragmentAdapter
+import com.hyf.iot.common.CP
 import com.hyf.iot.common.fragment.BaseMvpFragment
 import com.hyf.iot.contract.PumpItemContract
 import com.hyf.iot.domain.device.WaterPump
@@ -18,11 +20,9 @@ import com.hyf.iot.presenter.PumpItemPresenter
 import com.hyf.iot.utils.showToast
 import kotlinx.android.synthetic.main.frequency_converter_layout.*
 
-class FrequencyConverterFragment: BaseMvpFragment<PumpItemContract.IPresenter>(), PumpItemContract.IView  {
+class FrequencyConverterFragment : BaseMvpFragment<PumpItemContract.IPresenter>(), PumpItemContract.IView {
 
-    private var lastOffset = 0
-    private var lastPosition = 0
-
+    private var isRefresh = false
     companion object {
         const val INTENT_ACTION_REFRESH = "com.action.refresh"
     }
@@ -32,12 +32,27 @@ class FrequencyConverterFragment: BaseMvpFragment<PumpItemContract.IPresenter>()
 
     private val mAdapter by lazy { PumpItemFragmentAdapter(childFragmentManager, mutableListOf()) }
 
-    override fun getLayoutId(): Int  = R.layout.frequency_converter_layout
+    override fun getLayoutId(): Int = R.layout.frequency_converter_layout
 
     override fun initView() {
         viewPager.apply {
             adapter = mAdapter
             currentItem = 0
+            addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                override fun onPageScrollStateChanged(state: Int) {
+                }
+
+                override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {
+                }
+
+                override fun onPageSelected(p: Int) {
+                    currentItem = p
+                    if(!isRefresh) {
+                        CP.currentItem = p
+                    }
+                    isRefresh = false
+                }
+            })
         }
         tabLayout.apply {
             setupWithViewPager(viewPager)
@@ -46,12 +61,14 @@ class FrequencyConverterFragment: BaseMvpFragment<PumpItemContract.IPresenter>()
         val linearLayout = tabLayout.getChildAt(0) as LinearLayout
         linearLayout.showDividers = LinearLayout.SHOW_DIVIDER_MIDDLE
         linearLayout.dividerDrawable = ContextCompat.getDrawable(context!!,
-            R.drawable.layout_divider_vertical)
+                R.drawable.layout_divider_vertical)
     }
 
     @SuppressLint("SetTextI18n")
     override fun initData() {
-        val frequencyConverterCabinet = arguments!!.getParcelable<FrequencyConverterCabinetInfo>("data") ?: return
+        isRefresh = arguments!!.getBoolean("isRefresh")
+        val frequencyConverterCabinet = arguments!!.getParcelable<FrequencyConverterCabinetInfo>("data")
+                ?: return
         tv_frequency_name.text = frequencyConverterCabinet.name
         tv_current1.text = "电流A: ${frequencyConverterCabinet.currentA} A"
         tv_current2.text = "电流B: ${frequencyConverterCabinet.currentB} A"
@@ -67,13 +84,14 @@ class FrequencyConverterFragment: BaseMvpFragment<PumpItemContract.IPresenter>()
 
     override fun showPage(data: MutableList<WaterPump>) {
         mAdapter.fragmentList.clear()
-        if(tabLayout != null){
+        if (tabLayout != null) {
             if (data.size <= 1)
                 tabLayout.visibility = View.GONE
         }
         mAdapter.fragmentList.addAll(data)
         mAdapter.notifyDataSetChanged()
-        if(childFragmentManager.fragments.size > 0) {
+        if (childFragmentManager.fragments.size > 0) {
+            viewPager.currentItem = CP.currentItem
             ((childFragmentManager.fragments[viewPager.currentItem]) as PumpItemFragment).initData()
         }
 //        activity?.sendBroadcast(Intent(PumpItemFragment.INTENT_ITEM_ACTION_REFRESH))
@@ -88,12 +106,12 @@ class FrequencyConverterFragment: BaseMvpFragment<PumpItemContract.IPresenter>()
         super.onAttach(context)
         receiveBroadCast = ReceiveBroadCast()
         val intentFilter = IntentFilter(INTENT_ACTION_REFRESH)
-        activity?.registerReceiver(receiveBroadCast,intentFilter)
+        activity?.registerReceiver(receiveBroadCast, intentFilter)
     }
 
     override fun onDetach() {
         super.onDetach()
-        if(receiveBroadCast != null){
+        if (receiveBroadCast != null) {
             activity?.unregisterReceiver(receiveBroadCast)
         }
     }
