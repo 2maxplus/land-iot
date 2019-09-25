@@ -132,15 +132,14 @@ class ValveListAdapter(context: Activity?, list: ArrayList<SensorValveInfo>) :
                         {
                             when (it.code) {
                                 RESULT_SUCCESS -> {
-                                    val data = it.data
-                                    if (data.success) {
+//                                    val data = it.data
+//                                    if (data.success) {
                                         if (state == "open") {
                                             valve.state = 3  //执行开
                                         } else {
                                             valve.state = 1  //执行关
                                         }
                                         holder.switchState?.isEnabled = false
-
                                         holder.switchOn?.isChecked = false
                                         holder.switchOff?.isChecked = false
                                         holder.tvOperateTip?.text = "运行中"
@@ -149,10 +148,10 @@ class ValveListAdapter(context: Activity?, list: ArrayList<SensorValveInfo>) :
                                         } else if (3 == valve.state) {  //执行开
                                             holder.tvOperateTip?.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, R.drawable.arrow_left)
                                         }
-                                    } else {
-                                        context?.showToast(data.message)
-                                    }
-
+//                                    }
+//                                else {
+//                                        context?.showToast(data.message)
+//                                    }
                                 }
                                 214, 215, 216 -> { //重新登陆
                                     App.instance.removeAllActivity()

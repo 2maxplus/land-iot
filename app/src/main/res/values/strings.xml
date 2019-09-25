@@ -14,6 +14,8 @@
     <string name="load_not_more">No more data</string>
     <string name="exit_go_out">再按一次退出</string>
     <string name="action">action:\t%s</string>
+    <string name="max_font_num">198</string>
+
     <!--<string name="cancel">Cancel</string>-->
     <string name="enter">确定</string>
     <string name="logout_user">Exit the current user?</string>
@@ -81,5 +83,7 @@
 
     <string name="version_check">版本检查</string>
     <string name="service_telephone_number">客服电话：400-028-0000</string>
+
+
 
 </resources>

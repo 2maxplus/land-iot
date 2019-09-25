@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:gravity="center_vertical">
+    <!--android:gravity="center"-->
+    <Switch
+        android:id="@+id/switch_on"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_centerVertical="true"
+        android:switchMinWidth="25dp"
+        android:thumb="@null"
+        android:track="@drawable/valve_on_bg" />
+
+    <TextView
+        android:id="@+id/tv_operate_tip"
+        android:layout_width="34dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/switch_on"
+        android:drawableBottom="@drawable/arrow_state"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="关"
+        android:textColor="@color/text_gray"
+        android:textSize="@dimen/font_size_10sp" />
+
+    <Switch
+        android:id="@+id/switch_off"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/tv_operate_tip"
+        android:checked="true"
+        android:switchMinWidth="25dp"
+        android:thumb="@null"
+        android:track="@drawable/valve_off_bg" />
+
+    <Switch
+        android:id="@+id/switch_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@null"
+        android:switchMinWidth="60dp"
+        android:thumb="@null"
+        android:track="@drawable/track"
+        android:visibility="gone" />
+</RelativeLayout>

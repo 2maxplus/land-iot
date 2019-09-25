@@ -60,7 +60,6 @@ class PlanChildFragment : BaseMvpFragment<PlanListContract.IPresenter>(), PlanLi
             setColorSchemeResources(R.color.colorBlue)
             setOnRefreshListener { onReload() }
         }
-
     }
 
     override fun initData() {
@@ -72,15 +71,23 @@ class PlanChildFragment : BaseMvpFragment<PlanListContract.IPresenter>(), PlanLi
         when(state){
             "1" -> {  // 在执行（暂停、停止）
                 ll_operate.visibility = View.VISIBLE
-
+                btn_operate_1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_pause,0,0,0)
+                btn_operate_1.text = "暂停"
+                btn_operate_2.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_stop,0,0,0)
+                btn_operate_2.text = "停止"
             }
             "3" -> { // 已执行（再次执行）
                 ll_operate.visibility = View.VISIBLE
-
+                rl_operate_2.visibility = View.GONE
+                btn_operate_1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_repeate_exe,0,0,0)
+                btn_operate_1.text = "再次执行"
             }
             "2" -> { // 已暂停（恢复、停止）
                 ll_operate.visibility = View.VISIBLE
-
+                btn_operate_1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_recovery,0,0,0)
+                btn_operate_1.text = "恢复"
+                btn_operate_2.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_stop,0,0,0)
+                btn_operate_2.text = "停止"
             }
             "0","" -> { // 未执行，全部
                 ll_operate.visibility = View.GONE

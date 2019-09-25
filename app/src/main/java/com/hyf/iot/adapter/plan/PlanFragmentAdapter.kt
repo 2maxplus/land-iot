@@ -21,5 +21,4 @@ class PlanFragmentAdapter(fm: FragmentManager, val titleList: ArrayList<StateTyp
 
     override fun getCount(): Int = titleList.size
 
-
 }

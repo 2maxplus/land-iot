@@ -3,66 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:gravity="center_vertical"
     android:background="@drawable/shape_border_white_bg">
     <!--android:background="@drawable/shape_border_white_bg"-->
 
     <TextView
         android:id="@+id/tv_valve_name"
         style="@style/text_base_style"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
         android:padding="8dp"
         android:text="阀门1" />
 
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center_vertical">
-        <!--android:gravity="center"-->
-        <Switch
-            android:id="@+id/switch_on"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:switchMinWidth="25dp"
-            android:track="@drawable/valve_on_bg"
-            android:layout_centerVertical="true"
-            android:thumb="@null"/>
-        <TextView
-            android:id="@+id/tv_operate_tip"
-            android:layout_width="34dp"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/switch_on"
-            android:textSize="@dimen/font_size_10sp"
-            android:textColor="@color/text_gray"
-            android:gravity="center"
-            android:layout_centerVertical="true"
-            android:text="关"
-            android:enabled="false"
-            android:drawableBottom="@drawable/arrow_state"/>
-
-        <Switch
-            android:id="@+id/switch_off"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:switchMinWidth="25dp"
-            android:track="@drawable/valve_off_bg"
-            android:layout_centerVertical="true"
-            android:thumb="@null"
-            android:checked="true"
-            android:layout_toEndOf="@+id/tv_operate_tip"/>
-
-        <Switch
-            android:id="@+id/switch_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@null"
-            android:switchMinWidth="60dp"
-            android:thumb="@null"
-            android:visibility="gone"
-            android:track="@drawable/track" />
-    </RelativeLayout>
+    <include layout="@layout/layout_state"/>
 
 </LinearLayout>

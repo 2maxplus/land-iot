@@ -19,5 +19,7 @@ data class WaterPump(
         val signalIntensity: Int,
         val state: Int,
         val temperature: Int,
-        val type: Int
+        val type: Int,
+        val serialNumber: Int,  //3 = 潜水泵
+        val deviceId: String? = ""
 ): Parcelable

@@ -4,22 +4,34 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Switch
+import android.widget.TextView
+import com.hyf.iot.App
 import com.hyf.iot.R
 import com.hyf.iot.adapter.device.DeviceAdapter
 import com.hyf.iot.adapter.device.ValveListAdapter
 import com.hyf.iot.common.CP
+import com.hyf.iot.common.RESULT_SUCCESS
+import com.hyf.iot.common.ex.subscribeEx
 import com.hyf.iot.common.fragment.BaseFragment
 import com.hyf.iot.domain.device.FaKongBean
 import com.hyf.iot.domain.device.WaterPump
+import com.hyf.iot.protocol.http.IUserHttpProtocol
+import com.hyf.iot.ui.activity.LoginActivity
+import com.hyf.iot.utils.newIntent
+import com.hyf.iot.utils.showToast
 import com.hyf.iot.widget.MyLinearLayoutManager
 import com.hyf.iot.widget.RecycleViewDivider
 import com.hyf.iot.widget.chart.HorizontalChartViewFlow
+import com.hyf.iot.widget.dialog.EditDialog
 import com.hyf.iot.widget.dialog.MyDialog
 import com.hyf.iot.widget.findViewByIdEx
+import com.ljb.kt.client.HttpFactory
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.layout_recycler_view.*
-import kotlinx.android.synthetic.main.pump_item_layout.*
 
 
 class PumpItemFragment : BaseFragment() {
@@ -27,8 +39,10 @@ class PumpItemFragment : BaseFragment() {
     private val mAdapter by lazy { DeviceAdapter(activity!!, mutableListOf()) }
 
     private lateinit var dialogs: MyDialog
+    private lateinit var editDialog: EditDialog
     private var content = ""
     private var bengOpenCount = 0  // 阀门已经打开数量
+    private var deviceId = ""
 
     override fun getLayoutId(): Int = R.layout.layout_recycler_view
 
@@ -46,10 +60,7 @@ class PumpItemFragment : BaseFragment() {
                 bengOpenCount--
             }
         })
-        val header = LayoutInflater.from(mContext).inflate(R.layout.pump_item_layout, null)
-        mAdapter.setHeaderView(header)
         mAdapter.isShowLoadMore(false)
-        initHeaderView(header)
         recycler_view.apply {
             layoutManager = linearLayoutManager
             adapter = mAdapter
@@ -78,6 +89,47 @@ class PumpItemFragment : BaseFragment() {
 //                (parentFragment!!.parentFragment as PumpRoomFragment).getonScroll(scrollView.scrollY <= 0)
 //            }
 //        }
+
+    }
+
+    override fun initData() {
+        super.initData()
+        val waterPump = arguments!!.getParcelable<WaterPump>("data") ?: return
+        deviceId = waterPump.deviceId!!
+        when {
+            waterPump.serialNumber == 3  -> {   //潜水泵
+                val header = LayoutInflater.from(mContext).inflate(R.layout.layout_switch, null)
+                mAdapter.setHeaderView(header)
+                val switch = header.findViewByIdEx<Switch>(R.id.switch_state)
+                when(waterPump.state){
+                    0,2 -> {  //关闭
+                        switch.isChecked = false
+                    }
+                    4 -> {  //打开
+                        switch.isChecked = true
+                    }
+                }
+            }
+            else -> {
+                val header = LayoutInflater.from(mContext).inflate(R.layout.layout_pump_item, null)
+                mAdapter.setHeaderView(header)
+                initHeaderView(header)
+            }
+        }
+        mAdapter.mData.clear()
+        if (waterPump.deviceInfos != null && waterPump.deviceInfos.size > 0)
+            mAdapter.mData.addAll(waterPump.deviceInfos)
+        mAdapter.notifyDataSetChanged()
+        scrollToPosition()
+    }
+
+    private var horizontalChartView: HorizontalChartViewFlow? = null
+    private var switchs: Switch? = null
+    private var tvPipePressure: TextView? = null
+    private fun initHeaderView(header: View) {
+        horizontalChartView = header.findViewByIdEx(R.id.horizontalChartView)
+        switchs = header.findViewByIdEx(R.id.switchs)
+        tvPipePressure = header.findViewByIdEx(R.id.tv_pipePressure)
 
         val bean1 = FaKongBean("54m³", 3f, 9f)
         val bean2 = FaKongBean("66m³", 13f, 20f)
@@ -117,23 +169,45 @@ class PumpItemFragment : BaseFragment() {
             dialogs.show()
         }
 
+        tvPipePressure!!.setOnClickListener {
+            editDialog = EditDialog(activity, "设置压力值",content, object : EditDialog.OnPublicInputBoxClickListener {
+                override fun inputTextContent(editText: EditText) {
+                    val pressureText = editText.text.toString()
+                    setPressure(deviceId,pressureText)
+                }
+            })
+            editDialog.show()
+        }
     }
 
-    override fun initData() {
-        super.initData()
-        val waterPump = arguments!!.getParcelable<WaterPump>("data") ?: return
-        mAdapter.mData.clear()
-        if (waterPump.deviceInfos != null && waterPump.deviceInfos.size > 0)
-            mAdapter.mData.addAll(waterPump.deviceInfos)
-        mAdapter.notifyDataSetChanged()
-        scrollToPosition()
-    }
 
-    private var horizontalChartView: HorizontalChartViewFlow? = null
-    private var switchs: Switch? = null
-    private fun initHeaderView(header: View) {
-        horizontalChartView = header.findViewByIdEx<HorizontalChartViewFlow>(R.id.horizontalChartView)
-        switchs = header.findViewByIdEx<Switch>(R.id.switchs)
+    private fun setPressure(id: String,pressureText: String){
+        HttpFactory.getProtocol(IUserHttpProtocol::class.java)
+                .setPressureByDeviceId(id, pressureText)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeEx(
+                        {
+                            when (it.code) {
+                                RESULT_SUCCESS -> {
+//                                    val data = it.data
+//                                    if (data.success) {
+                                    context?.showToast("设置成功")
+//                                    }
+//                                else {
+//                                        context?.showToast(data.message)
+//                                    }
+                                }
+                                214, 215, 216 -> { //重新登陆
+                                    App.instance.removeAllActivity()
+                                    activity!!.newIntent<LoginActivity>()
+                                    activity!!.finish()
+                                }
+                                else -> {
+                                    context?.showToast(it.msg)
+                                }
+                            }
+                        }, {})
     }
 
     /**

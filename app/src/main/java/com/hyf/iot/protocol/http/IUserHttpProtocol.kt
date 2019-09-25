@@ -42,13 +42,14 @@ interface IUserHttpProtocol {
      * */
     @POST("/api/Account/GetCurrent")
     fun getUserInfo(): Observable<GenResult<UserInfo>>
+
     /**
      * @return  修改用户头像
      * @param file 头像form
      * */
     @Multipart
     @POST("/api/Account/ModifyHeadPortrait")
-    fun modifyPortrait(@Part file : MultipartBody.Part): Observable<GenResult<String>>
+    fun modifyPortrait(@Part file: MultipartBody.Part): Observable<GenResult<String>>
 
     /**
      * 获取头像
@@ -61,14 +62,14 @@ interface IUserHttpProtocol {
      * @return  修改用户昵称
      * */
     @POST("/api/Account/ModifyNickName")
-    fun modifyNickName(@Query("nickName")nickName: String): Observable<GenResult<String>>
+    fun modifyNickName(@Query("nickName") nickName: String): Observable<GenResult<String>>
 
     /**
      * @param content 内容
      * @return  添加意见
      * */
     @POST("/api/Feedback/Add")
-    fun feedbackAdd(@Query("content")content: String): Observable<GenResult<String>>
+    fun feedbackAdd(@Query("content") content: String): Observable<GenResult<String>>
 
 
     /**
@@ -76,21 +77,28 @@ interface IUserHttpProtocol {
      *
      * */
     @POST("/api/device/{state}")
-    fun setDeviceStateById(@Path("state") state: String,@Query("valveId") id: String): Observable<GenResult<OperateData>>
+    fun setDeviceStateById(@Path("state") state: String, @Query("valveId") id: String): Observable<GenResult<OperateData>>
 
     /**
      * 获取阀门开关时长
      *
      * */
     @POST("/api/device/GetValveUseTimes")
-    fun getValveUseTimesById(@Query("deviceId")deviceId: String): Observable<GenResult<MutableList<ValveUseTime>>>
+    fun getValveUseTimesById(@Query("deviceId") deviceId: String): Observable<GenResult<MutableList<ValveUseTime>>>
 
     /**
      * 获取设备详情
      *
      * */
     @POST("/api/device/get")
-    fun getDeviceDetailById(@Query("id")deviceId: String): Observable<GenResult<DeviceInfo>>
+    fun getDeviceDetailById(@Query("id") deviceId: String): Observable<GenResult<DeviceInfo>>
+
+    /**
+     * 设置设备压力值
+     *
+     * */
+    @POST("/api/Sensor/SetPressure")
+    fun setPressureByDeviceId(@Query("deviceId") deviceId: String,@Query("value")value: String): Observable<GenResult<String>>
 
     /***
      * 获取设备经纬度
@@ -105,21 +113,22 @@ interface IUserHttpProtocol {
      *
      * */
     @POST("/api/PumpRoom/DetailByFarmId")
-    fun getPumpRoomDetailByFarmId(@Query("farmId")farmId: String): Observable<GenResult<PumpRoom>>
+    fun getPumpRoomDetailByFarmId(@Query("farmId") farmId: String): Observable<GenResult<PumpRoom>>
+
     /***
      * 获取地块分类的设备列表
      * @param farmId 农场ID
      *
      * */
     @POST("/api/Massif/ListByFarmId")
-    fun getMoistureMassifListByFarmId(@Query("farmId")farmId: String): Observable<GenResult<MutableList<MoistureStationMassif>>>
+    fun getMoistureMassifListByFarmId(@Query("farmId") farmId: String): Observable<GenResult<MutableList<MoistureStationMassif>>>
 
     /**
      * 水泵设备信息
      * @param frequencyConverterCabinetId 变频柜ID
      * */
     @POST("/api/Device/List_WaterPump")
-    fun getWaterPumpByFrequencyConverterId(@Query("frequencyConverterCabinetId")frequencyConverterCabinetId: String): Observable<GenResult<MutableList<WaterPump>>>
+    fun getWaterPumpByFrequencyConverterId(@Query("frequencyConverterCabinetId") frequencyConverterCabinetId: String): Observable<GenResult<MutableList<WaterPump>>>
 
 
 }

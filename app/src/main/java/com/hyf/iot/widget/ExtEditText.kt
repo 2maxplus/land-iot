@@ -71,10 +71,10 @@ class ExtEditText : AppCompatEditText {
         return super.dispatchKeyEventPreIme(event)
     }
 
-//    fun setDispatchKeyEventPreIme(
-//            ondispatchKeyEventPreIme: OndispatchKeyEventPreIme) {
-//        m_diKeyEventPreIme = ondispatchKeyEventPreIme
-//    }
+    fun setDispatchKeyEventPreIme(
+            ondispatchKeyEventPreIme: OndispatchKeyEventPreIme?) {
+        m_diKeyEventPreIme = ondispatchKeyEventPreIme
+    }
 
     /**
      * 设置删除图片

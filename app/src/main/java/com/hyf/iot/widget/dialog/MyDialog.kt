@@ -19,7 +19,6 @@ class MyDialog : Dialog {
 
     private var listener: View.OnClickListener? = null
 
-
     constructor(context: Context?, content: String, listener: View.OnClickListener) : super(context, R.style.MyDialog) {
         this.content = content
         this.listener = listener

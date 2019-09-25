@@ -36,13 +36,17 @@
             <LinearLayout
                 android:id="@+id/ll_operate"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_5"
-                android:visibility="visible">
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/margin_5"
+                android:layout_marginBottom="@dimen/margin_5"
+                android:layout_marginStart="@dimen/margin_20"
+                android:layout_marginEnd="@dimen/margin_20"
+                android:visibility="gone">
 
                 <RelativeLayout
+                    android:id="@+id/rl_operate_1"
                     android:layout_width="0dp"
-                    android:layout_height="45dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/btn_login_selector"
                     android:gravity="center">
@@ -59,8 +63,9 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/rl_operate_2"
                     android:layout_width="0dp"
-                    android:layout_height="45dp"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/comm_margin"
                     android:layout_weight="1"
                     android:background="@drawable/btn_login_selector"

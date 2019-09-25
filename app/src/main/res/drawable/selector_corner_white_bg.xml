@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape>
+            <!-- 固体填充颜色 -->
+            <solid android:color="@color/white" />
+            <stroke android:width="0.5dp" android:color="@color/little_gray"/>
+            <!-- 所有的角度半径 -->
+            <corners android:radius="5dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <!-- 固体填充颜色 -->
+            <solid android:color="@color/white" />
+            <stroke android:width="0.5dp" android:color="@color/little_gray"/>
+            <!-- 所有的角度半径 -->
+            <corners android:radius="5dp" />
+        </shape>
+    </item>
+</selector>
