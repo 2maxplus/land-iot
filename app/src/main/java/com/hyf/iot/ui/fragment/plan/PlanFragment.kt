@@ -33,6 +33,7 @@ class PlanFragment : BaseFragment() {
 
         planFragmentAdapter = PlanFragmentAdapter(childFragmentManager, titleList)
         viewPager.apply {
+            offscreenPageLimit = titleList.size
             adapter = planFragmentAdapter
             currentItem = 0
             addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -43,7 +44,7 @@ class PlanFragment : BaseFragment() {
                 }
 
                 override fun onPageSelected(p0: Int) {
-//                    ((childFragmentManager.fragments[viewPager.currentItem]) as PlanChildFragment).setOperateBtnByState(titleList[p0].state)
+                    ((childFragmentManager.fragments[viewPager.currentItem]) as PlanChildFragment).setOperateBtnByState(titleList[p0].state)
                 }
             })
         }
@@ -59,13 +60,12 @@ class PlanFragment : BaseFragment() {
         linearLayout.dividerDrawable = ContextCompat.getDrawable(context!!,
                 R.drawable.layout_divider_vertical)
 
-//        tv_operate.visibility = View.VISIBLE
-//        tv_operate.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.icon_refresh, 0, 0, 0)
-//        tv_operate.setOnClickListener {
-//            if (childFragmentManager.fragments.size > 0)
-//                ((childFragmentManager.fragments[viewPager.currentItem]) as PlanChildFragment).onReload()
-//        }
+        tv_operate.visibility = View.VISIBLE
+        tv_operate.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.icon_refresh, 0, 0, 0)
+        tv_operate.setOnClickListener {
+            if (childFragmentManager.fragments.size > 0)
+                ((childFragmentManager.fragments[viewPager.currentItem]) as PlanChildFragment).onReload()
+        }
     }
-
 
 }

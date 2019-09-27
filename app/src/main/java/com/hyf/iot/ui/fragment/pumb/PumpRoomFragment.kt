@@ -74,6 +74,7 @@ class PumpRoomFragment : BaseMvpFragment<PumpRoomContract.IPresenter>(), PumpRoo
             page_layout.setPage(PageStateLayout.PageState.STATE_EMPTY)
         } else {
             page_layout.setPage(PageStateLayout.PageState.STATE_SUCCEED)
+            viewPager.offscreenPageLimit = data.frequencyConverterCabinetInfos.size
             mAdapter.fragmenList.clear()
             mAdapter.fragmenList.addAll(data.frequencyConverterCabinetInfos)
             mAdapter.isRefresh(isRefresh)

@@ -51,6 +51,7 @@ class DeviceAdapter(context: Activity, mData: MutableList<DeviceInfo>) : LoadMor
                 holder.recyclerViewSensor.apply {
                     this!!.layoutManager = linearLayoutManager
                     adapter = sAdapter
+                    setOnTouchListener { _, event ->  holder.itemView.onTouchEvent(event) }
                 }
             }
 
@@ -81,16 +82,13 @@ class DeviceAdapter(context: Activity, mData: MutableList<DeviceInfo>) : LoadMor
                 context?.newIntent<ValveDetailActivity>(bundle)
             }
 
-            holder.recyclerViewSensor?.setOnTouchListener { _, event ->
-                holder.itemView.onTouchEvent(event)
-            }
-
             if (item.sensor_ValveInfos != null) {
                 mAdapter = ValveListAdapter(this@DeviceAdapter.context, item.sensor_ValveInfos)
                 mAdapter!!.setGetOunts(getCounts)
                 holder.recyclerView.apply {
                     this!!.layoutManager = GridLayoutManager(context, 2)
                     adapter = mAdapter
+                    setOnTouchListener { _, event ->  holder.itemView.onTouchEvent(event) }
                 }
             }
         }

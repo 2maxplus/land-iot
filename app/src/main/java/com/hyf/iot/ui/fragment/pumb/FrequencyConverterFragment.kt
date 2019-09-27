@@ -88,6 +88,7 @@ class FrequencyConverterFragment : BaseMvpFragment<PumpItemContract.IPresenter>(
             if (data.size <= 1)
                 tabLayout.visibility = View.GONE
         }
+        viewPager.offscreenPageLimit = data.size
         mAdapter.fragmentList.addAll(data)
         mAdapter.notifyDataSetChanged()
         if (childFragmentManager.fragments.size > 0) {

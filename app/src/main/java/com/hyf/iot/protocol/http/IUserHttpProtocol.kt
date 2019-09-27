@@ -98,7 +98,14 @@ interface IUserHttpProtocol {
      *
      * */
     @POST("/api/Sensor/SetPressure")
-    fun setPressureByDeviceId(@Query("deviceId") deviceId: String,@Query("value")value: String): Observable<GenResult<String>>
+    fun setPressureByDeviceId(@Query("deviceId") deviceId: String, @Query("value") value: String): Observable<GenResult<String>>
+
+    /**
+     * 获取值
+     *
+     * */
+    @POST("/api/KeyValue/GetValueByKey")
+    fun getValueByDeviceId(@Query("key") deviceId: String): Observable<GenResult<String>>
 
     /***
      * 获取设备经纬度

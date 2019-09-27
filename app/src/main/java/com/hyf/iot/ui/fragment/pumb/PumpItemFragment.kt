@@ -1,5 +1,6 @@
 package com.hyf.iot.ui.fragment.pumb
 
+import android.annotation.SuppressLint
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -42,7 +43,7 @@ class PumpItemFragment : BaseFragment() {
     private lateinit var editDialog: EditDialog
     private var content = ""
     private var bengOpenCount = 0  // 阀门已经打开数量
-    private var deviceId = ""
+    private var waterPump : WaterPump? = null
 
     override fun getLayoutId(): Int = R.layout.layout_recycler_view
 
@@ -64,9 +65,6 @@ class PumpItemFragment : BaseFragment() {
         recycler_view.apply {
             layoutManager = linearLayoutManager
             adapter = mAdapter
-            addItemDecoration(RecycleViewDivider(
-                    activity, LinearLayoutManager.VERTICAL
-            ))
             //监听RecyclerView滚动状态
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -78,30 +76,22 @@ class PumpItemFragment : BaseFragment() {
 
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 //                    super.onScrolled(recyclerView, dx, dy)
-
                     val topRowVerticalPosition = if (recyclerView == null || recyclerView.childCount === 0) 0 else recyclerView.getChildAt(0).top
                     (parentFragment!!.parentFragment as PumpRoomFragment).getonScroll(topRowVerticalPosition >= 0)
                 }
             })
         }
-//        scrollView.apply {
-//            setOnScrollChangeListener { v: NestedScrollView, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
-//                (parentFragment!!.parentFragment as PumpRoomFragment).getonScroll(scrollView.scrollY <= 0)
-//            }
-//        }
-
     }
 
     override fun initData() {
         super.initData()
-        val waterPump = arguments!!.getParcelable<WaterPump>("data") ?: return
-        deviceId = waterPump.deviceId!!
+        waterPump = arguments!!.getParcelable("data") ?: return
         when {
-            waterPump.serialNumber == 3  -> {   //潜水泵
+            waterPump!!.serialNumber == 3  -> {   //潜水泵
                 val header = LayoutInflater.from(mContext).inflate(R.layout.layout_switch, null)
                 mAdapter.setHeaderView(header)
                 val switch = header.findViewByIdEx<Switch>(R.id.switch_state)
-                when(waterPump.state){
+                when(waterPump!!.state){
                     0,2 -> {  //关闭
                         switch.isChecked = false
                     }
@@ -117,8 +107,8 @@ class PumpItemFragment : BaseFragment() {
             }
         }
         mAdapter.mData.clear()
-        if (waterPump.deviceInfos != null && waterPump.deviceInfos.size > 0)
-            mAdapter.mData.addAll(waterPump.deviceInfos)
+        if (waterPump!!.deviceInfos != null && waterPump!!.deviceInfos!!.size > 0)
+            mAdapter.mData.addAll(waterPump!!.deviceInfos!!)
         mAdapter.notifyDataSetChanged()
         scrollToPosition()
     }
@@ -126,24 +116,28 @@ class PumpItemFragment : BaseFragment() {
     private var horizontalChartView: HorizontalChartViewFlow? = null
     private var switchs: Switch? = null
     private var tvPipePressure: TextView? = null
+    private var tvConstantPressure: TextView? = null
+    private var tvPressureSet: TextView? = null
     private fun initHeaderView(header: View) {
         horizontalChartView = header.findViewByIdEx(R.id.horizontalChartView)
         switchs = header.findViewByIdEx(R.id.switchs)
         tvPipePressure = header.findViewByIdEx(R.id.tv_pipePressure)
+        tvConstantPressure = header.findViewByIdEx(R.id.tv_constantPressure)
+        tvPressureSet = header.findViewByIdEx(R.id.tv_pressure_set)
 
-        val bean1 = FaKongBean("54m³", 3f, 9f)
-        val bean2 = FaKongBean("66m³", 13f, 20f)
-        val bean3 = FaKongBean("89m³", 10f, 19f)
-        val bean4 = FaKongBean("123m³", 4f, 18f)
-        val bean5 = FaKongBean("36m³", 19f, 23f)
-        val list = ArrayList<FaKongBean>()  // 这里要保证只有7条数据..
-        list.add(bean1);list.add(bean2);list.add(bean3);list.add(bean4);list.add(bean5);list.add(bean1);list.add(bean3)
-        horizontalChartView!!.setData(list)
+//        val bean1 = FaKongBean("54m³", 3f, 9f)
+//        val bean2 = FaKongBean("66m³", 13f, 20f)
+//        val bean3 = FaKongBean("89m³", 10f, 19f)
+//        val bean4 = FaKongBean("123m³", 4f, 18f)
+//        val bean5 = FaKongBean("36m³", 19f, 23f)
+//        val list = ArrayList<FaKongBean>()  // 这里要保证只有7条数据..
+//        list.add(bean1);list.add(bean2);list.add(bean3);list.add(bean4);list.add(bean5);list.add(bean1);list.add(bean3)
+//        horizontalChartView!!.setData(list)
 
         switchs!!.setOnClickListener {
             val isCheck = !switchs!!.isChecked
             content = if (isCheck) {
-                "当前水泵已经开启20小时，灌溉水量100m3，请问是否关闭水泵?"
+                "当前水泵已经开启0小时，灌溉水量0m3，请问是否关闭水泵?"
             } else {
                 if (mAdapter.mData.size == 0) {
                     return@setOnClickListener
@@ -169,17 +163,42 @@ class PumpItemFragment : BaseFragment() {
             dialogs.show()
         }
 
-        tvPipePressure!!.setOnClickListener {
-            editDialog = EditDialog(activity, "设置压力值",content, object : EditDialog.OnPublicInputBoxClickListener {
+        tvPressureSet!!.setOnClickListener {
+            editDialog = EditDialog(activity, "压力值设置",content, object : EditDialog.OnPublicInputBoxClickListener {
                 override fun inputTextContent(editText: EditText) {
                     val pressureText = editText.text.toString()
-                    setPressure(deviceId,pressureText)
+                    setPressure(waterPump!!.deviceId!!,pressureText)
                 }
             })
             editDialog.show()
         }
+//        getValueByDeviceId()
     }
 
+
+    @SuppressLint("SetTextI18n")
+    private fun getValueByDeviceId(){
+        HttpFactory.getProtocol(IUserHttpProtocol::class.java)
+                .getValueByDeviceId(waterPump!!.deviceId!!)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeEx(
+                        {
+                            when (it.code) {
+                                RESULT_SUCCESS -> {
+                                    tvConstantPressure!!.text = "恒压值:${it.data}"
+                                }
+                                214, 215, 216 -> { //重新登陆
+                                    App.instance.removeAllActivity()
+                                    activity!!.newIntent<LoginActivity>()
+                                    activity!!.finish()
+                                }
+                                else -> {
+                                    context?.showToast(it.msg)
+                                }
+                            }
+                        }, {})
+    }
 
     private fun setPressure(id: String,pressureText: String){
         HttpFactory.getProtocol(IUserHttpProtocol::class.java)
@@ -190,13 +209,7 @@ class PumpItemFragment : BaseFragment() {
                         {
                             when (it.code) {
                                 RESULT_SUCCESS -> {
-//                                    val data = it.data
-//                                    if (data.success) {
                                     context?.showToast("设置成功")
-//                                    }
-//                                else {
-//                                        context?.showToast(data.message)
-//                                    }
                                 }
                                 214, 215, 216 -> { //重新登陆
                                     App.instance.removeAllActivity()

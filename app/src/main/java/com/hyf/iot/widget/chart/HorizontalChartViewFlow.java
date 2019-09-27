@@ -166,6 +166,8 @@ public class HorizontalChartViewFlow extends View {
         //获取月份文字信息
         Paint.FontMetrics fm1 = paint_font2.getFontMetrics();
 
+        if(list.size() == 0)
+            return;
         for (int i = 6; i >= 0; i--) {
             canvas.save();
             //纵坐标日期
