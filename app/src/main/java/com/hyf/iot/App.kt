@@ -66,7 +66,7 @@ class App : Application() {
 //                    showToast(it.toString())
                 }
                 .setIUpdateHttpService(OKHttpUpdateHttpService()) //这个必须设置！实现网络请求功能。
-                .init(this)   //这个必须初始化
+                .init(this)
     }
 
     private fun registerActivity(){

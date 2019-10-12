@@ -378,6 +378,7 @@ class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), De
                 ON_SUCCESS -> {
                     val farm = data!!.getParcelableExtra<Farm>(Constant.KEY_PARAM_1)
                     val mLatLng = LatLng(farm.latitude, farm.longitude)
+//                    mBaiduMap!!.clear()
                     mBaiduMap!!.animateMapStatus(MapStatusUpdateFactory.newLatLng(mLatLng))
                     initMarker(mLatLng, farm)
                 }

@@ -15,6 +15,7 @@ import io.reactivex.schedulers.Schedulers
  */
 class PlanListPresenter : BaseRxLifePresenter<PlanListContract.IView>(),
         PlanListContract.IPresenter {
+
     override fun getPlanList(farmId: String, state: String) {
         HttpFactory.getProtocol(IReposHttpProtocol::class.java)
                 .getIrrigatePlanList(farmId, state)
@@ -35,6 +36,7 @@ class PlanListPresenter : BaseRxLifePresenter<PlanListContract.IView>(),
                 ).bindRxLifeEx(RxLife.ON_DESTROY)
     }
 
+    //计划详情
     override fun getPlanDetail(id: String) {
         HttpFactory.getProtocol(IReposHttpProtocol::class.java)
                 .getIrrigatePlanDetail(id)
@@ -44,6 +46,88 @@ class PlanListPresenter : BaseRxLifePresenter<PlanListContract.IView>(),
                         {
                             when(it.code){
                                 RESULT_SUCCESS -> getMvpView().showDetailList(it.data)
+                                214,215,216 -> {
+                                    LoginUser.token = ""
+                                    getMvpView().onTokenExpired(it.msg)
+                                }
+                                else -> getMvpView().onError(it.msg)
+                            }
+                        },
+                        { getMvpView().onError(it.message)}
+                ).bindRxLifeEx(RxLife.ON_DESTROY)
+    }
+
+    /// 计划开始
+    override fun setPlanStart(id: String) {
+        HttpFactory.getProtocol(IReposHttpProtocol::class.java)
+                .setPlanStart(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeEx(
+                        {
+                            when(it.code){
+                                RESULT_SUCCESS -> getMvpView().onSuccess(it.msg)
+                                214,215,216 -> {
+                                    LoginUser.token = ""
+                                    getMvpView().onTokenExpired(it.msg)
+                                }
+                                else -> getMvpView().onError(it.msg)
+                            }
+                        },
+                        { getMvpView().onError(it.message)}
+                ).bindRxLifeEx(RxLife.ON_DESTROY)
+    }
+
+    //计划停止
+    override fun setPlanStop(id: String) {
+        HttpFactory.getProtocol(IReposHttpProtocol::class.java)
+                .setPlanStop(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeEx(
+                        {
+                            when(it.code){
+                                RESULT_SUCCESS -> getMvpView().onSuccess(it.msg)
+                                214,215,216 -> {
+                                    LoginUser.token = ""
+                                    getMvpView().onTokenExpired(it.msg)
+                                }
+                                else -> getMvpView().onError(it.msg)
+                            }
+                        },
+                        { getMvpView().onError(it.message)}
+                ).bindRxLifeEx(RxLife.ON_DESTROY)
+    }
+
+    override fun setPlanSuspend(id: String) {
+        HttpFactory.getProtocol(IReposHttpProtocol::class.java)
+                .setPlanSuspend(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeEx(
+                        {
+                            when(it.code){
+                                RESULT_SUCCESS -> getMvpView().onSuccess(it.msg)
+                                214,215,216 -> {
+                                    LoginUser.token = ""
+                                    getMvpView().onTokenExpired(it.msg)
+                                }
+                                else -> getMvpView().onError(it.msg)
+                            }
+                        },
+                        { getMvpView().onError(it.message)}
+                ).bindRxLifeEx(RxLife.ON_DESTROY)
+    }
+
+    override fun setPlanContinue(id: String) {
+        HttpFactory.getProtocol(IReposHttpProtocol::class.java)
+                .setPlanContinue(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeEx(
+                        {
+                            when(it.code){
+                                RESULT_SUCCESS -> getMvpView().onSuccess(it.msg)
                                 214,215,216 -> {
                                     LoginUser.token = ""
                                     getMvpView().onTokenExpired(it.msg)

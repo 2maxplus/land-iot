@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.View
 import com.hyf.iot.R
 import com.hyf.iot.adapter.plan.PlanGroupListAdapter
@@ -33,6 +34,7 @@ import q.rorbin.verticaltablayout.widget.TabView
 @SuppressLint("ValidFragment")
 class PlanChildFragment : BaseMvpFragment<PlanListContract.IPresenter>(), PlanListContract.IView {
 
+    private var planId: String = ""
     private val mAdapter by lazy { PlanGroupListAdapter(activity, mutableListOf()) }
     private lateinit var planTitleList: MutableList<Plan>
 
@@ -45,14 +47,17 @@ class PlanChildFragment : BaseMvpFragment<PlanListContract.IPresenter>(), PlanLi
             setContentView(View.inflate(activity, R.layout.layout_verticaltab_recycleview, null))
             setOnPageErrorClickListener { onReload() }
         }
-//        tablayout.addOnTabSelectedListener(object : VerticalTabLayout.OnTabSelectedListener {
-//            override fun onTabSelected(tab: TabView, position: Int) {
-//                if (planTitleList != null)
-//                    getPresenter().getPlanDetail(planTitleList[position].id)
-//            }
-//            override fun onTabReselected(tab: TabView, position: Int) {
-//            }
-//        })
+        tablayout.addOnTabSelectedListener(object : VerticalTabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabView, position: Int) {
+                if (planTitleList != null) {
+                    planId = planTitleList[position].id
+                    getPresenter().getPlanDetail(planId)
+                }
+            }
+
+            override fun onTabReselected(tab: TabView, position: Int) {
+            }
+        })
 
         recycler_view.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -77,12 +82,33 @@ class PlanChildFragment : BaseMvpFragment<PlanListContract.IPresenter>(), PlanLi
                 btn_operate_1.text = "暂停"
                 btn_operate_2.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_stop, 0, 0, 0)
                 btn_operate_2.text = "停止"
+
+                btn_operate_1.setOnClickListener {
+                    if (planId.isNullOrEmpty())
+                        activity!!.showToast("无计划可执行")
+                    else
+                        getPresenter().setPlanSuspend(planId)
+
+                }
+                btn_operate_2.setOnClickListener {
+                    if (planId.isNullOrEmpty())
+                        activity!!.showToast("无计划可执行")
+                    else
+                        getPresenter().setPlanStop(planId)
+                }
             }
             "3" -> { // 已执行（再次执行）
                 ll_operate.visibility = View.VISIBLE
                 rl_operate_2.visibility = View.GONE
                 btn_operate_1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_repeate_exe, 0, 0, 0)
                 btn_operate_1.text = "再次执行"
+
+                btn_operate_1.setOnClickListener {
+                    if (planId.isNullOrEmpty())
+                        activity!!.showToast("无计划可执行")
+                    else
+                        getPresenter().setPlanStart(planId)
+                }
             }
             "2" -> { // 已暂停（恢复、停止）
                 ll_operate.visibility = View.VISIBLE
@@ -90,8 +116,34 @@ class PlanChildFragment : BaseMvpFragment<PlanListContract.IPresenter>(), PlanLi
                 btn_operate_1.text = "恢复"
                 btn_operate_2.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_stop, 0, 0, 0)
                 btn_operate_2.text = "停止"
+
+                btn_operate_1.setOnClickListener {
+                    if (planId.isNullOrEmpty())
+                        activity!!.showToast("无计划可执行")
+                    else
+                        getPresenter().setPlanContinue(planId)
+                }
+                btn_operate_2.setOnClickListener {
+                    if (planId.isNullOrEmpty())
+                        activity!!.showToast("无计划可执行")
+                    else
+                        getPresenter().setPlanStop(planId)
+                }
             }
-            "0", "" -> { // 未执行，全部
+            "0" -> { // 未执行
+                ll_operate.visibility = View.VISIBLE
+                rl_operate_2.visibility = View.GONE
+                btn_operate_1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_recovery, 0, 0, 0)
+                btn_operate_1.text = "开始执行"
+
+                btn_operate_1.setOnClickListener {
+                    if (planId.isNullOrEmpty())
+                        activity!!.showToast("无计划可执行")
+                    else
+                        getPresenter().setPlanStart(planId)
+                }
+            }
+             "" -> { // 全部
                 ll_operate.visibility = View.GONE
             }
         }
@@ -116,6 +168,13 @@ class PlanChildFragment : BaseMvpFragment<PlanListContract.IPresenter>(), PlanLi
         }
     }
 
+    override fun onSuccess(msg: String) {
+        if (msg.isNotEmpty()) {
+            context?.showToast(msg)
+            initData()
+        }
+    }
+
     override fun showPageList(data: MutableList<Plan>) {
         if (refresh_layout != null)
             refresh_layout.isRefreshing = false
@@ -124,8 +183,13 @@ class PlanChildFragment : BaseMvpFragment<PlanListContract.IPresenter>(), PlanLi
         } else {
             page_layout.setPage(PageStateLayout.PageState.STATE_SUCCEED)
             planTitleList = data
-            if (data.size > 0)
-                getPresenter().getPlanDetail(data[0].id)
+            if (data.size > 0) {
+                planId = planTitleList[0].id
+                getPresenter().getPlanDetail(planId)
+            }else{
+                mAdapter.list.clear()
+                mAdapter.notifyDataSetChanged()
+            }
             tablayout.setTabAdapter(object : TabAdapter {
                 override fun getIcon(position: Int): ITabView.TabIcon? {
                     return null

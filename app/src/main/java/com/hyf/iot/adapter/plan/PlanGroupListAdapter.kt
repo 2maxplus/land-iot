@@ -9,8 +9,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.hyf.iot.R
 import com.hyf.iot.domain.plan.IrrigatePlanGroupInfo
-import com.hyf.iot.domain.plan.PlanDetail
-import java.util.*
 
 class PlanGroupListAdapter(context: Activity?, var list : MutableList<IrrigatePlanGroupInfo>) : RecyclerView.Adapter<PlanGroupListAdapter.ViewHolders>() {
     private var context: Activity? = null
@@ -28,7 +26,7 @@ class PlanGroupListAdapter(context: Activity?, var list : MutableList<IrrigatePl
     override fun onBindViewHolder(holder: ViewHolders, position: Int) {
         val item = mData[position]
         holder.title?.text = item.name
-        mAdapter = PlanListAdapter(this@PlanGroupListAdapter.context, item.irrigatePlanGroupControlsInfos)
+        mAdapter = PlanListAdapter(context, item.irrigatePlanGroupControlsInfosRef)
         holder.recyclerView?.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
             adapter = mAdapter
@@ -38,7 +36,6 @@ class PlanGroupListAdapter(context: Activity?, var list : MutableList<IrrigatePl
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolders =
         ViewHolders(LayoutInflater.from(context).inflate(layoutId, parent, false))
-
 
     class ViewHolders(itemview: View?) : RecyclerView.ViewHolder(itemview!!) {
         val title = itemview?.findViewById<TextView>(R.id.tv_title)

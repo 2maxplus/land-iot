@@ -109,5 +109,32 @@ interface IReposHttpProtocol {
     @POST("/api/IrrigatePlan/Detail")
     fun getIrrigatePlanDetail(@Query("id") id: String): Observable<GenResult<PlanDetail>>
 
+    /**
+     * 计划开始
+     * @param id  plan id
+     * */
+    @POST("/api/IrrigatePlan/ExecuteStart")
+    fun setPlanStart(@Query("id") id: String): Observable<GenResult<String>>
+
+    /**
+     * 计划停止
+     * @param id  plan id
+     * */
+    @POST("/api/IrrigatePlan/ExecuteStop")
+    fun setPlanStop(@Query("id") id: String): Observable<GenResult<String>>
+
+    /**
+     * 计划暂停
+     * @param id  plan id
+     * */
+    @POST("/api/IrrigatePlan/ExecuteSuspend")
+    fun setPlanSuspend(@Query("id") id: String): Observable<GenResult<String>>
+
+    /**
+     * 计划继续恢复
+     * @param id  plan id
+     * */
+    @POST("/api/IrrigatePlan/ExecuteContinue")
+    fun setPlanContinue(@Query("id") id: String): Observable<GenResult<String>>
 
 }
