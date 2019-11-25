@@ -1,8 +1,8 @@
 package com.hyf.iot.ui.activity
 
 import android.content.Intent
-import android.support.v4.app.FragmentActivity
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import com.hyf.iot.App
 import com.hyf.iot.R
@@ -49,7 +49,7 @@ class FarmListActivity : BaseMvpActivity<FarmListContract.IPresenter>(), FarmLis
         }
 
         recycler_view.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
             adapter = mAdapter
             addItemDecoration(ItemDecoration(2))
         }
@@ -58,7 +58,7 @@ class FarmListActivity : BaseMvpActivity<FarmListContract.IPresenter>(), FarmLis
             override fun click(v: View, item: Farm) {
                 LoginUser.farmId = mAdapter.getCheckedId()
                 intent.putExtra(KEY_PARAM_1,item)
-                setResult(FragmentActivity.RESULT_OK,intent)
+                setResult(androidx.fragment.app.FragmentActivity.RESULT_OK,intent)
                 finish()
 //                val dialog = NormalMsgDialog(this@BindingListActivity).setMessage("确认切换当前农场？")
 //                        .setRightButtonInfo("", DialogInterface.OnClickListener{ _, _ ->

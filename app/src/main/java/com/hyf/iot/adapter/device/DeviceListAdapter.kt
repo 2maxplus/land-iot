@@ -3,9 +3,9 @@ package com.hyf.iot.adapter.device
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +19,7 @@ import com.hyf.iot.widget.BatteryView
 import com.hyf.iot.widget.SignalView
 
 
-class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceInfo>) : RecyclerView.Adapter<DeviceListAdapter.ViewHolders>() {
+class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceInfo>) : androidx.recyclerview.widget.RecyclerView.Adapter<DeviceListAdapter.ViewHolders>() {
 
     private var context: Activity? = null
     private var layoutId: Int = R.layout.item_device
@@ -45,7 +45,7 @@ class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceInfo>) :
         if (!item.sensor_OtherInfos.isNullOrEmpty()) {
             val sAdapter = DeviceSensorAdapter(context, item.sensor_OtherInfos)
             holder.recyclerViewSensor.apply {
-                this!!.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
+                this!!.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, LinearLayout.VERTICAL, false)
                 adapter = sAdapter
             }
         }
@@ -85,7 +85,7 @@ class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceInfo>) :
             mAdapter = ValveListAdapter(this@DeviceListAdapter.context, item.sensor_ValveInfos)
             mAdapter!!.setGetOunts(getCounts)
             holder.recyclerView.apply {
-                this!!.layoutManager = GridLayoutManager(context, 2)
+                this!!.layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 2)
                 adapter = mAdapter
             }
         }
@@ -95,15 +95,15 @@ class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceInfo>) :
             ViewHolders(LayoutInflater.from(context).inflate(layoutId, parent, false))
 
 
-    class ViewHolders(itemview: View?) : RecyclerView.ViewHolder(itemview!!) {
+    class ViewHolders(itemview: View?) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemview!!) {
         val deviceState = itemview?.findViewById<TextView>(R.id.tv_state)
         val signalView = itemview?.findViewById<SignalView>(R.id.signalView)
         val batteryPercent = itemview?.findViewById<TextView>(R.id.tv_battery_percent)
         val battery = itemview?.findViewById<BatteryView>(R.id.battery)
         val deviceName = itemview?.findViewById<TextView>(R.id.tv_device_name)
         val deviceNo = itemview?.findViewById<TextView>(R.id.tv_device_no)
-        val recyclerView = itemview?.findViewById<RecyclerView>(R.id.recycler_view)
-        val recyclerViewSensor = itemview?.findViewById<RecyclerView>(R.id.recycler_view_sensor)
+        val recyclerView = itemview?.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recycler_view)
+        val recyclerViewSensor = itemview?.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recycler_view_sensor)
 
     }
 

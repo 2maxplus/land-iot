@@ -5,7 +5,7 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.CountDownTimer
-import android.support.v4.app.ActivityCompat
+import androidx.core.app.ActivityCompat
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View

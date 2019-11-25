@@ -1,5 +1,5 @@
 package com.hyf.iot.domain
 
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 
-data class MyTabFragmentBean(val title: String, val fragment: Fragment)
+data class MyTabFragmentBean(val title: String, val fragment: androidx.fragment.app.Fragment)

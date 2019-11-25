@@ -1,10 +1,10 @@
 package com.hyf.iot.widget
 
 import android.content.Context
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.AttributeSet
 
-class MyLinearLayoutManager : LinearLayoutManager {
+class MyLinearLayoutManager : androidx.recyclerview.widget.LinearLayoutManager {
     private var isScrollEnabled = true
 
     constructor(context: Context) : super(context)

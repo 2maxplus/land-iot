@@ -1,7 +1,7 @@
 package com.hyf.iot.widget.spinner
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.hyf.iot.R
 import java.util.ArrayList
 
-class SpinnerChooseAdapter(private val context: Context, private val itemClickListener: MyItemClickListener, private val list: ArrayList<String>?, private val selectPosition: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SpinnerChooseAdapter(private val context: Context, private val itemClickListener: MyItemClickListener, private val list: ArrayList<String>?, private val selectPosition: Int) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
     private val id: String? = null
     private val name: String? = null
     private val patientId: String? = null
@@ -19,7 +19,7 @@ class SpinnerChooseAdapter(private val context: Context, private val itemClickLi
         fun onClick(view: View)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.popupwindow_spinner_item, null)
         view.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -27,7 +27,7 @@ class SpinnerChooseAdapter(private val context: Context, private val itemClickLi
         return ItemViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
         if (holder is ItemViewHolder) {
             holder.itemView.tag = position
             holder.textView.text = list!![position]
@@ -39,7 +39,7 @@ class SpinnerChooseAdapter(private val context: Context, private val itemClickLi
         return list?.size ?: 0
     }
 
-    inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ItemViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         internal var textView: TextView = itemView.findViewById(R.id.choose_item)
 
     }

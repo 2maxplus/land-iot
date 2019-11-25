@@ -2,7 +2,7 @@ package com.hyf.iot.adapter.device
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +11,7 @@ import com.hyf.iot.R
 import com.hyf.iot.domain.device.SensorOtherInfo
 import java.util.*
 
-class DeviceSensorAdapter(context: Activity?, list : ArrayList<SensorOtherInfo>) : RecyclerView.Adapter<DeviceSensorAdapter.ViewHolders>() {
+class DeviceSensorAdapter(context: Activity?, list : ArrayList<SensorOtherInfo>) : androidx.recyclerview.widget.RecyclerView.Adapter<DeviceSensorAdapter.ViewHolders>() {
     private var context: Activity? = null
     private var layoutId:Int = R.layout.item_device_sensor
     private var mData: ArrayList<SensorOtherInfo>
@@ -33,7 +33,7 @@ class DeviceSensorAdapter(context: Activity?, list : ArrayList<SensorOtherInfo>)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolders =
             ViewHolders(LayoutInflater.from(context).inflate(layoutId, parent, false))
 
-    class ViewHolders(itemview: View?) : RecyclerView.ViewHolder(itemview!!) {
+    class ViewHolders(itemview: View?) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemview!!) {
         val title = itemview?.findViewById<TextView>(R.id.tv_title)
         val value = itemview?.findViewById<TextView>(R.id.tv_value)
     }

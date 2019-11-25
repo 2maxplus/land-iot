@@ -1,7 +1,7 @@
 package com.hyf.iot.ui.fragment.plan
 
-import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewPager
+import androidx.core.content.ContextCompat
+import androidx.viewpager.widget.ViewPager
 import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
@@ -36,7 +36,7 @@ class PlanFragment : BaseFragment() {
             offscreenPageLimit = titleList.size
             adapter = planFragmentAdapter
             currentItem = 0
-            addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
                 override fun onPageScrollStateChanged(p0: Int) {
                 }
 
@@ -44,6 +44,7 @@ class PlanFragment : BaseFragment() {
                 }
 
                 override fun onPageSelected(p0: Int) {
+                    ((childFragmentManager.fragments[viewPager.currentItem]) as PlanChildFragment).onReload()
                     ((childFragmentManager.fragments[viewPager.currentItem]) as PlanChildFragment).setOperateBtnByState(titleList[p0].state)
                 }
             })

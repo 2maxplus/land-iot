@@ -7,7 +7,7 @@ import android.location.LocationManager
 import android.os.Handler
 import android.os.Message
 import android.provider.Settings
-import android.support.v7.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import com.baidu.location.LocationClient
 import com.baidu.location.LocationClientOption
 import com.baidu.mapapi.map.*

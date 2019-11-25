@@ -1,16 +1,16 @@
 package com.hyf.iot.adapter.plan
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import com.hyf.iot.common.Constant.KEY_PARAM_STATE
 import com.hyf.iot.domain.plan.StateType
 import com.hyf.iot.ui.fragment.plan.PlanChildFragment
 
-class PlanFragmentAdapter(fm: FragmentManager, val titleList: ArrayList<StateType>) : FragmentPagerAdapter(fm) {
+class PlanFragmentAdapter(fm: androidx.fragment.app.FragmentManager, val titleList: ArrayList<StateType>) : androidx.fragment.app.FragmentPagerAdapter(fm) {
 
-    override fun getItem(position: Int): Fragment {
+    override fun getItem(position: Int): androidx.fragment.app.Fragment {
         val fragments = PlanChildFragment()
         val bundle = Bundle()
         bundle.putString(KEY_PARAM_STATE,titleList[position].state)

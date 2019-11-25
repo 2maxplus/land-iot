@@ -1,7 +1,7 @@
 package com.hyf.iot.utils.mapCeshi
 
 import android.graphics.Point
-import android.support.annotation.Size
+import androidx.annotation.Size
 
 import com.baidu.mapapi.map.MapView
 import com.baidu.mapapi.map.Polygon

@@ -1,16 +1,16 @@
 package com.hyf.iot.adapter
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
-import android.support.v4.app.FragmentTransaction
-import android.support.v4.view.PagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.fragment.app.FragmentTransaction
+import androidx.viewpager.widget.PagerAdapter
 
 import java.util.ArrayList
 
-internal class MyFragmentPagerAdapter(private val fm: FragmentManager, private var mFragments: ArrayList<Fragment>?) : FragmentStatePagerAdapter(fm) {
+internal class MyFragmentPagerAdapter(private val fm: androidx.fragment.app.FragmentManager, private var mFragments: ArrayList<androidx.fragment.app.Fragment>?) : androidx.fragment.app.FragmentStatePagerAdapter(fm) {
 
-    override fun getItem(position: Int): Fragment {
+    override fun getItem(position: Int): androidx.fragment.app.Fragment {
         return mFragments!![position]
     }
 
@@ -18,9 +18,9 @@ internal class MyFragmentPagerAdapter(private val fm: FragmentManager, private v
         return mFragments!!.size
     }
 
-    fun setFragments(fragments: ArrayList<Fragment>) {
+    fun setFragments(fragments: ArrayList<androidx.fragment.app.Fragment>) {
         if (this.mFragments != null) {
-            var ft: FragmentTransaction? = fm.beginTransaction()
+            var ft: androidx.fragment.app.FragmentTransaction? = fm.beginTransaction()
             for (f in this.mFragments!!) {
                 ft!!.remove(f)
             }
@@ -33,7 +33,7 @@ internal class MyFragmentPagerAdapter(private val fm: FragmentManager, private v
     }
 
     override fun getItemPosition(`object`: Any): Int {
-        return PagerAdapter.POSITION_NONE
+        return androidx.viewpager.widget.PagerAdapter.POSITION_NONE
     }
 
 }

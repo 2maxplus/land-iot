@@ -1,6 +1,6 @@
 package com.hyf.iot.widget.loadmore
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.RelativeLayout
 import com.hyf.iot.R
@@ -8,7 +8,7 @@ import com.hyf.iot.R
 /**
  *
  */
-class LoadMoreHolder(view: View, private val mAdapter: LoadMoreRecyclerAdapter<*>) : RecyclerView.ViewHolder(view) {
+class LoadMoreHolder(view: View, private val mAdapter: LoadMoreRecyclerAdapter<*>) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
 
     private var mCurType: LoadMoreType = LoadMoreType.LoadMore
     private var rl_more_loading: RelativeLayout? = null

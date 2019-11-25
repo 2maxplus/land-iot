@@ -1,7 +1,7 @@
 package com.hyf.iot.adapter.device
 
 import android.app.Activity
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +22,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class ValveListAdapter(context: Activity?, list: ArrayList<SensorValveInfo>) :
-        RecyclerView.Adapter<ValveListAdapter.ViewHolders>() {
+        androidx.recyclerview.widget.RecyclerView.Adapter<ValveListAdapter.ViewHolders>() {
     private var context: Activity? = null
     private var mData: ArrayList<SensorValveInfo>
     private lateinit var getCounts: GetCounts
@@ -166,7 +166,7 @@ class ValveListAdapter(context: Activity?, list: ArrayList<SensorValveInfo>) :
                         }, {})
     }
 
-    class ViewHolders(itemview: View?) : RecyclerView.ViewHolder(itemview!!) {
+    class ViewHolders(itemview: View?) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemview!!) {
         val tvValveName = itemview?.findViewById<TextView>(R.id.tv_valve_name)
         val switchState = itemview?.findViewById<Switch>(R.id.switch_state)
         val switchOn = itemview?.findViewById<Switch>(R.id.switch_on)

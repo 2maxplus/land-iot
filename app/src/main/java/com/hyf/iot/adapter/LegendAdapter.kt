@@ -1,7 +1,7 @@
 package com.hyf.iot.adapter
 
 import android.app.Activity
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +10,7 @@ import com.hyf.iot.R
 import com.hyf.iot.domain.LegendBean
 
 @Suppress("CAST_NEVER_SUCCEEDS")
-class LegendAdapter(context: Activity?, var list: MutableList<LegendBean>) : RecyclerView.Adapter<LegendAdapter.ViewHolders>() {
+class LegendAdapter(context: Activity?, var list: MutableList<LegendBean>) : androidx.recyclerview.widget.RecyclerView.Adapter<LegendAdapter.ViewHolders>() {
     private var context: Activity? = null
     private var layoutId: Int = R.layout.legend_layout
     private var mData: MutableList<LegendBean>
@@ -34,7 +34,7 @@ class LegendAdapter(context: Activity?, var list: MutableList<LegendBean>) : Rec
             ViewHolders(LayoutInflater.from(context).inflate(layoutId, parent, false))
 
 
-    class ViewHolders(itemview: View?) : RecyclerView.ViewHolder(itemview!!) {
+    class ViewHolders(itemview: View?) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemview!!) {
         val legendColor = itemview?.findViewById<View>(R.id.legend_color)
         val legendText = itemview?.findViewById<TextView>(R.id.legend_text)
     }

@@ -3,7 +3,7 @@ package com.hyf.iot.adapter.farm
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +22,7 @@ import com.hyf.iot.widget.findViewByIdEx
 /**
  *
  * */
-class FarmAdapter(context: Activity?, list: MutableList<Farm>) : RecyclerView.Adapter<FarmAdapter.ViewHolders>() {
+class FarmAdapter(context: Activity?, list: MutableList<Farm>) : androidx.recyclerview.widget.RecyclerView.Adapter<FarmAdapter.ViewHolders>() {
     private var context: Activity? = null
     var mData: MutableList<Farm>
     //这个是checkbox的Hashmap集合
@@ -75,7 +75,7 @@ class FarmAdapter(context: Activity?, list: MutableList<Farm>) : RecyclerView.Ad
             ViewHolders(LayoutInflater.from(context).inflate(R.layout.farm_item, parent, false))
 
 
-    class ViewHolders(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
+    class ViewHolders(itemView: View?) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView!!) {
         val checkbox by lazy { itemView?.findViewByIdEx<CheckBox>(R.id.checkbox) }
         val tvFarmName by lazy { itemView?.findViewByIdEx<TextView>(R.id.tv_farm_name) }
         val tvFarmAddress by lazy { itemView?.findViewByIdEx<TextView>(R.id.tv_farm_address) }

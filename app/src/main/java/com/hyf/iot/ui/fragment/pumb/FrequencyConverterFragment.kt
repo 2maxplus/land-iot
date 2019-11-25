@@ -5,8 +5,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewPager
+import androidx.core.content.ContextCompat
+import androidx.viewpager.widget.ViewPager
 import android.view.View
 import android.widget.LinearLayout
 import com.hyf.iot.R
@@ -103,7 +103,7 @@ class FrequencyConverterFragment : BaseMvpFragment<PumpItemContract.IPresenter>(
     }
 
     lateinit var receiveBroadCast: ReceiveBroadCast
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         receiveBroadCast = ReceiveBroadCast()
         val intentFilter = IntentFilter(INTENT_ACTION_REFRESH)

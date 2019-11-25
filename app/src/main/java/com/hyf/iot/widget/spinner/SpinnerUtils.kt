@@ -1,8 +1,8 @@
 package com.hyf.iot.widget.spinner
 
 import android.content.Context
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,8 +23,8 @@ class SpinnerUtils(private val mContext: Context, private val mTextView: TextVie
         popupWindow.setBackgroundDrawable(mContext.resources.getDrawable(R.drawable.shape_round_white))
         popupWindow.showAsDropDown(mTextView, 0, 15)
         popupWindow.setOnDismissListener(PopupDismissListener())
-        val recyclerView = view.findViewById<RecyclerView>(R.id.rv_choose_pop)
-        recyclerView.layoutManager = LinearLayoutManager(mContext)
+        val recyclerView = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.rv_choose_pop)
+        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(mContext)
         val adapter = SpinnerChooseAdapter(mContext, object : SpinnerChooseAdapter.MyItemClickListener {
             override fun onClick(view: View) {
                 popupWindow.dismiss()
@@ -33,7 +33,7 @@ class SpinnerUtils(private val mContext: Context, private val mTextView: TextVie
             }
         }, mData, selectPosition)
         recyclerView.adapter = adapter
-        recyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL))
+        recyclerView.addItemDecoration(RecycleViewDivider(mContext, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL))
         popupWindow.update()
         // 设置SelectPicPopupWindow弹出窗体动画效果
         popupWindow.animationStyle = R.style.popmenu_animation

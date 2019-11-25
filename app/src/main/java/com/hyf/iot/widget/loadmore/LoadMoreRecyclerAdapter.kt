@@ -1,7 +1,7 @@
 package com.hyf.iot.widget.loadmore
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +10,7 @@ import com.hyf.iot.R
 /**
  *
  */
-abstract class LoadMoreRecyclerAdapter<T>(val mContext: Context, var mData: MutableList<T>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class LoadMoreRecyclerAdapter<T>(val mContext: Context, var mData: MutableList<T>) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
 
     companion object {
         val PAGE_DATA_SIZE = 30
@@ -30,7 +30,7 @@ abstract class LoadMoreRecyclerAdapter<T>(val mContext: Context, var mData: Muta
 
     override fun getItemId(position: Int) = position.toLong()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
         if (viewType == TYPE_LOAD_MORE) {  //加载更多
             if (mLoadMoreHolder == null) {
                 val loadView = LayoutInflater.from(mContext).inflate(R.layout.layout_load_more, parent, false)
@@ -46,10 +46,10 @@ abstract class LoadMoreRecyclerAdapter<T>(val mContext: Context, var mData: Muta
         return getItemHolder(parent, viewType)
     }
 
-    abstract fun getItemHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder
+    abstract fun getItemHolder(parent: ViewGroup?, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder
 
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             TYPE_LOAD_MORE -> loadMore()
             TYPE_HEADER -> addHeader()
@@ -66,7 +66,7 @@ abstract class LoadMoreRecyclerAdapter<T>(val mContext: Context, var mData: Muta
         }
     }
 
-    abstract fun onBindData(holder: RecyclerView.ViewHolder, position: Int)
+    abstract fun onBindData(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int)
 
     override fun getItemCount(): Int = if (isShowLoadMore || mHeaderView != null) mData.size + 1 else mData.size  //
 
@@ -115,7 +115,7 @@ abstract class LoadMoreRecyclerAdapter<T>(val mContext: Context, var mData: Muta
         setLoadMoreStatus(LoadMoreHolder.LoadMoreType.NoMore)
     }
 
-    private fun getRealPosition(holder: RecyclerView.ViewHolder): Int {
+    private fun getRealPosition(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder): Int {
         val position = holder.layoutPosition
         return if (mHeaderView == null) position else position - 1
     }

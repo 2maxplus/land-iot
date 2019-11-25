@@ -1,14 +1,14 @@
 package com.hyf.iot.widget
 
 import android.content.Context
-import android.support.v4.view.ViewPager
+import androidx.viewpager.widget.ViewPager
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import kotlin.math.abs
 
 //com.hyf.iot.widget.CustomViewPager
-class CustomViewPager(ctx: Context, attrs: AttributeSet) : ViewPager(ctx, attrs) {
+class CustomViewPager(ctx: Context, attrs: AttributeSet) : androidx.viewpager.widget.ViewPager(ctx, attrs) {
 
     //    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
 ////        val `in` = super.onInterceptTouchEvent(ev)
@@ -37,7 +37,7 @@ class CustomViewPager(ctx: Context, attrs: AttributeSet) : ViewPager(ctx, attrs)
 
 
     override fun canScroll(v: View, checkV: Boolean, dx: Int, x: Int, y: Int): Boolean {
-        return if (v !== this && v is ViewPager) {
+        return if (v !== this && v is androidx.viewpager.widget.ViewPager) {
             true
         } else super.canScroll(v, checkV, dx, x, y)
     }

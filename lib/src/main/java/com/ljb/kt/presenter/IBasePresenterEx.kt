@@ -2,10 +2,10 @@ package com.ljb.kt.presenter
 
 import android.app.Activity
 import android.content.Context
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 
 fun IBasePresenter<*>.getContextEx(): Context = when {
     getMvpView() is Activity -> getMvpView() as Activity
-    getMvpView() is Fragment -> (getMvpView() as Fragment).activity!!
+    getMvpView() is androidx.fragment.app.Fragment -> (getMvpView() as androidx.fragment.app.Fragment).activity!!
     else -> throw IllegalStateException("the presenter not found context")
 }

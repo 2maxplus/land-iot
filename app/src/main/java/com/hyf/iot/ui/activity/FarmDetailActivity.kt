@@ -2,8 +2,8 @@ package com.hyf.iot.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
@@ -88,9 +88,9 @@ class FarmDetailActivity : BaseMvpActivity<FarmDetailContract.IPresenter>(), Far
 //        val header = LayoutInflater.from(this).inflate(R.layout.layout_common_title, null)
         //            mMassifAdapter.setHeaderView(header)
         recycler_view.apply {
-            layoutManager = LinearLayoutManager(this@FarmDetailActivity, LinearLayout.VERTICAL, false)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@FarmDetailActivity, LinearLayout.VERTICAL, false)
 //            addItemDecoration(ItemDecoration(2))
-            addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL))
+            addItemDecoration(RecycleViewDivider(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL))
             mMassifAdapter.isShowLoadMore(false)
 
             adapter = mMassifAdapter
@@ -131,7 +131,7 @@ class FarmDetailActivity : BaseMvpActivity<FarmDetailContract.IPresenter>(), Far
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == FragmentActivity.RESULT_OK) {
+        if (resultCode == androidx.fragment.app.FragmentActivity.RESULT_OK) {
             if (requestCode == ON_SUCCESS) {
                 initData()
             }

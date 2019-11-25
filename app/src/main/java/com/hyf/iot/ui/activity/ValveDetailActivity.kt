@@ -2,8 +2,8 @@ package com.hyf.iot.ui.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
@@ -80,7 +80,7 @@ class ValveDetailActivity : BaseMvpActivity<DeviceDetailContract.IPresenter>(), 
         if (!deviceItem.sensor_OtherInfos.isNullOrEmpty()) {
             val sAdapter = DeviceSensorAdapter(this, deviceItem.sensor_OtherInfos)
             recycler_view_sensor.apply {
-                this!!.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
+                this!!.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, LinearLayout.VERTICAL, false)
                 adapter = sAdapter
             }
         }
@@ -116,7 +116,7 @@ class ValveDetailActivity : BaseMvpActivity<DeviceDetailContract.IPresenter>(), 
                 }
             })
             recycler_view.apply {
-                layoutManager = GridLayoutManager(this@ValveDetailActivity, 2)
+                layoutManager = androidx.recyclerview.widget.GridLayoutManager(this@ValveDetailActivity, 2)
                 adapter = mAdapter
             }
 
@@ -125,7 +125,7 @@ class ValveDetailActivity : BaseMvpActivity<DeviceDetailContract.IPresenter>(), 
                 legendList.add(LegendBean(arrColor[i], deviceItem.sensor_ValveInfos[i].name))
             }
             legend_recycler_view.apply {
-                layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
+                layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
                 adapter = LegendAdapter(this@ValveDetailActivity, legendList)
             }
         }

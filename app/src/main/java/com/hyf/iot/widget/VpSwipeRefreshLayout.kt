@@ -1,12 +1,12 @@
 package com.hyf.iot.widget
 
 import android.content.Context
-import android.support.v4.widget.SwipeRefreshLayout
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.ViewConfiguration
 import android.widget.AbsListView
-import android.support.v4.view.ViewCompat
+import androidx.core.view.ViewCompat
 
 
 /***
@@ -14,7 +14,7 @@ import android.support.v4.view.ViewCompat
  * 解决SwipeRefreshLayout和ViewPager滑动冲突
  */
 @Suppress("DEPRECATION")
-class VpSwipeRefreshLayout(context: Context, attrs: AttributeSet) : SwipeRefreshLayout(context, attrs) {
+class VpSwipeRefreshLayout(context: Context, attrs: AttributeSet) : androidx.swiperefreshlayout.widget.SwipeRefreshLayout(context, attrs) {
 
     private var startY: Float = 0.toFloat()
     private var startX: Float = 0.toFloat()

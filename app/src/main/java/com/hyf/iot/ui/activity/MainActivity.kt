@@ -2,7 +2,7 @@ package com.hyf.iot.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.FragmentActivity
 import android.widget.Toast
 import com.hyf.iot.App
 import com.hyf.iot.R
@@ -19,7 +19,7 @@ import com.hyf.iot.ui.fragment.pumb.PumpRoomFragment
 import com.xuexiang.xupdate.XUpdate
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : FragmentActivity() {
+class MainActivity : androidx.fragment.app.FragmentActivity() {
 
     private var mFirstDownBack: Long = 0L
     private var mCurIndex: Int = 0

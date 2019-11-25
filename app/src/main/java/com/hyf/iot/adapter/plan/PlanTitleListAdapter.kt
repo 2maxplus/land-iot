@@ -1,7 +1,7 @@
 package com.hyf.iot.adapter.plan
 
 import android.app.Activity
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +9,7 @@ import android.widget.CheckBox
 import com.hyf.iot.R
 import java.util.*
 
-class PlanTitleListAdapter(context: Activity?, id:Int, list : ArrayList<String>) : RecyclerView.Adapter<PlanTitleListAdapter.ViewHolders>() {
+class PlanTitleListAdapter(context: Activity?, id:Int, list : ArrayList<String>) : androidx.recyclerview.widget.RecyclerView.Adapter<PlanTitleListAdapter.ViewHolders>() {
     private var context: Activity? = null
     private var layoutId:Int
     private var mData: ArrayList<String>
@@ -36,7 +36,7 @@ class PlanTitleListAdapter(context: Activity?, id:Int, list : ArrayList<String>)
             ViewHolders(LayoutInflater.from(context).inflate(layoutId, parent, false))
 
 
-    class ViewHolders(itemview: View?) : RecyclerView.ViewHolder(itemview!!) {
+    class ViewHolders(itemview: View?) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemview!!) {
         val title = itemview?.findViewById<CheckBox>(R.id.title)
     }
 

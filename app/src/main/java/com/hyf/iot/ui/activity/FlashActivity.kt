@@ -4,7 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
+import androidx.core.app.ActivityCompat
 import com.hyf.iot.R
 import com.hyf.iot.common.activity.BaseActivity
 import com.hyf.iot.utils.newIntent

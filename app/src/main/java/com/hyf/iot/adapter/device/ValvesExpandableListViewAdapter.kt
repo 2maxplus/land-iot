@@ -3,9 +3,9 @@ package com.hyf.iot.adapter.device
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -95,15 +95,15 @@ class ValvesExpandableListViewAdapter(context: Activity?, var list: MutableList<
         val battery = convertView.findViewById<BatteryView>(R.id.battery)
         val deviceName = convertView.findViewById<TextView>(R.id.tv_device_name)
         val deviceNo = convertView.findViewById<TextView>(R.id.tv_device_no)
-        val recyclerView = convertView.findViewById<RecyclerView>(R.id.recycler_view)
-        val recyclerViewSoil = convertView.findViewById<RecyclerView>(R.id.recycler_view_sensor)
+        val recyclerView = convertView.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recycler_view)
+        val recyclerViewSoil = convertView.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recycler_view_sensor)
 
         val item = getChild(groupPosition, childPosition)
 
         if (!item.sensor_OtherInfos.isNullOrEmpty()) {
             val sAdapter = DeviceSensorAdapter(context, item.sensor_OtherInfos)
             recyclerViewSoil.apply {
-                this!!.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
+                this!!.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, LinearLayout.VERTICAL, false)
                 adapter = sAdapter
             }
         }
@@ -147,7 +147,7 @@ class ValvesExpandableListViewAdapter(context: Activity?, var list: MutableList<
                 }
             })
             recyclerView.apply {
-                this!!.layoutManager = GridLayoutManager(context, 2)
+                this!!.layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 2)
                 adapter = mAdapter
             }
         }
