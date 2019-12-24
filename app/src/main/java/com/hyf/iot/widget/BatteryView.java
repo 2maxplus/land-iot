@@ -1,5 +1,6 @@
 package com.hyf.iot.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -21,7 +22,7 @@ import com.hyf.iot.R;
 public class BatteryView extends View {
 	public static final int BATTERY_OUTLINES_PAINT_WIDTH = 3;
 	private Context mContext;
-	private float mPower = 1;
+	private float mPower = 0;
  
 	private Paint batteryOutlinesPaint; // 电池外框的画笔
 	private Paint batteryPaint; // 电池内部画笔
@@ -33,7 +34,7 @@ public class BatteryView extends View {
  
 	private int battery_head_width = 5;// 电池头外面扭的宽
 	private int battery_head_height = 8;// 电池头外面扭的高
- 
+
 	public BatteryView(Context context) {
 		this(context, null);
 	}
@@ -71,7 +72,8 @@ public class BatteryView extends View {
 		batteryPaint.setAntiAlias(true);
 		batteryHearPaint.setStyle(Paint.Style.FILL);
 	}
- 
+
+	@SuppressLint("DrawAllocation")
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
@@ -83,7 +85,7 @@ public class BatteryView extends View {
 		int outlinesTop = (rootHeight - battery_height) / 2;
 		int outlinesRight = outlinesLeft + battery_width;
 		int outlinesBottom = outlinesTop + battery_height;
- 
+
 		RectF outlinesRect = new RectF(outlinesLeft, outlinesTop, outlinesRight, outlinesBottom);
 		canvas.drawRoundRect(outlinesRect, 6, 6, batteryOutlinesPaint);//第二个参数是x半径，第三个参数是y半径 画出的外框有圆角
 		float power_percent = mPower ;

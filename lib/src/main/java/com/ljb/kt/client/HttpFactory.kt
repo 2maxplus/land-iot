@@ -6,7 +6,6 @@ import java.util.*
  * WBHttpClient
  * 1、可使用 OkHttp
  * 2、也可使用 Retrofit
- * Created by L on 2017/6/8.
  */
 object HttpFactory {
 

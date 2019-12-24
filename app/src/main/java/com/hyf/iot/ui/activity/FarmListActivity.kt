@@ -95,7 +95,7 @@ class FarmListActivity : BaseMvpActivity<FarmListContract.IPresenter>(), FarmLis
 
     override fun onError(errorMsg: String?) {
         mLoadingDialog.dismiss()
-        page_layout.setPage(PageStateLayout.PageState.STATE_ERROR)
+        page_layout.setPage(PageStateLayout.PageState.STATE_EMPTY)
         if (errorMsg.isNullOrEmpty()) {
             showToast(R.string.net_error)
         } else {

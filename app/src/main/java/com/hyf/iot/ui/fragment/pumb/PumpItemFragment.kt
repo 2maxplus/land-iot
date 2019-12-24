@@ -66,15 +66,15 @@ class PumpItemFragment : BaseFragment() {
             layoutManager = linearLayoutManager
             adapter = mAdapter
             //监听RecyclerView滚动状态
-            addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
-                override fun onScrollStateChanged(recyclerView: androidx.recyclerview.widget.RecyclerView, newState: Int) {
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
                     if (recyclerView.layoutManager != null) {
                         getPositionAndOffset()
                     }
                 }
 
-                override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 //                    super.onScrolled(recyclerView, dx, dy)
                     val topRowVerticalPosition = if (recyclerView == null || recyclerView.childCount === 0) 0 else recyclerView.getChildAt(0).top
                     (parentFragment!!.parentFragment as PumpRoomFragment).getonScroll(topRowVerticalPosition >= 0)
@@ -227,7 +227,7 @@ class PumpItemFragment : BaseFragment() {
      * 记录RecyclerView当前位置
      */
     private fun getPositionAndOffset() {
-        val layoutManager = recycler_view.layoutManager as androidx.recyclerview.widget.LinearLayoutManager
+        val layoutManager = recycler_view.layoutManager as LinearLayoutManager
         //获取可视的第一个view
         val topView = layoutManager.getChildAt(0)
         if (topView != null) {
@@ -243,7 +243,7 @@ class PumpItemFragment : BaseFragment() {
      */
     private fun scrollToPosition() {
         if (recycler_view.layoutManager != null && CP.lastPosition >= 0) {
-            (recycler_view.layoutManager as androidx.recyclerview.widget.LinearLayoutManager).scrollToPositionWithOffset(CP.lastPosition, CP.lastOffset)
+            (recycler_view.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(CP.lastPosition, CP.lastOffset)
 //            (recycler_view.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(2, -129)
         }
     }

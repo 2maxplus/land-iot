@@ -5,9 +5,6 @@ import androidx.fragment.app.FragmentActivity
 import com.ljb.kt.contract.IPresenterContract
 import com.ljb.kt.contract.IViewContract
 
-/**
- * Created by L on 2017/7/10.
- */
 abstract class MvpFragmentActivity<out P : IPresenterContract> : FragmentActivity(), IBaseView<P>, IViewContract {
 
 

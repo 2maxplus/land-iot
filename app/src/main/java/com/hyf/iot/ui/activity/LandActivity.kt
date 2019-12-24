@@ -74,7 +74,7 @@ class LandActivity : BaseActivity() {
                 .newLatLng(bounds.center)
         mBaiduMap!!.setMapStatus(u)
 
-        mBaiduMap!!.setOnMapTouchListener { motionEvent ->
+//        mBaiduMap!!.setOnMapTouchListener { motionEvent ->
 //            when(motionEvent.action){
 //                MotionEvent.ACTION_DOWN -> {
 //
@@ -121,7 +121,7 @@ class LandActivity : BaseActivity() {
 //                    mBaiduMap!!.uiSettings.isScrollGesturesEnabled = true
 //                }
 //            }
-        }
+//        }
 
         mBaiduMap!!.setOnMapClickListener(object : BaiduMap.OnMapClickListener {
             override fun onMapClick(latLng: LatLng) {

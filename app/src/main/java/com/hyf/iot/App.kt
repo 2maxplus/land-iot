@@ -12,7 +12,6 @@ import com.hyf.iot.common.HttpDomain.HTTP_API_DOMAIN
 import com.hyf.iot.common.LoginUser
 import com.hyf.iot.protocol.http.OKHttpUpdateHttpService
 import com.hyf.iot.utils.SPUtils
-import com.hyf.iot.utils.showToast
 import com.squareup.leakcanary.LeakCanary
 import com.ljb.kt.HttpConfig
 import com.xuexiang.xupdate.XUpdate
@@ -44,6 +43,7 @@ class App : Application() {
         initNet()
         initXUpdate()
         registerActivity()
+
     }
 
     private fun initNet() {

@@ -111,6 +111,12 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
 
     override fun initData() {
         if (LoginUser.token.isBlank()) {
+            XUpdate.newBuild(this)
+                    .topResId(R.drawable.xupdate_bg_app_top)
+                    .themeColor(resources.getColor(R.color.colorPrimary))
+                    .updateUrl(HTTP_API_DOWNLOAD_RELEASE)
+                    .updateParser(CustomUpdateParser(false)) //设置自定义的版本更新解析器
+                    .update()
             showLogin()
         } else {
             mLoadingDialog.show()

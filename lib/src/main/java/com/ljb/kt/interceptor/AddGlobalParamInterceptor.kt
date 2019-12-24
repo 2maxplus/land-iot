@@ -5,8 +5,6 @@ import okhttp3.Interceptor
 import okhttp3.Response
 
 /**
- * Author:Ljb
- * Time:2018/8/9
  * There is a lot of misery in life
  **/
 class AddGlobalParamInterceptor : Interceptor {

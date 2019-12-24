@@ -1,5 +1,6 @@
 package com.hyf.iot.ui.fragment.pumb
 
+import android.util.Log
 import android.view.View
 import com.hyf.iot.R
 import com.hyf.iot.adapter.home.PumpRoomFragmentAdapter
@@ -55,6 +56,7 @@ class PumpRoomFragment : BaseMvpFragment<PumpRoomContract.IPresenter>(), PumpRoo
         }
     }
 
+
     override fun initData() {
         getPresenter().getPumpInfo(LoginUser.farmId)
     }
@@ -87,7 +89,7 @@ class PumpRoomFragment : BaseMvpFragment<PumpRoomContract.IPresenter>(), PumpRoo
 
     override fun errorPage(msg: String?) {
         activity?.showToast(msg!!)
-        page_layout.setPage(PageStateLayout.PageState.STATE_ERROR)
+        page_layout.setPage(PageStateLayout.PageState.STATE_EMPTY)
     }
 
     fun getonScroll(enable: Boolean) {

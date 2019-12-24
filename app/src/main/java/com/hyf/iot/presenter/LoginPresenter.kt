@@ -66,11 +66,15 @@ class LoginPresenter : BaseRxLifePresenter<LoginContract.IView>(), LoginContract
     private fun handlerUser(result: GenResult<LoginInfo>){
         when(result.code){
             RESULT_SUCCESS -> {
-                LoginUser.token = result.data.accountToken.token
-                val headerMap = HttpConfig.getHeader() as MutableMap<String, String>
-                headerMap["token"] = LoginUser.token
-                HttpConfig.setHeader(headerMap)
-                getMvpView().loginSuccess()
+                if(result.data.tokenInfo != null) {
+                    LoginUser.token = result.data.tokenInfo.token
+                    val headerMap = HttpConfig.getHeader() as MutableMap<String, String>
+                    headerMap["token"] = LoginUser.token
+                    HttpConfig.setHeader(headerMap)
+                    getMvpView().loginSuccess()
+                }else{
+                    getMvpView().loginError("登录失败")
+                }
             }
             else -> getMvpView().loginError(result.msg)
         }

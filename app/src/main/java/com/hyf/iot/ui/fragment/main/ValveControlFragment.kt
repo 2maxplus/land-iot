@@ -169,7 +169,7 @@ class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(
 
     override fun errorPage(msg: String?) {
         activity?.showToast(msg!!)
-        page_layout.setPage(PageStateLayout.PageState.STATE_ERROR)
+        page_layout.setPage(PageStateLayout.PageState.STATE_EMPTY)
     }
 
     override fun updatePinnedHeader(headerView: View, firstVisibleGroupPos: Int) {
