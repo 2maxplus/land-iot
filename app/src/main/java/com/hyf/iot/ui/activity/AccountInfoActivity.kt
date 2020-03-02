@@ -23,6 +23,7 @@ import com.hyf.iot.presenter.UserPresenter
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
 import com.hyf.iot.widget.dialog.MyDialog
+import com.ljb.kt.HttpConfig
 import com.luck.picture.lib.tools.PictureFileUtils
 
 //
@@ -95,6 +96,8 @@ class AccountInfoActivity : BaseMvpActivity<UserContract.IPresenter>(), UserCont
 
     override fun logoutSuccess() {
         LoginUser.token = ""
+        val headerMap = HashMap<String, String>()
+        HttpConfig.setHeader(headerMap)
         goLogin()
     }
 

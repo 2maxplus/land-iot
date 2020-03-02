@@ -13,6 +13,6 @@ data class SensorOtherInfo(
     val sensorTypeId: String,
     val serialNumber: Int,
     val state: Int,
-    val value: Int,
+    val value: Float,
     val unit: String
 ): Parcelable

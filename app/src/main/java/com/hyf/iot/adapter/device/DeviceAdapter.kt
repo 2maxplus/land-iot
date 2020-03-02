@@ -16,11 +16,10 @@ import com.hyf.iot.domain.device.DeviceInfo
 import com.hyf.iot.domain.farm.Massif
 import com.hyf.iot.ui.activity.ValveDetailActivity
 import com.hyf.iot.utils.newIntent
-import com.hyf.iot.widget.BatteryView
-import com.hyf.iot.widget.MyLinearLayoutManager
-import com.hyf.iot.widget.SignalView
-import com.hyf.iot.widget.findViewByIdEx
+import com.hyf.iot.widget.*
+import com.hyf.iot.widget.dialog.CountDownDialog
 import com.hyf.iot.widget.loadmore.LoadMoreRecyclerAdapter
+import kotlinx.android.synthetic.main.layout_recycler_view.*
 
 
 class DeviceAdapter(context: Activity, mData: MutableList<DeviceInfo>) : LoadMoreRecyclerAdapter<DeviceInfo>(context, mData) {
@@ -28,6 +27,11 @@ class DeviceAdapter(context: Activity, mData: MutableList<DeviceInfo>) : LoadMor
     private var context: Activity? = null
     private lateinit var getCounts: ValveListAdapter.GetCounts
     private var mAdapter: ValveListAdapter? = null
+
+    private var mDialog: CountDownDialog? = null
+    fun setCountDownDialog(dialog: CountDownDialog){
+        this.mDialog = dialog
+    }
 
     init {
         this.context = context
@@ -68,7 +72,7 @@ class DeviceAdapter(context: Activity, mData: MutableList<DeviceInfo>) : LoadMor
                     holder.deviceState?.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.green_oval, 0, 0, 0)
                 }
                 3 -> {
-                    holder.deviceState?.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.red_oval, 0, 0, 0)
+                    holder.deviceState.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.red_oval, 0, 0, 0)
                 }
             }
             if (item.sensor_VoltageInfo != null) {
@@ -84,6 +88,7 @@ class DeviceAdapter(context: Activity, mData: MutableList<DeviceInfo>) : LoadMor
 
             if (item.sensor_ValveInfos != null) {
                 mAdapter = ValveListAdapter(this@DeviceAdapter.context, item.sensor_ValveInfos)
+                mAdapter!!.setCountDownDialog(mDialog!!)
                 mAdapter!!.setGetOunts(getCounts)
                 holder.recyclerView.apply {
                     this!!.layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 2)

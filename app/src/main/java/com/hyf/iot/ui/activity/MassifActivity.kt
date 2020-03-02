@@ -185,6 +185,7 @@ class MassifActivity : BaseMvpActivity<MassifContract.IPresenter>(), MassifContr
 
         mBaiduMap!!.setOnMarkerClickListener { marker ->
             mMarkerList = combinationOverlay!!.getLatLngMarkerList()!!
+            mList = combinationOverlay!!.getLatLngList() as ArrayList<LatLng>
             if (mMarkerList[0].marker == marker && !isArea && mMarkerList.size > 2) {
                 isArea = true
                 pLine?.remove()

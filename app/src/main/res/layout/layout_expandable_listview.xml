@@ -8,13 +8,12 @@
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <com.hyf.iot.widget.PinnedHeaderExpandableListView
-            android:id="@+id/expandableListView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:childDivider="@color/little_gray"
-            android:divider="@color/little_gray"
-            android:dividerHeight="0.5dp" />
+            <com.hyf.iot.widget.PinnedHeaderExpandableListView
+                android:id="@+id/expandableListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:childDivider="@color/little_gray"
+                android:divider="@color/little_gray"
+                android:dividerHeight="0.5dp" />
     </com.hyf.iot.widget.VpSwipeRefreshLayout>
 </RelativeLayout>

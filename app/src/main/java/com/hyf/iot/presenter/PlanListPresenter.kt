@@ -9,6 +9,9 @@ import com.hyf.iot.protocol.http.IReposHttpProtocol
 import com.ljb.kt.client.HttpFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import okhttp3.MediaType
+import okhttp3.RequestBody
+import org.json.JSONObject
 
 /**
  * 计划列表
@@ -17,8 +20,14 @@ class PlanListPresenter : BaseRxLifePresenter<PlanListContract.IView>(),
         PlanListContract.IPresenter {
 
     override fun getPlanList(farmId: String, state: String) {
+        val jsonObject = JSONObject()
+        jsonObject.put("farmId",farmId)
+        jsonObject.put("state",state)
+        val requestBody = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString())
+
         HttpFactory.getProtocol(IReposHttpProtocol::class.java)
-                .getIrrigatePlanList(farmId, state)
+                .getIrrigatePlanList(requestBody)
+//                .getIrrigatePlanList(farmId, state)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx(

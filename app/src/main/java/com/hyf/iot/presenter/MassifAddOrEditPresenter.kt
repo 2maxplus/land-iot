@@ -10,6 +10,10 @@ import com.hyf.iot.protocol.http.IReposHttpProtocol
 import com.ljb.kt.client.HttpFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import okhttp3.MediaType
+import okhttp3.RequestBody
+import org.json.JSONArray
+import org.json.JSONObject
 
 /**
  * 农场新建与更新
@@ -18,8 +22,25 @@ class MassifAddOrEditPresenter : BaseRxLifePresenter<MassifContract.IView>(),
         MassifContract.IPresenter {
 
     override fun massifAdd(farmId: String, name: String, size: Float, massifCoordinates: ArrayList<LatLng>) {
+        val jsonObject = JSONObject()
+        val jsonObj = JSONObject()
+        jsonObj.put("farmId",farmId)
+        jsonObj.put("name",name)
+        jsonObj.put("size",size)
+        val jsonArray = JSONArray()
+        for(item in massifCoordinates){
+            val json = JSONObject()
+            json.put("latitude",item.latitude)
+            json.put("longitude",item.longitude)
+            jsonArray.put(json)
+        }
+        jsonObject.put("info",jsonObj)
+        jsonObject.put("massifCoordinates",jsonArray)
+        val requestBody = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString())
+
         HttpFactory.getProtocol(IReposHttpProtocol::class.java)
-                .massifAdd(farmId,name,size,massifCoordinates)
+                .massifAdd(requestBody)
+//                .massifAdd(farmId,name,size,massifCoordinates)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx(

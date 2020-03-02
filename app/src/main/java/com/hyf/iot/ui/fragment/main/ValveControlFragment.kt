@@ -2,8 +2,6 @@ package com.hyf.iot.ui.fragment.main
 
 import android.app.Activity
 import android.content.Intent
-import androidx.recyclerview.widget.RecyclerView
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
@@ -22,6 +20,8 @@ import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
 import com.hyf.iot.widget.PageStateLayout
 import com.hyf.iot.widget.PinnedHeaderExpandableListView
+import com.hyf.iot.widget.dialog.CountDownDialog
+import com.hyf.iot.widget.dialog.CountDownDialog.CountDownFinishListener
 import kotlinx.android.synthetic.main.fragment_valve_control.*
 import kotlinx.android.synthetic.main.layout_common_page_state.*
 import kotlinx.android.synthetic.main.layout_expandable_listview.*
@@ -30,9 +30,14 @@ import kotlinx.android.synthetic.main.layout_expandable_listview.*
 class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(), MoitureStationContract.IView,PinnedHeaderExpandableListView.OnHeaderUpdateListener {
 
     private val REQUEST_SCAN_SUCCESS = 110
-
     private var datas: ArrayList<MoistureStationMassif> = arrayListOf()
     private val mAdapter by lazy { ValvesExpandableListViewAdapter(activity, mutableListOf()) }
+    private val mLoadingDialog by lazy {
+        CountDownDialog(context!!, object : CountDownFinishListener {
+            override fun onFinish() {
+                onReload()
+            }
+        }) }
 
     override fun getLayoutId(): Int = R.layout.fragment_valve_control
 
@@ -50,12 +55,16 @@ class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(
 
         ivRefresh.setOnClickListener { onReload() }
 
+
+        mAdapter.setCountDownDialog(mLoadingDialog)
+
         expandableListView.apply {
             setAdapter(mAdapter)
             setGroupIndicator(null)
             //只展开一个组
             setOnGroupExpandListener {
                 val count = mAdapter.groupCount
+                index = it
                 for (i in 0 until count) {
                     if (i != it) {
                         collapseGroup(i)
@@ -98,13 +107,14 @@ class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(
 
     private var lastOffset = 0
     private var lastPosition = 0
+    private var index = 0
 
     /**
      * 记录View当前位置
      */
     private fun getPositionAndOffset() {
         //获取可视的第一个view
-        val topView = expandableListView.getChildAt(0)
+        val topView = expandableListView.getChildAt(index)
         if (topView != null) {
             //获取与该view的顶部的偏移量
             lastOffset = topView.top  // this.lastOffset = topView.top
@@ -162,7 +172,7 @@ class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(
             mAdapter.list.clear()
             mAdapter.list.addAll(data)
             mAdapter.notifyDataSetChanged()
-            expandableListView.expandGroup(0)
+            expandableListView.expandGroup(index)
         }
         scrollToPosition()
     }

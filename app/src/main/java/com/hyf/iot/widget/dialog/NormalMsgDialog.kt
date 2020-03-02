@@ -12,9 +12,7 @@ import android.widget.Button
 import android.widget.TextView
 import com.hyf.iot.R
 
-/**
- * Created by L on 2017/12/29.
- */
+
 class NormalMsgDialog(private val mActivity: Activity) : View.OnClickListener {
 
     private val mDialog: Dialog = Dialog(mActivity, R.style.mask_dialog)

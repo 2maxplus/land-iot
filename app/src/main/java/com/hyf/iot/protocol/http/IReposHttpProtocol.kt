@@ -7,6 +7,8 @@ import com.hyf.iot.domain.farm.Massif
 import com.hyf.iot.domain.plan.Plan
 import com.hyf.iot.domain.plan.PlanDetail
 import io.reactivex.Observable
+import okhttp3.RequestBody
+import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Query
 
@@ -26,6 +28,16 @@ interface IReposHttpProtocol {
                 @Query("LinkMan")LinkMan: String,@Query("LinkPhone") LinkPhone: String,
                  @Query("Latitude") Latitude: Double,@Query("Longitude") Longitude: Double,
                 @Query("Province")Province: String,@Query("City")City: String,@Query("District")District: String): Observable<GenResult<Farm>>
+
+
+    /**
+     * 农场新建
+     * @param info 农场信息
+     *
+     * */
+    @POST("/api/Farm/Add")
+    fun farmAdd(@Body info: RequestBody): Observable<GenResult<Farm>>
+
     /**
      * 农场更新
      *
@@ -38,6 +50,9 @@ interface IReposHttpProtocol {
                   @Query("Latitude") Latitude: Double,@Query("Longitude") Longitude: Double,
                  @Query("Province")Province: String,@Query("City")City: String,@Query("District")District: String,
                  @Query("Id")Id: String): Observable<GenResult<String>>
+
+    @POST("/api/Farm/Edit")
+    fun farmEdit(@Body info: RequestBody): Observable<GenResult<String>>
 
     /**
      * 农场列表
@@ -62,6 +77,11 @@ interface IReposHttpProtocol {
     @POST("/api/Massif/List")
     fun getMassifList(@Query("farmId") farmId: String,@Query("name")name: String): Observable<GenResult<MutableList<Massif>>>
 
+
+    @POST("/api/Massif/List")
+    fun getMassifList(@Body info: RequestBody): Observable<GenResult<MutableList<Massif>>>
+
+
     /**
      * 地块新建
      *
@@ -69,6 +89,9 @@ interface IReposHttpProtocol {
     @POST("/api/Massif/Add")
     fun massifAdd(@Query("farmId") farmId: String,@Query("name")name: String,@Query("Size")Size: Float,
                   @Query("massifCoordinates")massifCoordinates: ArrayList<LatLng>): Observable<GenResult<String>>
+
+    @POST("/api/Massif/Add")
+    fun massifAdd(@Body data: RequestBody): Observable<GenResult<String>>
 
     /**
      * 地块详情
@@ -102,6 +125,10 @@ interface IReposHttpProtocol {
      * */
     @POST("/api/IrrigatePlan/List")
     fun getIrrigatePlanList(@Query("farmId") farmId: String,@Query("state") state: String): Observable<GenResult<MutableList<Plan>>>
+
+    @POST("/api/IrrigatePlan/List")
+    fun getIrrigatePlanList(@Body info: RequestBody): Observable<GenResult<MutableList<Plan>>>
+
     /**
      * 计划zu列表
      * @param id  plan id

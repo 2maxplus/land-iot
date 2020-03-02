@@ -4,11 +4,10 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.viewpager.widget.PagerAdapter
 import com.hyf.iot.domain.pumb.FrequencyConverterCabinetInfo
 import com.hyf.iot.ui.fragment.pumb.FrequencyConverterFragment
 
-class PumpRoomFragmentAdapter(fm: androidx.fragment.app.FragmentManager, var fragmenList: MutableList<FrequencyConverterCabinetInfo>) : androidx.fragment.app.FragmentPagerAdapter(fm) {
+class PumpRoomFragmentAdapter(fm: FragmentManager, var fragmenList: MutableList<FrequencyConverterCabinetInfo>) : FragmentPagerAdapter(fm) {
 
     private var isRefresh: Boolean = false
 
@@ -16,7 +15,7 @@ class PumpRoomFragmentAdapter(fm: androidx.fragment.app.FragmentManager, var fra
         this.isRefresh = isRefresh
     }
 
-    override fun getItem(position: Int): androidx.fragment.app.Fragment {
+    override fun getItem(position: Int): Fragment {
         val fragments = FrequencyConverterFragment()
         val bundle = Bundle()
         bundle.putParcelable("data",fragmenList[position])

@@ -23,9 +23,11 @@ import com.hyf.iot.protocol.http.IUserHttpProtocol
 import com.hyf.iot.ui.activity.LoginActivity
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
+import com.hyf.iot.widget.CircleCountDownView
 import com.hyf.iot.widget.MyLinearLayoutManager
 import com.hyf.iot.widget.RecycleViewDivider
 import com.hyf.iot.widget.chart.HorizontalChartViewFlow
+import com.hyf.iot.widget.dialog.CountDownDialog
 import com.hyf.iot.widget.dialog.EditDialog
 import com.hyf.iot.widget.dialog.MyDialog
 import com.hyf.iot.widget.findViewByIdEx
@@ -45,6 +47,13 @@ class PumpItemFragment : BaseFragment() {
     private var bengOpenCount = 0  // 阀门已经打开数量
     private var waterPump : WaterPump? = null
 
+    private val mLoadingDialog by lazy {
+        CountDownDialog(context!!, object : CountDownDialog.CountDownFinishListener {
+            override fun onFinish() {
+
+            }
+        }) }
+
     override fun getLayoutId(): Int = R.layout.layout_recycler_view
 
     override fun initView() {
@@ -52,6 +61,7 @@ class PumpItemFragment : BaseFragment() {
 //        linearLayoutManager.setScrollEnabled(false)
         linearLayoutManager.isSmoothScrollbarEnabled = true
 
+        mAdapter.setCountDownDialog(mLoadingDialog)
         mAdapter.setGetOunts(object : ValveListAdapter.GetCounts {
             override fun adds() {
                 bengOpenCount++

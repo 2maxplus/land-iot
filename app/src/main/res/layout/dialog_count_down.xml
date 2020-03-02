@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.hyf.iot.widget.CircleCountDownView
+        android:id="@+id/countDownView"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_gravity="center"
+        app:circleBorderColor="@color/color_light_grey"
+        app:circleBorderWidth="3dp"
+        app:circleImgSrc="@drawable/ic_radar"
+        app:padding="5dp"
+        app:processBlurMaskRadius="3dp"
+        app:processColorEnd="#35adc6"
+        app:processColorStart="#00ffff"
+        app:showProgress="true"
+        app:valueTextColor="@color/white"
+        app:valueTextSize="16sp" />
+
+
+</FrameLayout>

@@ -1,15 +1,14 @@
 package com.hyf.iot.adapter.device
 
 import android.app.Activity
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Switch
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.hyf.iot.App
 import com.hyf.iot.R
-import com.hyf.iot.common.LoginUser
 import com.hyf.iot.common.RESULT_SUCCESS
 import com.hyf.iot.common.ex.subscribeEx
 import com.hyf.iot.domain.device.SensorValveInfo
@@ -17,22 +16,31 @@ import com.hyf.iot.protocol.http.IUserHttpProtocol
 import com.hyf.iot.ui.activity.LoginActivity
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
+import com.hyf.iot.widget.CircleCountDownView
+import com.hyf.iot.widget.CircleCountDownView.CountDownListener
+import com.hyf.iot.widget.dialog.CountDownDialog
 import com.ljb.kt.client.HttpFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class ValveListAdapter(context: Activity?, list: ArrayList<SensorValveInfo>) :
-        androidx.recyclerview.widget.RecyclerView.Adapter<ValveListAdapter.ViewHolders>() {
+       RecyclerView.Adapter<ValveListAdapter.ViewHolders>() {
     private var context: Activity? = null
     private var mData: ArrayList<SensorValveInfo>
     private lateinit var getCounts: GetCounts
     private var valvesCount: Int = 0
     private lateinit var holder: ViewHolders
 
+    private var mDialog: CountDownDialog? = null
+    fun setCountDownDialog(dialog: CountDownDialog){
+        this.mDialog = dialog
+    }
+
     init {
         this.context = context
         this.mData = list
     }
+
 
     fun setGetOunts(getCounts: GetCounts) {
         this.getCounts = getCounts
@@ -134,6 +142,9 @@ class ValveListAdapter(context: Activity?, list: ArrayList<SensorValveInfo>) :
                                 RESULT_SUCCESS -> {
 //                                    val data = it.data
 //                                    if (data.success) {
+                                    if(mDialog != null){
+                                        mDialog!!.show()
+                                    }
                                         if (state == "open") {
                                             valve.state = 3  //执行开
                                         } else {
@@ -166,12 +177,13 @@ class ValveListAdapter(context: Activity?, list: ArrayList<SensorValveInfo>) :
                         }, {})
     }
 
-    class ViewHolders(itemview: View?) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemview!!) {
+    class ViewHolders(itemview: View?) : RecyclerView.ViewHolder(itemview!!) {
         val tvValveName = itemview?.findViewById<TextView>(R.id.tv_valve_name)
         val switchState = itemview?.findViewById<Switch>(R.id.switch_state)
         val switchOn = itemview?.findViewById<Switch>(R.id.switch_on)
         val tvOperateTip = itemview?.findViewById<TextView>(R.id.tv_operate_tip)
         val switchOff = itemview?.findViewById<Switch>(R.id.switch_off)
+//        val countDownView = itemView?.findViewById<CircleCountDownView>(R.id.view_count)
     }
 
     interface GetCounts {

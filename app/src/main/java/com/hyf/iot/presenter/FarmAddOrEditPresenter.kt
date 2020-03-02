@@ -9,6 +9,9 @@ import com.hyf.iot.protocol.http.IReposHttpProtocol
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import com.ljb.kt.client.HttpFactory
+import okhttp3.MediaType
+import okhttp3.RequestBody
+import org.json.JSONObject
 
 /**
  * 农场新建与更新
@@ -18,10 +21,20 @@ class FarmAddOrEditPresenter : BaseRxLifePresenter<FarmContract.IView>(),
 
     override fun farmAdd(name: String, address: String,
                          linkMan: String,linkPhone:String,
-                         longitude: Double, latitude: Double,
+                         latitude: Double, longitude: Double,
                          province: String,city: String,district: String) {
+        val jsonObject = JSONObject()
+        jsonObject.put("name",name)
+        jsonObject.put("address",address)
+        jsonObject.put("linkMan",linkMan)
+        jsonObject.put("linkPhone",linkPhone)
+        jsonObject.put("latitude",latitude)
+        jsonObject.put("longitude",longitude)
+
+        val requestBody = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString())
         HttpFactory.getProtocol(IReposHttpProtocol::class.java)
-                .farmAdd(name,address,linkMan,linkPhone,longitude,latitude,province,city,district)
+                .farmAdd(requestBody)
+//                .farmAdd(name,address,linkMan,linkPhone,longitude,latitude,province,city,district)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx(
@@ -44,10 +57,23 @@ class FarmAddOrEditPresenter : BaseRxLifePresenter<FarmContract.IView>(),
     }
     override fun farmEdit(name: String, address: String,
                           linkMan: String,linkPhone:String,
-                          longitude: Double, latitude: Double,
+                          latitude: Double, longitude: Double,
                           province: String,city: String,district: String,id: String) {
+
+        val jsonObject = JSONObject()
+        jsonObject.put("id",id)
+        jsonObject.put("name",name)
+        jsonObject.put("address",address)
+        jsonObject.put("linkMan",linkMan)
+        jsonObject.put("linkPhone",linkPhone)
+        jsonObject.put("latitude",latitude)
+        jsonObject.put("longitude",longitude)
+
+        val requestBody = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString())
+
         HttpFactory.getProtocol(IReposHttpProtocol::class.java)
-                .farmEdit(name,address,linkMan,linkPhone,longitude,latitude,province,city,district,id)
+                .farmEdit(requestBody)
+//                .farmEdit(name,address,linkMan,linkPhone,longitude,latitude,province,city,district,id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx(

@@ -4,9 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
+import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import com.baidu.mapapi.map.*
 import com.baidu.mapapi.model.LatLng
 import com.hyf.iot.App
@@ -88,7 +88,7 @@ class FarmDetailActivity : BaseMvpActivity<FarmDetailContract.IPresenter>(), Far
 //        val header = LayoutInflater.from(this).inflate(R.layout.layout_common_title, null)
         //            mMassifAdapter.setHeaderView(header)
         recycler_view.apply {
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@FarmDetailActivity, LinearLayout.VERTICAL, false)
+            layoutManager = LinearLayoutManager(this@FarmDetailActivity, VERTICAL, false)
 //            addItemDecoration(ItemDecoration(2))
             addItemDecoration(RecycleViewDivider(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL))
             mMassifAdapter.isShowLoadMore(false)
@@ -131,7 +131,7 @@ class FarmDetailActivity : BaseMvpActivity<FarmDetailContract.IPresenter>(), Far
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == androidx.fragment.app.FragmentActivity.RESULT_OK) {
+        if (resultCode == FragmentActivity.RESULT_OK) {
             if (requestCode == ON_SUCCESS) {
                 initData()
             }

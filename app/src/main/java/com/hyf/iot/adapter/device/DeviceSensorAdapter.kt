@@ -27,7 +27,7 @@ class DeviceSensorAdapter(context: Activity?, list : ArrayList<SensorOtherInfo>)
     override fun onBindViewHolder(holder: ViewHolders, position: Int) {
         val item = mData[position]
         holder.title?.text = item.name // "${item.soilTemperature}°C"
-        holder.value?.text = "${item.value} ${item.unit}"
+        holder.value?.text = "${item.value.toInt()} ${item.unit}"
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolders =

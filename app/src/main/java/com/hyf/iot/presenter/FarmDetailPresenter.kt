@@ -9,6 +9,9 @@ import com.hyf.iot.protocol.http.IReposHttpProtocol
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import com.ljb.kt.client.HttpFactory
+import okhttp3.MediaType
+import okhttp3.RequestBody
+import org.json.JSONObject
 
 /**
  * 农场新建与更新
@@ -16,8 +19,14 @@ import com.ljb.kt.client.HttpFactory
 open class FarmDetailPresenter : BaseRxLifePresenter<FarmDetailContract.IView>(),
         FarmDetailContract.IPresenter {
     override fun getMassifList(farmId: String) {
+
+        val jsonObject = JSONObject()
+        jsonObject.put("farmId",farmId)
+        val requestBody = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString())
+
         HttpFactory.getProtocol(IReposHttpProtocol::class.java)
-                .getMassifList(farmId,"")
+                .getMassifList(requestBody)
+//                .getMassifList(farmId,"")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx(

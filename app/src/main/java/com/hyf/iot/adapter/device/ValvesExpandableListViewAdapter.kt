@@ -3,23 +3,23 @@ package com.hyf.iot.adapter.device
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
-import android.widget.LinearLayout
+import android.widget.LinearLayout.VERTICAL
 import android.widget.TextView
+import androidx.recyclerview.widget.GridLayoutManager
 import com.hyf.iot.R
 import com.hyf.iot.domain.device.DeviceInfo
 import com.hyf.iot.domain.device.MoistureStationMassif
 import com.hyf.iot.ui.activity.ValveDetailActivity
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.widget.BatteryView
+import com.hyf.iot.widget.CircleCountDownView
 import com.hyf.iot.widget.SignalView
+import com.hyf.iot.widget.dialog.CountDownDialog
 
 class ValvesExpandableListViewAdapter(context: Activity?, var list: MutableList<MoistureStationMassif>) : BaseExpandableListAdapter() {
     private var context: Activity? = null
@@ -30,6 +30,10 @@ class ValvesExpandableListViewAdapter(context: Activity?, var list: MutableList<
         this.context = context
         this.valvesData = list
     }
+    private var mDialog: CountDownDialog? = null
+    fun setCountDownDialog(dialog: CountDownDialog){
+        this.mDialog = dialog
+    }
 
     //返回一级列表的个数
     override fun getGroupCount(): Int {
@@ -38,7 +42,11 @@ class ValvesExpandableListViewAdapter(context: Activity?, var list: MutableList<
 
     //返回每个二级列表的个数
     override fun getChildrenCount(groupPosition: Int): Int { //参数groupPosition表示第几个一级列表
-        return valvesData[groupPosition].valveControlDevices!!.size
+        if(groupPosition < valvesData.size) {
+            return valvesData[groupPosition].valveControlDevices!!.size
+        }else {
+            return valvesData[0].valveControlDevices!!.size
+        }
     }
 
     //返回一级列表的单个item（返回的是对象）
@@ -76,7 +84,7 @@ class ValvesExpandableListViewAdapter(context: Activity?, var list: MutableList<
     }
 
     //【重要】填充二级列表
-    @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
+    @SuppressLint("ClickableViewAccessibility", "SetTextI18n", "WrongConstant")
     override fun getChildView(
             groupPosition: Int,
             childPosition: Int,
@@ -100,13 +108,13 @@ class ValvesExpandableListViewAdapter(context: Activity?, var list: MutableList<
 
         val item = getChild(groupPosition, childPosition)
 
-        if (!item.sensor_OtherInfos.isNullOrEmpty()) {
-            val sAdapter = DeviceSensorAdapter(context, item.sensor_OtherInfos)
+//        if (!item.sensor_OtherInfos.isNullOrEmpty()) {
+            val sAdapter = DeviceSensorAdapter(context, item.sensor_OtherInfos!!)
             recyclerViewSoil.apply {
-                this!!.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, LinearLayout.VERTICAL, false)
+                this!!.layoutManager = LinearLayoutManager(context, VERTICAL, false)
                 adapter = sAdapter
             }
-        }
+//        }
 
         deviceName?.text = "${item.name}:"
         deviceNo?.text = item.number
@@ -139,6 +147,7 @@ class ValvesExpandableListViewAdapter(context: Activity?, var list: MutableList<
         }
         if (item.sensor_ValveInfos != null) {
             mAdapter = ValveListAdapter(this@ValvesExpandableListViewAdapter.context, item.sensor_ValveInfos)
+            mAdapter!!.setCountDownDialog(mDialog!!)
             mAdapter!!.setGetOunts(object : ValveListAdapter.GetCounts {
                 override fun adds() {
                 }
@@ -147,7 +156,7 @@ class ValvesExpandableListViewAdapter(context: Activity?, var list: MutableList<
                 }
             })
             recyclerView.apply {
-                this!!.layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 2)
+                this!!.layoutManager = GridLayoutManager(context, 2)
                 adapter = mAdapter
             }
         }
