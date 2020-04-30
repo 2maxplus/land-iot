@@ -71,7 +71,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
     override fun initView() {
         transparencyBar(this)
         Glide.with(this)
-                .load(R.drawable.ic_launcher) //logo_1
+                .load(R.drawable.logo_2) //logo_1  ic_launcher
                 .apply(RequestOptions().transform(CircleCrop()))
                 .into(iv_login)
 
@@ -199,6 +199,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
     override fun showPageList(data: MutableList<Farm>) {
         if (data != null && data.size > 0)
             LoginUser.farmId = data[0].id!!
+            LoginUser.farmName = data[0].name!!
         goHome()
     }
 

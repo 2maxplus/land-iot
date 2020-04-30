@@ -19,7 +19,7 @@ class SpinnerChooseAdapter(private val context: Context, private val itemClickLi
         fun onClick(view: View)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.popupwindow_spinner_item, null)
         view.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -27,7 +27,7 @@ class SpinnerChooseAdapter(private val context: Context, private val itemClickLi
         return ItemViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ItemViewHolder) {
             holder.itemView.tag = position
             holder.textView.text = list!![position]
@@ -39,7 +39,7 @@ class SpinnerChooseAdapter(private val context: Context, private val itemClickLi
         return list?.size ?: 0
     }
 
-    inner class ItemViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
+    inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         internal var textView: TextView = itemView.findViewById(R.id.choose_item)
 
     }

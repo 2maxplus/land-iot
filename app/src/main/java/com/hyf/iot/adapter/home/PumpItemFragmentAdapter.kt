@@ -1,15 +1,15 @@
 package com.hyf.iot.adapter.home
 
 import android.os.Bundle
-import androidx.core.app.*
-import androidx.viewpager.widget.PagerAdapter
-import com.hyf.iot.common.CP
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import com.hyf.iot.domain.device.WaterPump
 import com.hyf.iot.ui.fragment.pumb.PumpItemFragment
 
-class PumpItemFragmentAdapter(private val fm: androidx.fragment.app.FragmentManager, var fragmentList: MutableList<WaterPump>) : androidx.fragment.app.FragmentPagerAdapter(fm) {
+class PumpItemFragmentAdapter(private val fm: FragmentManager, var fragmentList: MutableList<WaterPump>) : FragmentPagerAdapter(fm) {
 
-    override fun getItem(position: Int): androidx.fragment.app.Fragment {
+    override fun getItem(position: Int): Fragment {
         val fragments = PumpItemFragment()
         val bundle = Bundle()
         bundle.putParcelable("data",fragmentList[position])

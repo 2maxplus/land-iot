@@ -107,6 +107,10 @@ class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), De
             Log.e("isStarted==", ":" + mLocationClient!!.isStarted)
             requestLocation()
         }
+        //列表地图切换
+        iv_list.setOnClickListener {
+
+        }
     }
 
     private fun mapAction() {
@@ -201,47 +205,53 @@ class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), De
         mBaiduMap!!.setMapStatus(msu)
         mBaiduMap!!.setOnMapTouchListener(MyMapTouchListener())
         mBaiduMap!!.setOnMarkerClickListener { marker ->
-            val bundleMarker = marker!!.extraInfo
-            val type = bundleMarker.getInt("type")
-            when(type){
-                1 -> {  //设备信息
-                    val item = bundleMarker.getParcelable<DeviceCoordinates>("item")
-                    val bundle = Bundle()
-                    bundle.putString("id", item.id)  //设备ID
-                    activity?.newIntent<ValveDetailActivity>(bundle)
-                }
-                2 -> {  //农场信息
-                    val item = bundleMarker.getParcelable<Farm>("item")
-                    val latLng = LatLng(item.latitude, item.longitude)
-                    val view = LayoutInflater.from(context).inflate(R.layout.item_popwindow, null)
-                    val tvTitle = view.findViewById<TextView>(R.id.tv_title)
-                    val tvAddress = view.findViewById<TextView>(R.id.tv_address)
-                    val tvLinkman = view.findViewById<TextView>(R.id.tv_linkman)
-                    val tvPhone = view.findViewById<TextView>(R.id.tv_phone)
-                    tvTitle.text = item.name
-                    tvAddress.text = item.address
-                    tvLinkman.text = item.linkMan
-                    tvPhone.text = item.linkPhone
-                    val offset = UIUtils.dip2px(activity!!, -25f)
-                    view.setOnClickListener {
-                        val bundle = Bundle()
-                        bundle.putString(Constant.KEY_PARAM_ID, item.id)
-                        activity?.newIntent<FarmDetailActivity>(ON_SUCCESS,bundle)
-                        mBaiduMap!!.hideInfoWindow()
-                    }
-                    val mInfoWindow = InfoWindow(view, latLng, offset)
-                    mBaiduMap!!.showInfoWindow(mInfoWindow)
-                }
-            }
-
+            showMarkInfo(marker)
             true
         }
+    }
+
+    private fun showMarkInfo(marker: Marker?){
+        val bundleMarker = marker!!.extraInfo
+        when(bundleMarker.getInt("type")){
+            1 -> {  //设备信息
+                val item = bundleMarker.getParcelable<DeviceCoordinates>("item")
+                val bundle = Bundle()
+                bundle.putString("id", item.id)  //设备ID
+                activity?.newIntent<ValveDetailActivity>(bundle)
+            }
+            2 -> {  //农场信息
+                val item = bundleMarker.getParcelable<Farm>("item")
+                showFarmInfo(item!!)
+            }
+        }
+    }
+
+    private fun showFarmInfo(item: Farm){
+        val latLng = LatLng(item.latitude, item.longitude)
+        val view = LayoutInflater.from(context).inflate(R.layout.item_popwindow, null)
+        val tvTitle = view.findViewById<TextView>(R.id.tv_title)
+        val tvAddress = view.findViewById<TextView>(R.id.tv_address)
+        val tvLinkman = view.findViewById<TextView>(R.id.tv_linkman)
+        val tvPhone = view.findViewById<TextView>(R.id.tv_phone)
+        tvTitle.text = item.name
+        tvAddress.text = item.address
+        tvLinkman.text = StringUtils.jiaMIName(item.linkMan!!)
+        tvPhone.text = StringUtils.jiaMIPhone(item.linkPhone!!)
+        val offset = UIUtils.dip2px(activity!!, -25f)
+        view.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString(Constant.KEY_PARAM_ID, item.id)
+            activity?.newIntent<FarmDetailActivity>(ON_SUCCESS,bundle)
+            mBaiduMap!!.hideInfoWindow()
+        }
+        val mInfoWindow = InfoWindow(view, latLng, offset)
+        mBaiduMap!!.showInfoWindow(mInfoWindow)
     }
 
 
     private fun initmaker(point: LatLng, status: String, cover_type_id: Int, item: DeviceCoordinates) {
         val bdA: BitmapDescriptor = when (cover_type_id) {
-            0 -> when (status) {
+            0 -> when (status) {  //设备信息
                 "0" -> BitmapDescriptorFactory
                         .fromResource(R.drawable.main_icon_device)
                 "1" -> BitmapDescriptorFactory
@@ -369,6 +379,8 @@ class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), De
         mBundle.putInt("type",2)
         mBundle.putParcelable("item", data)
         mMarkerA.extraInfo = mBundle
+        mBaiduMap!!.setMapStatus(MapStatusUpdateFactory.zoomTo(12f))
+        showFarmInfo(data)  //显示农场信息
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -378,7 +390,7 @@ class HomeFragment : BaseMvpFragment<DeviceCoordinatesContract.IPresenter>(), De
                 ON_SUCCESS -> {
                     val farm = data!!.getParcelableExtra<Farm>(Constant.KEY_PARAM_1)
                     val mLatLng = LatLng(farm.latitude, farm.longitude)
-//                    mBaiduMap!!.clear()
+                    mBaiduMap!!.clear() //设备信息是否被删除
                     mBaiduMap!!.animateMapStatus(MapStatusUpdateFactory.newLatLng(mLatLng))
                     initMarker(mLatLng, farm)
                 }

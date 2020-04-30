@@ -1,13 +1,17 @@
 package com.hyf.iot.ui.fragment.pumb
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.View
 import com.hyf.iot.R
 import com.hyf.iot.adapter.home.PumpRoomFragmentAdapter
+import com.hyf.iot.common.Constant
 import com.hyf.iot.common.LoginUser
 import com.hyf.iot.common.fragment.BaseMvpFragment
 import com.hyf.iot.contract.PumpRoomContract
 import com.hyf.iot.domain.pumb.PumpRoom
 import com.hyf.iot.presenter.PumpRoomPresenter
+import com.hyf.iot.ui.activity.FarmListActivity
 import com.hyf.iot.ui.activity.LoginActivity
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
@@ -32,7 +36,13 @@ class PumpRoomFragment : BaseMvpFragment<PumpRoomContract.IPresenter>(), PumpRoo
     private val mAdapter by lazy { PumpRoomFragmentAdapter(childFragmentManager, mutableListOf()) }
 
     override fun initView() {
-        iv_back.visibility = View.GONE
+        tv_title.textSize = 15f
+        tv_title.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.icon_exchange,0)
+        tv_title.setOnClickListener{
+            val intent = Intent(context, FarmListActivity::class.java)
+            startActivityForResult(intent, Constant.RequestKey.ON_SUCCESS)
+        }
+        iv_back.visibility = View.INVISIBLE
         tv_operate.visibility = View.VISIBLE
         tv_operate.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.icon_refresh, 0, 0, 0)
         tv_operate.setOnClickListener {
@@ -55,19 +65,27 @@ class PumpRoomFragment : BaseMvpFragment<PumpRoomContract.IPresenter>(), PumpRoo
     }
 
 
-    override fun initData() {
-        getPresenter().getPumpInfo(LoginUser.farmId)
+//    override fun initData() {
+//        getPresenter().getPumpInfo(LoginUser.farmId)
+//    }
+
+    override fun onResume() {
+        super.onResume()
+//        tv_title.text = LoginUser.farmName
+        onReload()
     }
 
     private fun onReload() {
         isRefresh = true
         page_layout.setPage(PageStateLayout.PageState.STATE_LOADING)
-        initData()
+        getPresenter().getPumpInfo(LoginUser.farmId)
+//        initData()
 //        activity?.sendBroadcast(Intent(FrequencyConverterFragment.INTENT_ACTION_REFRESH))
     }
 
+    @SuppressLint("SetTextI18n")
     override fun showPage(data: PumpRoom) {
-        tv_title.text = data.pumpRoomInfo.name
+        tv_title.text = "${LoginUser.farmName}\n${data.pumpRoomInfo.name}"
 //        refresh_layout.finishRefresh()
         refresh_layout.isRefreshing = false
         if (data == null || data.pumpRoomInfo == null) {
@@ -90,7 +108,8 @@ class PumpRoomFragment : BaseMvpFragment<PumpRoomContract.IPresenter>(), PumpRoo
         page_layout.setPage(PageStateLayout.PageState.STATE_ERROR)
     }
 
-    fun getonScroll(enable: Boolean) {
+
+    fun getOnScroll(enable: Boolean) {
         refresh_layout.isEnabled = enable
     }
 }

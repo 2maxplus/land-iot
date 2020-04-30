@@ -19,7 +19,7 @@ import com.hyf.iot.widget.BatteryView
 import com.hyf.iot.widget.SignalView
 
 
-class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceInfo>) : androidx.recyclerview.widget.RecyclerView.Adapter<DeviceListAdapter.ViewHolders>() {
+class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceInfo>) : RecyclerView.Adapter<DeviceListAdapter.ViewHolders>() {
 
     private var context: Activity? = null
     private var layoutId: Int = R.layout.item_device
@@ -45,7 +45,7 @@ class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceInfo>) :
         if (!item.sensor_OtherInfos.isNullOrEmpty()) {
             val sAdapter = DeviceSensorAdapter(context, item.sensor_OtherInfos)
             holder.recyclerViewSensor.apply {
-                this!!.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, LinearLayout.VERTICAL, false)
+                this!!.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
                 adapter = sAdapter
             }
         }
@@ -85,7 +85,7 @@ class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceInfo>) :
             mAdapter = ValveListAdapter(this@DeviceListAdapter.context, item.sensor_ValveInfos)
             mAdapter!!.setGetOunts(getCounts)
             holder.recyclerView.apply {
-                this!!.layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 2)
+                this!!.layoutManager = GridLayoutManager(context, 2)
                 adapter = mAdapter
             }
         }

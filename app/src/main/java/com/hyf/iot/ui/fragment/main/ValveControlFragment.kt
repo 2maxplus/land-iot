@@ -8,11 +8,13 @@ import android.widget.AbsListView
 import android.widget.TextView
 import com.hyf.iot.R
 import com.hyf.iot.adapter.device.ValvesExpandableListViewAdapter
+import com.hyf.iot.common.Constant
 import com.hyf.iot.common.LoginUser
 import com.hyf.iot.common.fragment.BaseMvpFragment
 import com.hyf.iot.contract.MoitureStationContract
 import com.hyf.iot.domain.device.MoistureStationMassif
 import com.hyf.iot.presenter.MoiturePresenter
+import com.hyf.iot.ui.activity.FarmListActivity
 import com.hyf.iot.ui.activity.LoginActivity
 import com.hyf.iot.ui.activity.ScanActivity
 import com.hyf.iot.utils.FSearchTool
@@ -23,7 +25,9 @@ import com.hyf.iot.widget.PinnedHeaderExpandableListView
 import com.hyf.iot.widget.dialog.CountDownDialog
 import com.hyf.iot.widget.dialog.CountDownDialog.CountDownFinishListener
 import kotlinx.android.synthetic.main.fragment_valve_control.*
+import kotlinx.android.synthetic.main.fragment_valve_control.tv_title
 import kotlinx.android.synthetic.main.layout_common_page_state.*
+import kotlinx.android.synthetic.main.layout_common_title.*
 import kotlinx.android.synthetic.main.layout_expandable_listview.*
 
 
@@ -42,7 +46,11 @@ class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(
     override fun getLayoutId(): Int = R.layout.fragment_valve_control
 
     override fun initView() {
-
+        tv_title.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.icon_exchange,0)
+        tv_title.setOnClickListener{
+            val intent = Intent(context, FarmListActivity::class.java)
+            startActivityForResult(intent, Constant.RequestKey.ON_SUCCESS)
+        }
         page_layout.apply {
             setContentView(View.inflate(activity, R.layout.layout_expandable_listview, null))
             setOnPageErrorClickListener { onReload() }
@@ -132,8 +140,14 @@ class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(
         }
     }
 
-    override fun initData() {
-        getPresenter().getMoistureMassifListByFarmId(LoginUser.farmId)
+//    override fun initData() {
+//        getPresenter().getMoistureMassifListByFarmId(LoginUser.farmId)
+//    }
+
+    override fun onResume() {
+        super.onResume()
+        tv_title.text = LoginUser.farmName
+        onReload()
     }
 
     override fun onTokenExpired(msg: String) {
@@ -158,7 +172,8 @@ class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(
 
     private fun onReload() {
         page_layout.setPage(PageStateLayout.PageState.STATE_LOADING)
-        initData()
+        getPresenter().getMoistureMassifListByFarmId(LoginUser.farmId)
+//        initData()
     }
 
     override fun showPage(data: MutableList<MoistureStationMassif>) {

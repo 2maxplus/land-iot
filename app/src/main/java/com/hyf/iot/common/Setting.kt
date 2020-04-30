@@ -46,6 +46,10 @@ class LoginUser {
             get() = SPUtils.getString(Constant.SPConstant.CUR_FARM_ID)
             set(value) = SPUtils.putString(Constant.SPConstant.CUR_FARM_ID, value)
 
+        var farmName: String
+            get() = SPUtils.getString(Constant.SPConstant.CUR_FARM_NAME)
+            set(value) = SPUtils.putString(Constant.SPConstant.CUR_FARM_NAME, value)
+
 
     }
 }

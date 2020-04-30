@@ -57,8 +57,9 @@ class FarmListActivity : BaseMvpActivity<FarmListContract.IPresenter>(), FarmLis
         mAdapter.setCallback(object : FarmAdapter.Callback {
             override fun click(v: View, item: Farm) {
                 LoginUser.farmId = mAdapter.getCheckedId()
+                LoginUser.farmName = mAdapter.getCheckedName()
                 intent.putExtra(KEY_PARAM_1,item)
-                setResult(androidx.fragment.app.FragmentActivity.RESULT_OK,intent)
+                setResult(FragmentActivity.RESULT_OK,intent)
                 finish()
 //                val dialog = NormalMsgDialog(this@BindingListActivity).setMessage("确认切换当前农场？")
 //                        .setRightButtonInfo("", DialogInterface.OnClickListener{ _, _ ->

@@ -40,8 +40,9 @@
     <string name="login_success">登录成功</string>
     <string name="get_code">获取验证码</string>
     <string name="input_user">请输入您的手机号</string>
-    <string name="publish_text">Copyright©2012–2019 \n海南丰达中天农业综合服务有限公司</string>
-    <!--<string name="publish_text">Copyright©2012–2019 \n海南宝秀节水灌溉有限公司</string>-->
+<!--    <string name="publish_text">Copyright©2012–2020 \n海南丰达中天农业综合服务有限公司</string>-->
+    <!--<string name="publish_text">Copyright©2012–2020 \n海南宝秀节水灌溉有限公司</string>-->
+    <string name="publish_text">Copyright©2019–2020 \n海南威达节水灌溉工程有限公司</string>
 
     <string name="tab1">首页</string>
     <string name="tab2">泵站</string>

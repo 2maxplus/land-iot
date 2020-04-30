@@ -22,7 +22,7 @@ import com.hyf.iot.widget.findViewByIdEx
 /**
  *
  * */
-class FarmAdapter(context: Activity?, list: MutableList<Farm>) : androidx.recyclerview.widget.RecyclerView.Adapter<FarmAdapter.ViewHolders>() {
+class FarmAdapter(context: Activity?, list: MutableList<Farm>) :RecyclerView.Adapter<FarmAdapter.ViewHolders>() {
     private var context: Activity? = null
     var mData: MutableList<Farm>
     //这个是checkbox的Hashmap集合
@@ -36,7 +36,10 @@ class FarmAdapter(context: Activity?, list: MutableList<Farm>) : androidx.recycl
     fun setData(mData: MutableList<Farm>) {
         this.mData.clear()
         this.mData.addAll(mData)
-        if (mData.size == 1) LoginUser.farmId = mData[0].id!!
+        if (mData.size == 1) {
+            LoginUser.farmId = mData[0].id!!
+            LoginUser.farmName = mData[0].name!!
+        }
         for (i in 0 until mData.size) {
             map[i] = LoginUser.farmId == mData[i].id
         }
@@ -58,6 +61,13 @@ class FarmAdapter(context: Activity?, list: MutableList<Farm>) : androidx.recycl
         holder.tvFarmLinkPhone?.text = item.linkPhone
         holder.checkbox?.visibility = View.VISIBLE
         holder.checkbox?.isChecked = map[position]!!
+        if(map[position]!!){
+            holder.checkbox?.text = "当前"
+            holder.checkbox?.setTextColor(context!!.resources.getColor(R.color.colorWhite))
+        }else{
+            holder.checkbox?.text = "未选中"
+            holder.checkbox?.setTextColor(context!!.resources.getColor(R.color.color666))
+        }
         holder.checkbox?.setOnClickListener {
             map[position] = !map[position]!!
             notifyDataSetChanged()
@@ -75,7 +85,7 @@ class FarmAdapter(context: Activity?, list: MutableList<Farm>) : androidx.recycl
             ViewHolders(LayoutInflater.from(context).inflate(R.layout.farm_item, parent, false))
 
 
-    class ViewHolders(itemView: View?) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView!!) {
+    class ViewHolders(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val checkbox by lazy { itemView?.findViewByIdEx<CheckBox>(R.id.checkbox) }
         val tvFarmName by lazy { itemView?.findViewByIdEx<TextView>(R.id.tv_farm_name) }
         val tvFarmAddress by lazy { itemView?.findViewByIdEx<TextView>(R.id.tv_farm_address) }
@@ -107,6 +117,14 @@ class FarmAdapter(context: Activity?, list: MutableList<Farm>) : androidx.recycl
             if (value) id = mData[key].id!!
         }
         return id
+    }
+
+    fun getCheckedName(): String {
+        var name = ""
+        map.forEach { (key, value) ->
+            if (value) name = mData[key].name!!
+        }
+        return name
     }
 
 }

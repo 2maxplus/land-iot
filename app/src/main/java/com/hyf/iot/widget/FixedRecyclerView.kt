@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.util.AttributeSet
 
 //com.hyf.iot.widget.FixedRecyclerView
-class FixedRecyclerView : androidx.recyclerview.widget.RecyclerView {
+class FixedRecyclerView : RecyclerView {
     constructor(context: Context) : super(context) {}
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}

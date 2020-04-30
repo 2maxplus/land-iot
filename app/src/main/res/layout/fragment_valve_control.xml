@@ -7,55 +7,88 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="100dp"
         android:background="@color/colorPrimary"
-        android:orientation="horizontal">
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/ivScan"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/colorPrimary">
+
+            <ImageView
+                android:id="@+id/ivScan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:src="@drawable/icon_scan" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@string/app_name"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/font_size_18sp" />
+
+
+            <ImageView
+                android:id="@+id/ivRefresh"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:padding="@dimen/comm_margin"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/font_size_14sp"
+                android:src="@drawable/icon_refresh" />
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="10dp"
-            android:src="@drawable/scan_icon" />
+            android:paddingStart="@dimen/padding_12"
+            android:paddingEnd="@dimen/padding_12">
 
+            <com.hyf.iot.widget.ExtEditText
+                android:id="@+id/editText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape_round_white"
+                android:drawableLeft="@drawable/search"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical|start"
+                android:hint="请输入关键字"
+                android:imeOptions="actionSearch"
+                android:maxLines="1"
+                android:inputType="text"
+                android:paddingStart="@dimen/comm_margin"
+                android:singleLine="true"
+                android:textSize="15dp" />
 
-        <com.hyf.iot.widget.ExtEditText
-            android:id="@+id/editText"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape_round_white"
-            android:drawableLeft="@drawable/search"
-            android:drawablePadding="8dp"
-            android:gravity="center_vertical|start"
-            android:hint="请输入关键字"
-            android:imeOptions="actionSearch"
-            android:maxLines="1"
-            android:inputType="text"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
-            android:textSize="15dp" />
-
-        <TextView
-            android:id="@+id/search"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="搜索"
-            android:textColor="@color/colorWhite"
-            android:textSize="14dp" />
-
-        <ImageView
-            android:id="@+id/ivRefresh"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_refresh"
-            android:layout_gravity="center"
-            android:padding="@dimen/comm_margin"/>
+            <TextView
+                android:id="@+id/search"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="搜索"
+                android:textColor="@color/colorWhite"
+                android:textSize="14dp" />
+        </LinearLayout>
 
     </LinearLayout>
 

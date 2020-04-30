@@ -31,7 +31,7 @@ class MyFragment: BaseMvpFragment<MyContract.IPresenter>(), MyContract.IView {
     override fun registerPresenter() = MyPresenter::class.java
 
     override fun initView() {
-        iv_back.visibility = View.GONE
+        iv_back.visibility = View.INVISIBLE
         tv_title.text = "我的"
         tv_account.setOnClickListener { activity?.newIntent<AccountInfoActivity>() }
         tv_help_feedback.setOnClickListener { activity?.newIntent<FeedbackActivity>() }

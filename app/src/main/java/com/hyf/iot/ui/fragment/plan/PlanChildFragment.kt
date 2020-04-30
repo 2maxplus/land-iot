@@ -1,14 +1,10 @@
 package com.hyf.iot.ui.fragment.plan
 
 import android.annotation.SuppressLint
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.graphics.Color
-import androidx.recyclerview.widget.LinearLayoutManager
-import android.util.Log
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.hyf.iot.R
 import com.hyf.iot.adapter.plan.PlanGroupListAdapter
 import com.hyf.iot.common.Constant
@@ -60,18 +56,41 @@ class PlanChildFragment : BaseMvpFragment<PlanListContract.IPresenter>(), PlanLi
         })
 
         recycler_view.apply {
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = mAdapter
         }
         refresh_layout.apply {
             setColorSchemeResources(R.color.colorBlue)
             setOnRefreshListener { onReload() }
         }
+
+        recycler_view.setOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val topRowVerticalPosition = if (recyclerView == null || recyclerView.childCount == 0) 0 else recyclerView.getChildAt(0).top
+                refresh_layout.isEnabled = topRowVerticalPosition >= 0
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+        })
     }
 
-    override fun initData() {
+//    override fun initData() {
+//        val state = arguments!!.getString(Constant.KEY_PARAM_STATE)
+//        getPresenter().getPlanList(LoginUser.farmId, state!!)  //LoginUser.farmId
+//    }
+
+    override fun onResume() {
+        super.onResume()
+        onReload()
+    }
+
+    fun onReload() {
+        page_layout.setPage(PageStateLayout.PageState.STATE_LOADING)
+//        initData()
         val state = arguments!!.getString(Constant.KEY_PARAM_STATE)
-        getPresenter().getPlanList(LoginUser.farmId, state!!)  //LoginUser.farmId
+        getPresenter().getPlanList(LoginUser.farmId, state!!)
     }
 
     fun setOperateBtnByState(state: String) {
@@ -149,10 +168,6 @@ class PlanChildFragment : BaseMvpFragment<PlanListContract.IPresenter>(), PlanLi
         }
     }
 
-    fun onReload() {
-        page_layout.setPage(PageStateLayout.PageState.STATE_LOADING)
-        initData()
-    }
 
     override fun onTokenExpired(msg: String) {
         activity?.showToast(msg)
@@ -220,6 +235,7 @@ class PlanChildFragment : BaseMvpFragment<PlanListContract.IPresenter>(), PlanLi
 
     override fun showDetailList(data: PlanDetail) {
         mAdapter.list.clear()
+        data.irrigatePlanGroupInfos.sortBy { it.sort } //升序排序
         mAdapter.list.addAll(data.irrigatePlanGroupInfos)
         mAdapter.notifyDataSetChanged()
     }

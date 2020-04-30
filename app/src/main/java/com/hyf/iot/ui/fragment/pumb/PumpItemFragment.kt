@@ -17,15 +17,12 @@ import com.hyf.iot.common.CP
 import com.hyf.iot.common.RESULT_SUCCESS
 import com.hyf.iot.common.ex.subscribeEx
 import com.hyf.iot.common.fragment.BaseFragment
-import com.hyf.iot.domain.device.FaKongBean
 import com.hyf.iot.domain.device.WaterPump
 import com.hyf.iot.protocol.http.IUserHttpProtocol
 import com.hyf.iot.ui.activity.LoginActivity
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
-import com.hyf.iot.widget.CircleCountDownView
 import com.hyf.iot.widget.MyLinearLayoutManager
-import com.hyf.iot.widget.RecycleViewDivider
 import com.hyf.iot.widget.chart.HorizontalChartViewFlow
 import com.hyf.iot.widget.dialog.CountDownDialog
 import com.hyf.iot.widget.dialog.EditDialog
@@ -87,7 +84,7 @@ class PumpItemFragment : BaseFragment() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 //                    super.onScrolled(recyclerView, dx, dy)
                     val topRowVerticalPosition = if (recyclerView == null || recyclerView.childCount === 0) 0 else recyclerView.getChildAt(0).top
-                    (parentFragment!!.parentFragment as PumpRoomFragment).getonScroll(topRowVerticalPosition >= 0)
+                    (parentFragment!!.parentFragment as PumpRoomFragment).getOnScroll(topRowVerticalPosition >= 0)
                 }
             })
         }

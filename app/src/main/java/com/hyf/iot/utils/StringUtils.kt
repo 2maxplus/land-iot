@@ -72,6 +72,20 @@ object StringUtils {
     }
 
     /**
+     * 名称匿名显示
+     *
+     * @param name
+     * @return
+     */
+    fun jiaMIName(name: String): String {
+        return if(name.length > 2){
+            "*" + name.substring(name.length - 2,name.length)
+        }else "*" + name.substring(name.length - 1)
+
+
+    }
+
+    /**
      * 获取密码
      *
      * @param v

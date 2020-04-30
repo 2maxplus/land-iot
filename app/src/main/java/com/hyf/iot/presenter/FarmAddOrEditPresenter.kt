@@ -41,8 +41,8 @@ class FarmAddOrEditPresenter : BaseRxLifePresenter<FarmContract.IView>(),
                         {
                             when(it.code){
                                 RESULT_SUCCESS -> {
-                                    val farmId = it.data.id
-                                    LoginUser.farmId = farmId!!
+                                    LoginUser.farmId = it.data.id!!
+                                    LoginUser.farmName = it.data.name!!
                                     getMvpView().addSuccess()
                                 }
                                 214,215,216 -> {

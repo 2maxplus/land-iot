@@ -17,14 +17,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
+            <!--            ic_launcher     -->
             <TextView
                 android:id="@+id/tv_version_text"
                 style="@style/text_base_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_20"
-                android:drawableTop="@drawable/ic_launcher"
+                android:drawableTop="@drawable/logo_2"
                 android:drawablePadding="@dimen/margin_8"
                 android:gravity="center"
                 android:text="当前版本  1.0.1" />

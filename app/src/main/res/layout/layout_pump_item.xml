@@ -37,14 +37,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/comm_margin"
+                android:visibility="gone"
                 android:text="恒压值: 0MPa" />
 
             <Switch
                 android:id="@+id/switchs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:button="@null"
+                android:enabled="false"
                 android:switchMinWidth="60dp"
                 android:thumb="@null"
                 android:track="@drawable/track" />

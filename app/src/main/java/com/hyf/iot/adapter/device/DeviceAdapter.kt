@@ -41,11 +41,11 @@ class DeviceAdapter(context: Activity, mData: MutableList<DeviceInfo>) : LoadMor
         this.getCounts = getCounts
     }
 
-    override fun getItemHolder(parent: ViewGroup?, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder =
+    override fun getItemHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder =
             ViewHolders(LayoutInflater.from(mContext).inflate(R.layout.item_device, parent, false))
 
     @SuppressLint("SetTextI18n", "ClickableViewAccessibility")
-    override fun onBindData(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
+    override fun onBindData(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is ViewHolders){
             val item = mData[position]
             if (!item.sensor_OtherInfos.isNullOrEmpty()) {
@@ -99,15 +99,15 @@ class DeviceAdapter(context: Activity, mData: MutableList<DeviceInfo>) : LoadMor
         }
     }
 
-    class ViewHolders(itemview: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemview) {
+    class ViewHolders(itemview: View) : RecyclerView.ViewHolder(itemview) {
         val deviceState by lazy { itemview?.findViewByIdEx<TextView>(R.id.tv_state) }
         val signalView by lazy { itemview?.findViewById<SignalView>(R.id.signalView) }
         val batteryPercent by lazy { itemview?.findViewById<TextView>(R.id.tv_battery_percent) }
         val battery by lazy { itemview?.findViewById<BatteryView>(R.id.battery) }
         val deviceName by lazy { itemview?.findViewById<TextView>(R.id.tv_device_name) }
         val deviceNo by lazy { itemview?.findViewById<TextView>(R.id.tv_device_no) }
-        val recyclerView by lazy { itemview?.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recycler_view) }
-        val recyclerViewSensor by lazy { itemview?.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recycler_view_sensor) }
+        val recyclerView by lazy { itemview?.findViewById<RecyclerView>(R.id.recycler_view) }
+        val recyclerViewSensor by lazy { itemview?.findViewById<RecyclerView>(R.id.recycler_view_sensor) }
 
     }
 

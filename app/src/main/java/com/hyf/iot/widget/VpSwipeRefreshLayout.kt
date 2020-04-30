@@ -1,12 +1,12 @@
 package com.hyf.iot.widget
 
 import android.content.Context
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.ViewConfiguration
 import android.widget.AbsListView
 import androidx.core.view.ViewCompat
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
 
 /***

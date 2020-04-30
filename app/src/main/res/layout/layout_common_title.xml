@@ -1,4 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="45dp"-->
+<!--    android:gravity="center_vertical"-->
+<!--    android:background="@color/colorPrimary">-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/iv_back"-->
+<!--        android:layout_width="45dp"-->
+<!--        android:layout_height="45dp"-->
+<!--        android:scaleType="center"-->
+<!--        android:src="@drawable/icon_back" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tv_title"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_weight="1"-->
+<!--        android:ellipsize="marquee"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:gravity="center"-->
+<!--        android:singleLine="true"-->
+<!--        android:text="@string/app_name"-->
+<!--        android:textColor="@color/colorWhite"-->
+<!--        android:textSize="@dimen/font_size_18sp" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tv_operate"-->
+<!--        android:layout_width="45dp"-->
+<!--        android:layout_height="45dp"-->
+<!--        android:ellipsize="end"-->
+<!--        android:gravity="center"-->
+<!--        android:padding="@dimen/comm_margin"-->
+<!--        android:textColor="@color/colorWhite"-->
+<!--        android:textSize="@dimen/font_size_14sp"-->
+<!--        android:visibility="invisible" />-->
+
+<!--</LinearLayout>-->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="45dp"
@@ -14,13 +53,12 @@
 
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:ellipsize="end"
+        android:ellipsize="marquee"
         android:gravity="center"
-        android:lines="1"
-        android:singleLine="true"
+        android:maxLines="2"
         android:text="@string/app_name"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/font_size_18sp" />
