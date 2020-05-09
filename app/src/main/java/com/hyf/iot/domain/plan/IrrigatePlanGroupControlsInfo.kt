@@ -1,5 +1,9 @@
 package com.hyf.iot.domain.plan
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class IrrigatePlanGroupControlsInfo(
     val deviceId: String,
     val deviceName: String,
@@ -13,4 +17,4 @@ data class IrrigatePlanGroupControlsInfo(
     val deviceStateString: String,
     val sensorStateString: String,
     val updated: String
-)
+): Parcelable

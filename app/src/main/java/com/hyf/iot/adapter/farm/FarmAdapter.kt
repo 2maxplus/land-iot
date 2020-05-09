@@ -82,7 +82,7 @@ class FarmAdapter(context: Activity?, list: MutableList<Farm>) :RecyclerView.Ada
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolders =
-            ViewHolders(LayoutInflater.from(context).inflate(R.layout.farm_item, parent, false))
+            ViewHolders(LayoutInflater.from(context).inflate(R.layout.item_farm, parent, false))
 
 
     class ViewHolders(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {

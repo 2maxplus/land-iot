@@ -1,6 +1,8 @@
 package com.hyf.iot.adapter.plan
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +12,10 @@ import com.hyf.iot.R
 import com.hyf.iot.domain.plan.IrrigatePlanGroupControlsInfo
 import java.util.*
 
-class PlanListAdapter(context: Activity?, list : ArrayList<IrrigatePlanGroupControlsInfo>) : androidx.recyclerview.widget.RecyclerView.Adapter<PlanListAdapter.ViewHolders>() {
-    private var context: Activity? = null
-    private var layoutId:Int = R.layout.plan_list_item_layout
-    private var mData: ArrayList<IrrigatePlanGroupControlsInfo>
+class PlanListAdapter(context: Context?, var list : MutableList<IrrigatePlanGroupControlsInfo>) : RecyclerView.Adapter<PlanListAdapter.ViewHolders>() {
+    private var context: Context? = null
+    private var layoutId:Int = R.layout.item_plan_list
+    private var mData: MutableList<IrrigatePlanGroupControlsInfo>
 
     init {
         this.context = context
@@ -22,9 +24,9 @@ class PlanListAdapter(context: Activity?, list : ArrayList<IrrigatePlanGroupCont
 
     override fun getItemCount(): Int = mData.size
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolders, position: Int) {
         val item = mData[position]
-
         val time = item.updated.replace(" ","\n")
         holder.time?.text = time
         holder.content?.text = item.deviceName + item.deviceStateString+"   "+ item.sensorName + item.sensorStateString

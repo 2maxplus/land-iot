@@ -14,7 +14,7 @@ data class WaterPump(
         val latitudeType: Int,
         val longitude: Int,
         val longitudeType: Int,
-        val name: String,
+        val name: String,  //泵控站名称
         val number: String,
         val signalIntensity: Int,
         val state: Int,

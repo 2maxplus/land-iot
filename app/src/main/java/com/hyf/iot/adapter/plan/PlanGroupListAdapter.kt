@@ -1,19 +1,19 @@
 package com.hyf.iot.adapter.plan
 
 import android.app.Activity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.hyf.iot.R
-import com.hyf.iot.domain.plan.IrrigatePlanGroupInfo
+import com.hyf.iot.domain.plan.IrrigatePlanGroupInfos
 
-class PlanGroupListAdapter(context: Activity?, var list : MutableList<IrrigatePlanGroupInfo>) : androidx.recyclerview.widget.RecyclerView.Adapter<PlanGroupListAdapter.ViewHolders>() {
+class PlanGroupListAdapter(context: Activity?, var list : MutableList<IrrigatePlanGroupInfos>) : RecyclerView.Adapter<PlanGroupListAdapter.ViewHolders>() {
     private var context: Activity? = null
-    private var layoutId:Int = R.layout.item_plan_group
-    private var mData: MutableList<IrrigatePlanGroupInfo>
+    private var layoutId:Int = R.layout.item_plan_child
+    private var mData: MutableList<IrrigatePlanGroupInfos>
     private var mAdapter: PlanListAdapter? = null
 
     init {
@@ -28,7 +28,7 @@ class PlanGroupListAdapter(context: Activity?, var list : MutableList<IrrigatePl
         holder.title?.text = item.name
         mAdapter = PlanListAdapter(context, item.irrigatePlanGroupControlsInfosRef)
         holder.recyclerView?.apply {
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = mAdapter
         }
 
@@ -37,9 +37,9 @@ class PlanGroupListAdapter(context: Activity?, var list : MutableList<IrrigatePl
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolders =
         ViewHolders(LayoutInflater.from(context).inflate(layoutId, parent, false))
 
-    class ViewHolders(itemview: View?) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemview!!) {
+    class ViewHolders(itemview: View?) : RecyclerView.ViewHolder(itemview!!) {
         val title = itemview?.findViewById<TextView>(R.id.tv_title)
-        val recyclerView = itemview?.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recycler_view)
+        val recyclerView = itemview?.findViewById<RecyclerView>(R.id.recycler_view)
 
     }
 

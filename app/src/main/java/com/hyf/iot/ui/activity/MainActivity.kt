@@ -13,13 +13,14 @@ import com.hyf.iot.domain.TabBean
 import com.hyf.iot.protocol.http.CustomUpdateParser
 import com.hyf.iot.ui.fragment.main.HomeFragment
 import com.hyf.iot.ui.fragment.main.MyFragment
-import com.hyf.iot.ui.fragment.plan.PlanFragment
 import com.hyf.iot.ui.fragment.main.ValveControlFragment
+import com.hyf.iot.ui.fragment.plan.PlanParentsFragment
+import com.hyf.iot.ui.fragment.plans.PlanFragment
 import com.hyf.iot.ui.fragment.pumb.PumpRoomFragment
 import com.xuexiang.xupdate.XUpdate
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : androidx.fragment.app.FragmentActivity() {
+class MainActivity : FragmentActivity() {
 
     private var mFirstDownBack: Long = 0L
     private var mCurIndex: Int = 0
@@ -28,7 +29,8 @@ class MainActivity : androidx.fragment.app.FragmentActivity() {
             HomeFragment(),
             PumpRoomFragment(),
             ValveControlFragment(),
-            PlanFragment(),
+//            PlanFragment(),
+            PlanParentsFragment(),
             MyFragment())
 
     private val mTabList = listOf(

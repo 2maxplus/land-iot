@@ -27,7 +27,6 @@ import com.hyf.iot.widget.dialog.CountDownDialog.CountDownFinishListener
 import kotlinx.android.synthetic.main.fragment_valve_control.*
 import kotlinx.android.synthetic.main.fragment_valve_control.tv_title
 import kotlinx.android.synthetic.main.layout_common_page_state.*
-import kotlinx.android.synthetic.main.layout_common_title.*
 import kotlinx.android.synthetic.main.layout_expandable_listview.*
 
 

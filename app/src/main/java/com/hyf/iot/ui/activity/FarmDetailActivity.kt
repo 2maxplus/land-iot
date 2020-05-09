@@ -25,7 +25,7 @@ import com.hyf.iot.utils.showToast
 import com.hyf.iot.widget.RecycleViewDivider
 import com.hyf.iot.widget.dialog.LoadingDialog
 import kotlinx.android.synthetic.main.activity_farm_detail.*
-import kotlinx.android.synthetic.main.farm_item.*
+import kotlinx.android.synthetic.main.item_farm.*
 import kotlinx.android.synthetic.main.layout_common_title.*
 import kotlinx.android.synthetic.main.layout_recycler_view.*
 
