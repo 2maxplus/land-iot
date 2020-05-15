@@ -8,7 +8,7 @@ import androidx.viewpager.widget.PagerAdapter
 import com.hyf.iot.domain.plan.IrrigatePlanGroupInfos
 import com.hyf.iot.ui.fragment.plan.PlanItemFragment
 
-class PlanGroupFragmentAdapter(private val fm: FragmentManager, var fragmentList: MutableList<IrrigatePlanGroupInfos>) : FragmentPagerAdapter(fm) {
+class PlanGroupFragmentAdapter(fm: FragmentManager, var fragmentList: MutableList<IrrigatePlanGroupInfos>) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
         val fragments = PlanItemFragment()

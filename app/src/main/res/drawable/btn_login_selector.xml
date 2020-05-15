@@ -10,8 +10,8 @@
     <item android:state_enabled="false">
         <shape>
             <corners android:radius="30dp" />
-            <stroke android:color="@color/colorTabDef" android:width="1dp"/>
-            <solid android:color="@color/colorTabDef" />
+            <stroke android:color="@color/color_light_grey" android:width="1dp"/>
+            <solid android:color="@color/color_light_grey" />
         </shape>
     </item>
     <item android:state_enabled="true">

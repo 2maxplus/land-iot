@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center_vertical"
+    android:minHeight="50dp"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/content"
+        style="@style/text_base_style"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:paddingTop="8dp"
+        android:textSize="@dimen/font_size_17sp" />
+
+    <com.hyf.iot.widget.SignalView
+        android:id="@+id/signalView"
+        android:layout_width="20dp"
+        android:layout_height="15dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="10dp" />
+
+    <Switch
+        android:id="@+id/switch_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@null"
+        android:enabled="false"
+        android:switchMinWidth="56dp"
+        android:layout_marginStart="@dimen/padding_12"
+        android:thumb="@null"
+        android:track="@drawable/track" />
+
+</LinearLayout>

@@ -1,20 +1,20 @@
 package com.hyf.iot.adapter.plan
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Switch
 import android.widget.TextView
 import com.hyf.iot.R
 import com.hyf.iot.domain.plan.IrrigatePlanGroupControlsInfo
-import java.util.*
+import com.hyf.iot.widget.SignalView
 
 class PlanListAdapter(context: Context?, var list : MutableList<IrrigatePlanGroupControlsInfo>) : RecyclerView.Adapter<PlanListAdapter.ViewHolders>() {
     private var context: Context? = null
-    private var layoutId:Int = R.layout.item_plan_list
+    private var layoutId:Int = R.layout.item_plan_device_list
     private var mData: MutableList<IrrigatePlanGroupControlsInfo>
 
     init {
@@ -27,28 +27,14 @@ class PlanListAdapter(context: Context?, var list : MutableList<IrrigatePlanGrou
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolders, position: Int) {
         val item = mData[position]
-        val time = item.updated.replace(" ","\n")
-        holder.time?.text = time
-        holder.content?.text = item.deviceName + item.deviceStateString+"   "+ item.sensorName + item.sensorStateString
-
-//        when(mData[position].type){
-//            1-> {
-//                holder.content?.setTextColor(Color.GRAY)
-//                holder.switchs?.setTextColor(Color.GRAY)
-//            }
-//            2-> {
-//                holder.content?.setTextColor(context!!.resources.getColor(R.color.text_green))
-//                holder.switchs?.setTextColor(context!!.resources.getColor(R.color.text_green))
-//            }
-//            3-> {
-//                holder.content?.setTextColor(context!!.resources.getColor(R.color.text_blue))
-//                holder.switchs?.setTextColor(context!!.resources.getColor(R.color.text_blue))
-//            }
-//            4->{
-//                holder.content?.setTextColor(context!!.resources.getColor(R.color.colorAccent))
-//                holder.switchs?.setTextColor(context!!.resources.getColor(R.color.colorAccent))
-//            }
-//        }
+        holder.content?.text = item.deviceName + "   " + item.sensorName  // + item.deviceStateString  + item.sensorStateString
+        holder.signalView?.setSignalValue(item.deviceSignal)
+        val isOpen = when(item.sensorState){
+            1 -> true
+            2 -> false
+            else -> false
+        }
+        holder.switchState?.isChecked = isOpen
 
     }
 
@@ -56,9 +42,10 @@ class PlanListAdapter(context: Context?, var list : MutableList<IrrigatePlanGrou
             ViewHolders(LayoutInflater.from(context).inflate(layoutId, parent, false))
 
 
-    class ViewHolders(itemview: View?) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemview!!) {
-        val time = itemview?.findViewById<TextView>(R.id.time)
+    class ViewHolders(itemview: View?) : RecyclerView.ViewHolder(itemview!!) {
         val content = itemview?.findViewById<TextView>(R.id.content)
+        val signalView = itemview?.findViewById<SignalView>(R.id.signalView)
+        val switchState = itemview?.findViewById<Switch>(R.id.switch_state)
     }
 
 }

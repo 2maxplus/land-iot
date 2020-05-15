@@ -88,12 +88,13 @@ class PlanParentsFragment : BaseMvpFragment<PlanParentsContract.IPresenter>(), P
     override fun showPageList(data: MutableList<Plan>) {
 //        refresh_layout.finishRefresh()
         refresh_layout.isRefreshing = false
-        mAdapter.fragmenList.clear()
+//        mAdapter.fragmenList.clear()
         if (data == null) {
             page_layout.setPage(PageStateLayout.PageState.STATE_EMPTY)
         } else {
             page_layout.setPage(PageStateLayout.PageState.STATE_SUCCEED)
             viewPager.offscreenPageLimit = data.size
+            mAdapter.fragmenList.clear()
             mAdapter.fragmenList.addAll(data)
             mAdapter.notifyDataSetChanged()
         }
