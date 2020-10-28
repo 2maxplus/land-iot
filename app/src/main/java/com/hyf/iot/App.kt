@@ -6,6 +6,7 @@ import android.app.Application
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import cn.jpush.android.api.JPushInterface
 import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
 import com.hyf.iot.common.HttpDomain.HTTP_API_DOMAIN
@@ -43,7 +44,8 @@ class App : Application() {
         initNet()
         initXUpdate()
         registerActivity()
-
+        JPushInterface.setDebugMode(true)    // 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this)            // 初始化 JPush
     }
 
     private fun initNet() {

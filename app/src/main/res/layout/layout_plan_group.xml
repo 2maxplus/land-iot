@@ -188,6 +188,7 @@
 
     <View style="@style/h_view_style" />
 
+<!--    androidx.viewpager.widget.ViewPager-->
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"

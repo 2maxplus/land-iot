@@ -29,13 +29,11 @@ class PlanListAdapter(context: Context?, var list : MutableList<IrrigatePlanGrou
         val item = mData[position]
         holder.content?.text = item.deviceName + "   " + item.sensorName  // + item.deviceStateString  + item.sensorStateString
         holder.signalView?.setSignalValue(item.deviceSignal)
-        val isOpen = when(item.sensorState){
-            1 -> true
+        holder.switchState?.isChecked = when(item.sensorState){
+            4 -> true
             2 -> false
             else -> false
         }
-        holder.switchState?.isChecked = isOpen
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolders =

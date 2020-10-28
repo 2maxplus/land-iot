@@ -20,7 +20,7 @@ class CountDownDialog : Dialog {
 
     init {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        window.setBackgroundDrawableResource(android.R.color.transparent)
+        window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         setCancelable(false)
         setCanceledOnTouchOutside(false)

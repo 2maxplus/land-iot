@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/land-iot.iml" filepath="$PROJECT_DIR$/.idea/land-iot.iml" />
-      <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="land-iot/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/land-iot.iml" filepath="$PROJECT_DIR$/.idea/land-iot.iml" group="land-iot" />
+      <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" group="land-iot/lib" />
     </modules>
   </component>
 </project>

@@ -15,7 +15,7 @@ data class IrrigatePlanGroupControlsInfo(
     val sensorId: String,
     val sensorName: String,
     val deviceState: Int,  //设备状态
-    val sensorState: Int, //传感器状态 1:open 2:close
+    val sensorState: Int, //传感器状态 4:open 2:close
     val deviceStateString: String,
     val sensorStateString: String,
     val updated: String

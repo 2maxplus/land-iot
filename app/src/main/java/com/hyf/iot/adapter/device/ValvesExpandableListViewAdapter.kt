@@ -17,18 +17,17 @@ import com.hyf.iot.domain.device.MoistureStationMassif
 import com.hyf.iot.ui.activity.ValveDetailActivity
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.widget.BatteryView
-import com.hyf.iot.widget.CircleCountDownView
 import com.hyf.iot.widget.SignalView
 import com.hyf.iot.widget.dialog.CountDownDialog
 
-class ValvesExpandableListViewAdapter(context: Activity?, var list: MutableList<MoistureStationMassif>) : BaseExpandableListAdapter() {
+class ValvesExpandableListViewAdapter(context: Activity?, var valvesData: MutableList<MoistureStationMassif>) : BaseExpandableListAdapter() {
     private var context: Activity? = null
-    private var valvesData: MutableList<MoistureStationMassif>
+//    private var valvesData: MutableList<MoistureStationMassif>
     private var mAdapter: ValveListAdapter? = null
 
     init {
         this.context = context
-        this.valvesData = list
+//        this.valvesData = list
     }
     private var mDialog: CountDownDialog? = null
     fun setCountDownDialog(dialog: CountDownDialog){
@@ -51,7 +50,11 @@ class ValvesExpandableListViewAdapter(context: Activity?, var list: MutableList<
 
     //返回一级列表的单个item（返回的是对象）
     override fun getGroup(groupPosition: Int): MoistureStationMassif {
-        return valvesData[groupPosition]
+        return if(groupPosition < valvesData.size){
+            valvesData[groupPosition]
+        } else {
+            valvesData[0]
+        }
     }
 
     //返回二级列表中的单个item（返回的是对象）

@@ -121,7 +121,7 @@ class ValveListAdapter(context: Activity?, list: ArrayList<SensorValveInfo>) :
 
 
     private fun valveOperate(valve: SensorValveInfo, state: String) {
-        val valveState = valve.state
+//        val valveState = valve.state
 //        val state = when (valveState) {
 //            2 -> "open"
 //            4 -> "close"

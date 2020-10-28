@@ -17,13 +17,30 @@ android {
         minSdkVersion 19
         targetSdkVersion 28
         multiDexEnabled true
-        versionCode 26
-        versionName "1.1.3.19"
+        versionCode 27
+        versionName "1.1.3.20"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            //选择要添加的对应 cpu 类型的 .so 库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64', 'mips', 'mips64'
+        }
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "ca7d64c59f8e99929da1a8a7", //JPush 上注册的包名对应的 Appkey.
+                JPUSH_CHANNEL: "developer-default",
+        ]
     }
+
+    packagingOptions {
+        doNotStrip '*/mips/*.so'
+        doNotStrip '*/mips64/*.so'
+    }
+
     androidExtensions {
         experimental = true
     }
+
     sourceSets {
         main {
             jniLibs.srcDir 'libs'
@@ -37,9 +54,11 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }
+
 }
 
 repositories {
@@ -102,6 +121,10 @@ dependencies {
     implementation 'com.qianwen:okhttp-utils:3.8.0'
 
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
+
+    //推送JPush
+    implementation 'cn.jiguang.sdk:jpush:3.6.0'
+    implementation 'cn.jiguang.sdk:jcore:2.3.4'
 
 }
 repositories {

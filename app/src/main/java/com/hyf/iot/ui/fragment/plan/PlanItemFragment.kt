@@ -33,9 +33,18 @@ class PlanItemFragment : BaseFragment() {
     override fun initData() {
         super.initData()
         val data = arguments!!.getParcelable<IrrigatePlanGroupInfos>("data") ?: return
-        tv_openDateTime.text = "开始时间:${data.openDateTime}"
-        tv_closeDateTime.text = "结束时间:${data.closeDateTime}"
-        tv_remainingTime.text = "持续时间:${data.remainingTime}"
+        var openTime = data.openDateTime
+        if(data.openDateTime!!.contains("1753")){
+            openTime = "--"
+        }
+        var closeTime = data.closeDateTime
+        if(data.closeDateTime!!.contains("1753")){
+            closeTime = "--"
+        }
+
+        tv_openDateTime.text = "开始时间: $openTime"
+        tv_closeDateTime.text = "结束时间: $closeTime"
+        tv_remainingTime.text = "持续时间: ${ data.remainingTime }"
         val stateString = when(data.state){
             0 -> "未执行"
             1 -> "执行中"
@@ -49,7 +58,7 @@ class PlanItemFragment : BaseFragment() {
         mAdapter.list.clear()
         mAdapter.list.addAll(data.irrigatePlanGroupControlsInfosRef)
         mAdapter.notifyDataSetChanged()
-        scrollToPosition()
+//        scrollToPosition()
     }
 
     /**
@@ -76,5 +85,6 @@ class PlanItemFragment : BaseFragment() {
 //            (recycler_view.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(2, -129)
         }
     }
+
 }
 

@@ -116,15 +116,15 @@ public class CircleCountDownView extends View {
 
         typedArray.recycle();
 
-        // 初始化属性动画，周期为1秒
-        countDownAnimator = ValueAnimator.ofFloat(0, 1).setDuration(1000);
+        // 初始化属性动画，周期为1.4秒
+        countDownAnimator = ValueAnimator.ofFloat(0, 1).setDuration(1400);
         countDownAnimator.setInterpolator(new LinearInterpolator());
         countDownAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 if (countDownListener != null) {
                     // 监听剩余时间
-                    long restTime = (long) ((currentCountDownValue - animation.getAnimatedFraction()) * 1000);
+                    long restTime = (long) ((currentCountDownValue - animation.getAnimatedFraction()) * 1400);
                     countDownListener.restTime(restTime);
                 }
                 // 整体倒计时进度

@@ -80,7 +80,7 @@
     <style name="edit_box_style" parent="text_base_style">
         <item name="android:textColorHint">@color/color999</item>
         <item name="android:background">@drawable/shape_round_white</item>
-        <item name="android:padding">@dimen/margin_5</item>
+        <item name="android:padding">@dimen/margin_8</item>
         <item name="android:gravity">top</item>
     </style>
 
@@ -98,9 +98,8 @@
 
     <style name="text_table_title_style" parent="text_base_style">
         <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/font_size_12sp</item>
+        <item name="android:textSize">@dimen/font_size_13sp</item>
         <item name="android:background">@color/white</item>
-
     </style>
 
     <style name="text_value_style" parent="text_table_title_style">

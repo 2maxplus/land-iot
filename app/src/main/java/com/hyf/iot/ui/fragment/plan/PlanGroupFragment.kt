@@ -1,7 +1,6 @@
 package com.hyf.iot.ui.fragment.plan
 
 import android.annotation.SuppressLint
-import android.view.View
 import androidx.viewpager.widget.ViewPager
 import com.hyf.iot.R
 import com.hyf.iot.adapter.home.PlanGroupFragmentAdapter
@@ -29,6 +28,7 @@ class PlanGroupFragment : BaseMvpFragment<PlanChildContract.IPresenter>(), PlanC
         viewPager.apply {
             adapter = mAdapter
             currentItem = 0
+
             addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
                 override fun onPageScrollStateChanged(state: Int) {
                 }
@@ -37,10 +37,12 @@ class PlanGroupFragment : BaseMvpFragment<PlanChildContract.IPresenter>(), PlanC
                 }
 
                 override fun onPageSelected(p: Int) {
-                    currentItem = p
+                    post { currentItem = p  }
+
                 }
             })
         }
+
         tabLayout.apply {
             setupWithViewPager(viewPager)
         }
@@ -184,14 +186,18 @@ class PlanGroupFragment : BaseMvpFragment<PlanChildContract.IPresenter>(), PlanC
     }
 
     override fun showDetailList(data: PlanDetail) {
-        mAdapter.fragmentList.clear()
-//        viewPager.offscreenPageLimit = data.irrigatePlanGroupInfos.size
-        data.irrigatePlanGroupInfos.sortBy { it.sort } //升序排序
-        mAdapter.fragmentList.addAll(data.irrigatePlanGroupInfos)
-        mAdapter.notifyDataSetChanged()
-//        if (childFragmentManager.fragments.size > 0) {
-//            ((childFragmentManager.fragments[viewPager.currentItem]) as PlanItemFragment).initData()
-//        }
+        try {
+            mAdapter.fragmentList.clear()
+//            viewPager.offscreenPageLimit = data.irrigatePlanGroupInfos.size
+            data.irrigatePlanGroupInfos.sortBy { it.sort } //升序排序
+            mAdapter.fragmentList.addAll(data.irrigatePlanGroupInfos)
+            mAdapter.notifyDataSetChanged()
+//            if (childFragmentManager.fragments.size > 0) {
+//                ((childFragmentManager.fragments[viewPager.currentItem]) as PlanItemFragment).initData()
+//            }
+        } catch (e : Exception) {
+            print(e)
+        }
     }
 
 }

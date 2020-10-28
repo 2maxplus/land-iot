@@ -13,6 +13,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ExpandableListView;
 
+
 //com.hyf.iot.widget.PinnedHeaderExpandableListView
 public class PinnedHeaderExpandableListView extends ExpandableListView implements OnScrollListener {
     private static final String TAG = "PinnedHeaderExpandableListView";

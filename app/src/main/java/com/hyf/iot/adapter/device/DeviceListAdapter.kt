@@ -38,7 +38,7 @@ class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceInfo>) :
 
     override fun getItemCount(): Int = mData.size
 
-    @SuppressLint("SetTextI18n", "ClickableViewAccessibility")
+    @SuppressLint("SetTextI18n", "ClickableViewAccessibility", "WrongConstant")
     override fun onBindViewHolder(holder: ViewHolders, position: Int) {
         val item = mData[position]
 
@@ -95,15 +95,15 @@ class DeviceListAdapter(context: Activity?, var list: MutableList<DeviceInfo>) :
             ViewHolders(LayoutInflater.from(context).inflate(layoutId, parent, false))
 
 
-    class ViewHolders(itemview: View?) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemview!!) {
+    class ViewHolders(itemview: View?) : RecyclerView.ViewHolder(itemview!!) {
         val deviceState = itemview?.findViewById<TextView>(R.id.tv_state)
         val signalView = itemview?.findViewById<SignalView>(R.id.signalView)
         val batteryPercent = itemview?.findViewById<TextView>(R.id.tv_battery_percent)
         val battery = itemview?.findViewById<BatteryView>(R.id.battery)
         val deviceName = itemview?.findViewById<TextView>(R.id.tv_device_name)
         val deviceNo = itemview?.findViewById<TextView>(R.id.tv_device_no)
-        val recyclerView = itemview?.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recycler_view)
-        val recyclerViewSensor = itemview?.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recycler_view_sensor)
+        val recyclerView = itemview?.findViewById<RecyclerView>(R.id.recycler_view)
+        val recyclerViewSensor = itemview?.findViewById<RecyclerView>(R.id.recycler_view_sensor)
 
     }
 

@@ -1,50 +1,53 @@
 package com.hyf.iot.ui.fragment.main
 
-import android.app.Activity
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.TextView
 import com.hyf.iot.R
-import com.hyf.iot.adapter.device.ValvesExpandableListViewAdapter
+import com.hyf.iot.adapter.device.PumpStationExpandableListViewAdapter
 import com.hyf.iot.common.Constant
 import com.hyf.iot.common.LoginUser
 import com.hyf.iot.common.fragment.BaseMvpFragment
-import com.hyf.iot.contract.MoitureStationContract
-import com.hyf.iot.domain.device.MoistureStationMassif
-import com.hyf.iot.presenter.MoiturePresenter
+import com.hyf.iot.contract.PumpStationContract
+import com.hyf.iot.domain.pumb.PumpStation
+import com.hyf.iot.presenter.PumpStationPresenter
 import com.hyf.iot.ui.activity.FarmListActivity
 import com.hyf.iot.ui.activity.LoginActivity
-import com.hyf.iot.ui.activity.ScanActivity
-import com.hyf.iot.utils.FSearchTool
 import com.hyf.iot.utils.newIntent
 import com.hyf.iot.utils.showToast
+import com.hyf.iot.widget.BatteryView
 import com.hyf.iot.widget.PageStateLayout
 import com.hyf.iot.widget.PinnedHeaderExpandableListView
+import com.hyf.iot.widget.SignalView
 import com.hyf.iot.widget.dialog.CountDownDialog
 import com.hyf.iot.widget.dialog.CountDownDialog.CountDownFinishListener
-import kotlinx.android.synthetic.main.fragment_valve_control.*
-import kotlinx.android.synthetic.main.fragment_valve_control.tv_title
 import kotlinx.android.synthetic.main.layout_common_page_state.*
+import kotlinx.android.synthetic.main.layout_common_title.*
 import kotlinx.android.synthetic.main.layout_expandable_listview.*
 
 
-class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(), MoitureStationContract.IView,PinnedHeaderExpandableListView.OnHeaderUpdateListener {
+class PumpStationFragment : BaseMvpFragment<PumpStationContract.IPresenter>(), PumpStationContract.IView
+        ,PinnedHeaderExpandableListView.OnHeaderUpdateListener{
 
-    private val REQUEST_SCAN_SUCCESS = 110
-    private var datas: ArrayList<MoistureStationMassif> = arrayListOf()
-    private val mAdapter by lazy { ValvesExpandableListViewAdapter(activity, mutableListOf()) }
+    private val mAdapter by lazy { PumpStationExpandableListViewAdapter(activity, mutableListOf()) }
+
+    override fun registerPresenter() = PumpStationPresenter::class.java
+
+    override fun getLayoutId(): Int = R.layout.fragment_pump_station
+
     private val mLoadingDialog by lazy {
         CountDownDialog(context!!, object : CountDownFinishListener {
             override fun onFinish() {
                 onReload()
             }
-        }) }
-
-    override fun getLayoutId(): Int = R.layout.fragment_valve_control
+        })
+    }
 
     override fun initView() {
+        iv_back.visibility = View.INVISIBLE
         tv_title.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.icon_exchange,0)
         tv_title.setOnClickListener{
             val intent = Intent(context, FarmListActivity::class.java)
@@ -59,9 +62,6 @@ class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(
             setColorSchemeResources(R.color.colorBlue)
             setOnRefreshListener { onReload() }
         }
-
-        ivRefresh.setOnClickListener { onReload() }
-
 
         mAdapter.setCountDownDialog(mLoadingDialog)
 
@@ -78,7 +78,8 @@ class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(
                     }
                 }
             }
-            setOnHeaderUpdateListener(this@ValveControlFragment)
+            //点击更新展开的viewgroup在顶部
+//            setOnHeaderUpdateListener(this@PumpStationFragment)
             setOnScrollListener(object : AbsListView.OnScrollListener{
                 override fun onScroll(view: AbsListView?, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
                 }
@@ -89,26 +90,6 @@ class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(
                 }
             })
         }
-
-        ivScan.setOnClickListener {
-            val intent = Intent(activity, ScanActivity::class.java)
-            startActivityForResult(intent, REQUEST_SCAN_SUCCESS)
-        }
-        search.setOnClickListener {
-            doSearch()
-        }
-//        editText.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-//            override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent): Boolean {
-//                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-//                    //关闭软键盘
-//                    UIUtils.hideKeyboard(editText)
-////                    doSearch()
-//
-//                    return true
-//                }
-//                return false
-//            }
-//        })
 
     }
 
@@ -140,7 +121,7 @@ class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(
     }
 
 //    override fun initData() {
-//        getPresenter().getMoistureMassifListByFarmId(LoginUser.farmId)
+//        getPresenter().getPumpStationListByFarmId(LoginUser.farmId)
 //    }
 
     override fun onResume() {
@@ -155,36 +136,19 @@ class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(
         activity?.finish()
     }
 
-    override fun registerPresenter() = MoiturePresenter::class.java
-
-    private fun doSearch() {
-        val searchText = editText.text.toString()
-        val tool = FSearchTool(datas, "massifName")
-        mAdapter.valvesData.clear()
-        mAdapter.valvesData.addAll(tool.searchTasks(searchText) as MutableList<MoistureStationMassif>)
-        if (mAdapter.valvesData.size > 0) {
-            mAdapter.notifyDataSetChanged()
-            expandableListView.setSelectedGroup(0)
-            expandableListView.expandGroup(0)
-        }
-    }
-
     private fun onReload() {
         page_layout.setPage(PageStateLayout.PageState.STATE_LOADING)
-        getPresenter().getMoistureMassifListByFarmId(LoginUser.farmId)
-//        initData()
+        getPresenter().getPumpStationListByFarmId(LoginUser.farmId)
     }
 
-    override fun showPage(data: MutableList<MoistureStationMassif>) {
+    override fun showPage(data: MutableList<PumpStation>) {
         refresh_layout.isRefreshing = false
-        datas.clear()
-        datas.addAll(data)
-        if (data == null || data.size == 0) {
+        if (data.size == 0) {
             page_layout.setPage(PageStateLayout.PageState.STATE_EMPTY)
         } else {
             page_layout.setPage(PageStateLayout.PageState.STATE_SUCCEED)
-            mAdapter.valvesData.clear()
-            mAdapter.valvesData.addAll(data)
+            mAdapter.list.clear()
+            mAdapter.list.addAll(data)
             mAdapter.notifyDataSetChanged()
             if(index >= data.size){
                 index = 0
@@ -199,31 +163,50 @@ class ValveControlFragment : BaseMvpFragment<MoitureStationContract.IPresenter>(
         page_layout.setPage(PageStateLayout.PageState.STATE_EMPTY)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun updatePinnedHeader(headerView: View, firstVisibleGroupPos: Int) {
         if(firstVisibleGroupPos >= 0) {
             val firstVisibleGroup = mAdapter.getGroup(firstVisibleGroupPos)
-            val textView = headerView.findViewById<TextView>(R.id.tv_group)
-            textView.text = firstVisibleGroup.massifName
+
+            val deviceName = headerView.findViewById<TextView>(R.id.tv_device_name)
+            val deviceState = headerView.findViewById<TextView>(R.id.tv_state)
+            val signalView = headerView.findViewById<SignalView>(R.id.signalView)
+            val batteryPercent = headerView.findViewById<TextView>(R.id.tv_battery_percent)
+            val battery = headerView.findViewById<BatteryView>(R.id.battery)
+            val deviceNo = headerView.findViewById<TextView>(R.id.tv_device_no)
+            val temperature = headerView.findViewById<TextView>(R.id.tv_temperature)
+
+            deviceName?.text = firstVisibleGroup.name
+            deviceNo?.text = firstVisibleGroup.number
+
+            deviceState?.text = firstVisibleGroup.stateString
+            when (firstVisibleGroup.state) {
+                0, 1 -> {
+                    deviceState?.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.gray_oval, 0, 0, 0)
+                }
+                2 -> {
+                    deviceState?.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.green_oval, 0, 0, 0)
+                }
+                3 -> {
+                    deviceState?.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.red_oval, 0, 0, 0)
+                }
+            }
+
+            signalView?.setSignalValue(firstVisibleGroup.signalIntensity)
+
+            batteryPercent?.text = "${firstVisibleGroup.cellVoltage}%"
+            battery?.power = firstVisibleGroup.cellVoltage.toFloat() / 100
+
+            temperature?.text = "温度:${firstVisibleGroup.temperature}℃"
         }
     }
 
+    @SuppressLint("InflateParams")
     override fun getPinnedHeader(): View {
-        val headerView = layoutInflater.inflate(R.layout.item_group, null) as ViewGroup
+        val headerView = layoutInflater.inflate(R.layout.item_pumpstation_group, null) as ViewGroup
         headerView.layoutParams = AbsListView.LayoutParams(
                 AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT)
         return headerView
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_SCAN_SUCCESS && resultCode == Activity.RESULT_OK) {
-            if (data != null) {
-                val result = data.getStringExtra("result")
-                if (result.isNotEmpty() && result != "null") {
-                    editText.setText(result)
-                }
-            }
-        }
     }
 
 }

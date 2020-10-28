@@ -1,5 +1,9 @@
 package com.hyf.iot.domain.plan
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class PlanDetail (
         val companyId: String,
         val deviceId: String,
@@ -10,4 +14,4 @@ data class PlanDetail (
         val sensorId: String,
         val startTime: String, //开始时间
         val state: Int //状态
-)
+) : Parcelable

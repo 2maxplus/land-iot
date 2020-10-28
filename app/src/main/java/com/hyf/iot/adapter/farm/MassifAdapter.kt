@@ -25,11 +25,11 @@ class MassifAdapter(mContext: Activity, mData: MutableList<Massif>) : LoadMoreRe
         this.context = mContext
     }
 
-    override fun getItemHolder(parent: ViewGroup?, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder =
+    override fun getItemHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder =
             NewsInfoViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_massif, parent, false))
 
     @SuppressLint("SetTextI18n")
-    override fun onBindData(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
+    override fun onBindData(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is NewsInfoViewHolder) {
             val item = mData[position]
             holder.title.text = item.name
@@ -42,7 +42,7 @@ class MassifAdapter(mContext: Activity, mData: MutableList<Massif>) : LoadMoreRe
         }
     }
 
-    class NewsInfoViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
+    class NewsInfoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title by lazy { itemView?.findViewByIdEx<TextView>(R.id.tv_massifName) }
         val size by lazy { itemView?.findViewByIdEx<TextView>(R.id.tv_massifSize) }
         val ivCoverImage by lazy { itemView?.findViewByIdEx<ImageView>(R.id.iv_massif) }

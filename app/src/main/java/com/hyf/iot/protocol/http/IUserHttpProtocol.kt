@@ -8,6 +8,7 @@ import com.hyf.iot.domain.device.MoistureStationMassif
 import com.hyf.iot.domain.device.ValveUseTime
 import com.hyf.iot.domain.device.WaterPump
 import com.hyf.iot.domain.pumb.PumpRoom
+import com.hyf.iot.domain.pumb.PumpStation
 import com.hyf.iot.domain.user.LoginInfo
 import com.hyf.iot.domain.user.UserInfo
 import com.hyf.iot.domain.user.VerifyBean
@@ -121,6 +122,14 @@ interface IUserHttpProtocol {
      * */
     @POST("/api/PumpRoom/DetailByFarmId")
     fun getPumpRoomDetailByFarmId(@Query("farmId") farmId: String): Observable<GenResult<PumpRoom>>
+
+    /***
+     * 获取泵站信息
+     * @param farmId 农场ID
+     *
+     * */
+    @POST("/api/Device/PumpStationListByFarmId")
+    fun getPumpStationListByFarmId(@Query("farmId") farmId: String): Observable<GenResult<MutableList<PumpStation>>>
 
     /***
      * 获取地块分类的设备列表
